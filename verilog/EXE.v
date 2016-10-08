@@ -1,27 +1,27 @@
 `include "config.v"
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    12:09:45 10/18/2013 
-// Design Name: 
-// Module Name:    EXE2 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    12:09:45 10/18/2013
+// Design Name:
+// Module Name:    EXE2
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module EXE(
     input CLK,
     input RESET,
-	 //Current instruction [debug]
+     //Current instruction [debug]
     input [31:0] Instr1_IN,
     //Current instruction's PC [debug]
     input [31:0] Instr1_PC_IN,
@@ -61,17 +61,17 @@ module EXE(
     output reg MemRead1_OUT,
     //We need to write to MEM (passed to MEM)
     output reg MemWrite1_OUT
-    
-    );
-	 
 
-	 wire [31:0] A1;
-	 wire [31:0] B1;
-	 wire[31:0]ALU_result1;
-	 	 
-	 wire comment1;
-	 assign comment1 = 1;
-	 
+    );
+
+
+     wire [31:0] A1;
+     wire [31:0] B1;
+     wire[31:0]ALU_result1;
+
+     wire comment1;
+     assign comment1 = 1;
+
 assign A1 = OperandA1_IN;
 assign B1 = OperandB1_IN;
 
@@ -92,10 +92,10 @@ ALU ALU1(
     .LO_OUT(LO_new1),
     .HI_IN(HI),
     .LO_IN(LO),
-    .A(A1), 
-    .B(B1), 
-    .ALU_control(ALU_Control1_IN), 
-    .shiftAmount(ShiftAmount1_IN), 
+    .A(A1),
+    .B(B1),
+    .ALU_control(ALU_Control1_IN),
+    .shiftAmount(ShiftAmount1_IN),
     .CLK(!CLK)
     );
 
@@ -105,18 +105,18 @@ wire [31:0] MemWriteData1;
 assign MemWriteData1 = MemWriteData1_IN;
 
 always @(posedge CLK or negedge RESET) begin
-	if(!RESET) begin
-		Instr1_OUT <= 0;
-		Instr1_PC_OUT <= 0;
-		ALU_result1_OUT <= 0;
-		WriteRegister1_OUT <= 0;
-		MemWriteData1_OUT <= 0;
-		RegWrite1_OUT <= 0;
-		ALU_Control1_OUT <= 0;
-		MemRead1_OUT <= 0;
-		MemWrite1_OUT <= 0;
-		$display("EXE:RESET");
-	end else if(CLK) begin
+    if(!RESET) begin
+        Instr1_OUT <= 0;
+        Instr1_PC_OUT <= 0;
+        ALU_result1_OUT <= 0;
+        WriteRegister1_OUT <= 0;
+        MemWriteData1_OUT <= 0;
+        RegWrite1_OUT <= 0;
+        ALU_Control1_OUT <= 0;
+        MemRead1_OUT <= 0;
+        MemWrite1_OUT <= 0;
+        $display("EXE:RESET");
+    end else if(CLK) begin
        HI <= new_HI;
        LO <= new_LO;
             Instr1_OUT <= Instr1_IN;
@@ -128,12 +128,12 @@ always @(posedge CLK or negedge RESET) begin
             ALU_Control1_OUT <= ALU_Control1_IN;
             MemRead1_OUT <= MemRead1_IN;
             MemWrite1_OUT <= MemWrite1_IN;
-			if(comment1) begin
+            if(comment1) begin
                 $display("EXE:Instr1=%x,Instr1_PC=%x,ALU_result1=%x; Write?%d to %d",Instr1_IN,Instr1_PC_IN,ALU_result1, RegWrite1_IN, WriteRegister1_IN);
                 //$display("EXE:ALU_Control1=%x; MemRead1=%d; MemWrite1=%d (Data:%x)",ALU_Control1_IN, MemRead1_IN, MemWrite1_IN, MemWriteData1);
                 //$display("EXE:OpA1=%x; OpB1=%x; HI=%x; LO=%x", A1, B1, new_HI,new_LO);
-			end
-	end
+            end
+    end
 end
 
 endmodule
