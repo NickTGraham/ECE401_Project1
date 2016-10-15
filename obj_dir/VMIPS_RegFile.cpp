@@ -30,7 +30,10 @@ VL_CTOR_IMP(VMIPS_RegFile) {
     { int __Vi0=0; for (; __Vi0<32; ++__Vi0) {
 	    Reg[__Vi0] = VL_RAND_RESET_I(32);
     }}
+    __Vdlyvdim0__Reg__v0 = VL_RAND_RESET_I(5);
+    __Vdlyvval__Reg__v0 = VL_RAND_RESET_I(32);
     __Vdlyvset__Reg__v0 = VL_RAND_RESET_I(1);
+    __Vdlyvset__Reg__v1 = VL_RAND_RESET_I(1);
 }
 
 void VMIPS_RegFile::__Vconfigure(VMIPS__Syms* vlSymsp, bool first) {
@@ -49,17 +52,29 @@ VL_INLINE_OPT void VMIPS_RegFile::_sequent__TOP__v__ID__RegFile__1(VMIPS__Syms* 
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v0 = 0U;
+    vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v1 = 0U;
     // ALWAYS at verilog//RegFile.v:50
     if (VL_UNLIKELY(vlTOPp->RESET)) {
+	if (vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB) {
+	    vlSymsp->TOP__v__ID__RegFile.__Vdlyvval__Reg__v0 
+		= vlSymsp->TOP__v.__PVT__WriteData1_MEMWB;
+	    vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v0 = 1U;
+	    vlSymsp->TOP__v__ID__RegFile.__Vdlyvdim0__Reg__v0 
+		= vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB;
+	}
 	VL_WRITEF("IDWB:%1u?Reg[%2u]=%x\n",1,vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB,
 		  5,(IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB),
 		  32,vlSymsp->TOP__v.__PVT__WriteData1_MEMWB);
 	fflush (stdout);
     } else {
-	vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v0 = 1U;
+	vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v1 = 1U;
     }
-    // ALWAYSPOST at verilog//RegFile.v:52
+    // ALWAYSPOST at verilog//RegFile.v:87
     if (vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v0) {
+	vlSymsp->TOP__v__ID__RegFile.Reg[vlSymsp->TOP__v__ID__RegFile.__Vdlyvdim0__Reg__v0] 
+	    = vlSymsp->TOP__v__ID__RegFile.__Vdlyvval__Reg__v0;
+    }
+    if (vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v1) {
 	vlSymsp->TOP__v__ID__RegFile.Reg[0U] = 0U;
 	vlSymsp->TOP__v__ID__RegFile.Reg[1U] = 0U;
 	vlSymsp->TOP__v__ID__RegFile.Reg[2U] = 0U;
@@ -99,12 +114,12 @@ VL_INLINE_OPT void VMIPS_RegFile::_sequent__TOP__v__ID__RegFile__2(VMIPS__Syms* 
     VL_DEBUG_IF(VL_PRINTF("          VMIPS_RegFile::_sequent__TOP__v__ID__RegFile__2\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlSymsp->TOP__v__ID__RegFile.__PVT__DataA1 = vlSymsp->TOP__v__ID__RegFile.Reg
-	[(0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-		   >> 0x15U))];
     vlSymsp->TOP__v__ID__RegFile.__PVT__DataB1 = vlSymsp->TOP__v__ID__RegFile.Reg
 	[(0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
 		   >> 0x10U))];
+    vlSymsp->TOP__v__ID__RegFile.__PVT__DataA1 = vlSymsp->TOP__v__ID__RegFile.Reg
+	[(0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+		   >> 0x15U))];
 }
 
 VL_INLINE_OPT void VMIPS_RegFile::_sequent__TOP__v__ID__RegFile__4(VMIPS__Syms* __restrict vlSymsp) {

@@ -2,13 +2,12 @@
 Pipelined MIPS Processor
 
 ## ToDo
-- [ ] Draw Diagram of Existing Components
-- [ ] Update PC
-- [ ] Calculate Branch & Jump Addresses
+- [x] Draw Diagram of Existing Components
+- [x] Update PC
+    - [ ] May not be starting at the right address?
+- [x] Calculate Branch & Jump Addresses
 - [ ] Register Writes
 - [ ] Memory Reads & Writes
-- [ ] Forwading/Bypassing Logic
+- [ ] Forwarding/Bypassing Logic
 	- [ ] Update Diagram to include this
 - [ ] Project Report
-
-

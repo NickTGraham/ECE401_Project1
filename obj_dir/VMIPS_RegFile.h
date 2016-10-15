@@ -35,12 +35,14 @@ VL_MODULE(VMIPS_RegFile) {
     VL_SIG(Reg[32],31,0);
     
     // LOCAL VARIABLES
+    VL_SIG8(__Vdlyvdim0__Reg__v0,4,0);
     VL_SIG8(__Vdlyvset__Reg__v0,0,0);
-    //char	__VpadToAlign165[3];
+    VL_SIG8(__Vdlyvset__Reg__v1,0,0);
+    //char	__VpadToAlign167[1];
+    VL_SIG(__Vdlyvval__Reg__v0,31,0);
     
     // INTERNAL VARIABLES
   private:
-    //char	__VpadToAlign172[4];
     VMIPS__Syms*	__VlSymsp;		// Symbol table
   public:
     

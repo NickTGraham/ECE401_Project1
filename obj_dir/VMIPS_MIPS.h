@@ -90,12 +90,13 @@ VL_MODULE(VMIPS_MIPS) {
     
     // INTERNAL METHODS
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
-    static void	_combo__TOP__v__4(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__5(VMIPS__Syms* __restrict vlSymsp);
     static void	_combo__TOP__v__8(VMIPS__Syms* __restrict vlSymsp);
     static void	_initial__TOP__v__1(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__2(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__6(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__4(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__7(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 

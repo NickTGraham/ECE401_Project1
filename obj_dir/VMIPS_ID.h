@@ -65,16 +65,18 @@ VL_MODULE(VMIPS_ID) {
     VL_SIG8(__PVT__FORCE_FREEZE,0,0);
     VL_SIG8(__PVT__INHIBIT_FREEZE,0,0);
     //char	__VpadToAlign77[3];
+    VL_SIG(__PVT__Alt_PC1,31,0);
     VL_SIG(__PVT__OpA1,31,0);
     VL_SIG(__PVT__OpB1,31,0);
+    VL_SIG(__PVT__NIA1__DOT__jumpDestination_immediate,31,0);
+    VL_SIG(__PVT__NIA1__DOT__branchDestination_immediate,31,0);
     
     // LOCAL VARIABLES
     VL_SIG8(__Vdly__syscall_bubble_counter,2,0);
-    //char	__VpadToAlign93[3];
+    //char	__VpadToAlign105[3];
     
     // INTERNAL VARIABLES
   private:
-    //char	__VpadToAlign100[4];
     VMIPS__Syms*	__VlSymsp;		// Symbol table
   public:
     
@@ -97,9 +99,10 @@ VL_MODULE(VMIPS_ID) {
     static void	_sequent__TOP__v__ID__1(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__5(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__9(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
 #endif  /*guard*/

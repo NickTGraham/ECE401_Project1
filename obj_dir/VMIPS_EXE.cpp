@@ -61,7 +61,7 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__3(VMIPS__Syms* __restrict v
     VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__3\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    // ALWAYS at verilog//ALU.v:22
+    // ALWAYS at verilog//ALU.v:21
     if ((0x20U & (IData)(vlSymsp->TOP__v__ID.__PVT__ALU_Control1_OUT))) {
 	if ((0x10U & (IData)(vlSymsp->TOP__v__ID.__PVT__ALU_Control1_OUT))) {
 	    if ((8U & (IData)(vlSymsp->TOP__v__ID.__PVT__ALU_Control1_OUT))) {
