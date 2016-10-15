@@ -84,7 +84,12 @@ always @(posedge CLK or negedge RESET) begin
     end else begin
         /*You might want to process the writebacks*/
         if(Write1) begin
-            Reg[WriteReg1] <= WriteData1;
+            if(WriteReg1 == 5'b0) begin
+                $display("Writing to zero not allowed");
+            end
+            if (!(WriteReg1 == 5'b0)) begin
+                Reg[WriteReg1] <= WriteData1;
+            end
         end
         $display("IDWB:%d?Reg[%d]=%x",Write1,WriteReg1,WriteData1);
     end

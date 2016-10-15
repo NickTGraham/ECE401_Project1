@@ -6,7 +6,7 @@ Pipelined MIPS Processor
 - [x] Update PC
     - [ ] May not be starting at the right address?
 - [x] Calculate Branch & Jump Addresses
-- [ ] Register Writes
+- [x] Register Writes
 - [ ] Memory Reads & Writes
 - [ ] Forwarding/Bypassing Logic
 	- [ ] Update Diagram to include this

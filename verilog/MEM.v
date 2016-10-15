@@ -15,7 +15,9 @@
 //
 // Revision:
 // Revision 0.01 - File Created
-// Additional Comments:
+// Additional Comments: SWlL and SWR store as many bits as they can before the
+// word terminates, so between one and 4 bytes. SWL takes the most significant,
+// and SWR takes the least significant
 //
 //////////////////////////////////////////////////////////////////////////////////
 module MEM(
