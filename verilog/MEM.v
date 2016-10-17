@@ -48,6 +48,7 @@ module MEM(
     //And what data
     output reg [31:0] WriteData1_OUT,
 
+    //What the hell is this? I assume this is what verilator uses, I can't find where this stuff is connected either
     output reg [31:0] data_write_2DM,
     output [31:0] data_address_2DM,
      output reg [1:0] data_write_size_2DM,
@@ -86,18 +87,18 @@ module MEM(
     assign ALU_Control = ALU_Control1_IN;
     assign MemoryData = MemoryData1;
 
-     assign MemReadAddress = {ALU_result[31:2],2'b00};
+    assign MemReadAddress = {ALU_result[31:2],2'b00};
 
-     assign data_address_2DM = MemWrite?MemWriteAddress:MemReadAddress;	//Reads are always aligned; writes may be unaligned
+    assign data_address_2DM = MemWrite?MemWriteAddress:MemReadAddress;	//Reads are always aligned; writes may be unaligned
 
-     assign MemRead_2DM = MemRead;
+    assign MemRead_2DM = MemRead;
     assign MemWrite_2DM = MemWrite;
 
 
-     reg [31:0]WriteData1;
+    reg [31:0]WriteData1;
 
-     wire comment1;
-     assign comment1 = 1;
+    wire comment1;
+    assign comment1 = 1;
 
 
 always @(data_read_fDM) begin
@@ -130,18 +131,39 @@ always @(data_read_fDM) begin
         end
         6'b101111: begin	//SB
             data_write_size_2DM=1;
-            //TODO:SB
-            //Set data_write_2DM appropriately
+            //Again assuming that I must provide a whole word, not just the byte
+            //So you can store to any old byte, so I must handle them all.
+            if (MemWriteAddress[1:0] == 2'b00) begin //First Byte
+                data_write_2DM = {MemWriteData1_IN[7:0], data_read_fDM[23:0]}; //Totally did not need a calculator to find out what 31 - 8 was, nope, not at all
+            end
+            else if (MemWriteAddress[1:0] == 2'b01) begin //Second Byte
+                data_write_2DM = {data_read_fDM[31:23], MemWriteData1_IN[7:0], data_read_fDM[15:0]};
+            end
+            else if (MemWriteAddress[1:0] == 2'b10) begin //Third Byte
+                data_write_2DM = {data_read_fDM[31:15], MemWriteData1_IN[7:0], data_read_fDM[7:0]};
+            end
+            else begin //Did you guess it? Fourth Byte
+                data_write_2DM = {data_read_fDM[31:8], MemWriteData1_IN[7:0]};
+            end
+            // I Don't like having that fourth byte catch all else statement, but what you gonna do? <- real question, would like an answer
         end
         6'b110000: begin	//SH
             data_write_size_2DM=2;
-            //TODO:SH
-            //Set data_write_2DM appropriately
+            //So I assume I have to provide a whole word, not just the byte
+            //so I am pulling the data read, and splicing in the part I want (?)
+            if (MemWriteAddress[1:0] == 2'b00) begin //put at start of given word
+                data_write_2DM = {MemWriteData1_IN[15:0], data_read_fDM[15:0]};
+            end
+            else if (MemWriteAddress[1:0] == 2'b10) begin //put at end of given word
+                data_write_2DM = {data_read_fDM[31:16], MemWriteData1_IN[15:0]};
+            end
+
+            //what it it lies in the middle of a word 2'b01? do I handle that too?
         end
         6'b110001, 6'b110110: begin	//SW/SC
             data_write_size_2DM=0;
-            //TODO:SW
-            //Set data_write_2DM appropriately
+            //Should just take the whole word
+            data_write_2DM = MemWriteData1_IN;
         end
         6'b110010: begin	//SWL
             //TODO:SWL
@@ -159,7 +181,8 @@ always @(data_read_fDM) begin
     endcase
     WriteData1 = MemRead1_IN?data_read_aligned:ALU_result1_IN;
     //Since it's not set elsewhere (that's your job), we'll set a dummy value here:
-    data_write_2DM=32'hCAFEDEAD;
+    //data_write_2DM=32'hCAFEDEAD;
+    data_write_2DM = data_read_aligned;
 end
 
 assign MemoryData1 = MemWriteData1_IN;
