@@ -252,11 +252,36 @@ always @(data_read_fDM) begin
             //Should just take the whole word
             data_write_2DM = MemWriteData1_IN;
         end
-        6'b110010: begin	//SWL
+        6'b110010: begin //SWL
+            //So, I think I might have done the above stores wrong... oops...
+            /* Okay so lets get to this, Fill the memory from the stating location
+               to the end of the word with the most significant bits.
+
+               I would like to thank the MIPS ISA Documentation for there nice
+               graphical representation of what was going on. While I understood
+               it from the LWLandLWR.pdf provided, it was nice to see it again in
+               a different format.
+            */
+            if (ALU_result[1:0] == 2'b00) begin //You are writing a word
+                data_write_size_2DM=0;
+                data_write_2DM = MemWriteData1_IN[15:0];
+            end
+            else if (ALU_result[1:0] == 2'b01) begin //everthing but the first byte gets overwriten
+                data_write_size_2DM=3;
+                data_write_2DM = {data_read_fDM[31:24], MemWriteData1_IN[23:0]};
+            end
+            else if (ALU_result[1:0] == 2'b10) begin //half and half
+                data_write_size_2DM=2;
+                data_write_2DM = {data_read_fDM[31:16], MemWriteData1_IN[15:0]};
+            end
+            else begin //only the last bit
+                data_write_size_2DM=1;
+                data_write_2DM = {data_read_fDM[31:8], MemWriteData1_IN[7:0]};
+            end
             //TODO:SWL
             //Set MemWriteAddress, data_write_2DM and data_write_size_2DM appropriately
         end
-        6'b110011: begin	//SWR
+        6'b110011: begin //SWR
             //TODO:SWR
             //Set MemWriteAddress, data_write_2DM and data_write_size_2DM appropriately
         end

@@ -8,6 +8,7 @@ Pipelined MIPS Processor
 - [x] Calculate Branch & Jump Addresses
 - [x] Register Writes
 - [ ] Memory Reads & Writes
+    - [ ] Check and see if stores are done improperly
 - [ ] Forwarding/Bypassing Logic
 	- [ ] Update Diagram to include this
 - [ ] Project Report
