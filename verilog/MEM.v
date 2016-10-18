@@ -117,8 +117,33 @@ always @(data_read_fDM) begin
     //$display("Updated DRA");
     MemWriteAddress = ALU_result;
     case(ALU_Control)
-        6'b101101: begin
-            //TODO:LWL
+        6'b101101: begin //LWL
+            /* Alright, this comment chunk is mostly for my planning, so feel free
+               to skip over most of it, unless it doesn't work, then please read
+               it and give me pity points.
+
+               So, LWL takes the given address and fill in the most significant
+               bits up the data up until the end of the word in memory. There are
+               probably some pretty clever ways to do this, but I don't care and
+               will just brute force a bunch of if statements. so in other words
+               if mem starts out as 0000, and reg dest start as 9999 and you lwl
+               1234 into mem loc 1 you would get 9123.
+            */
+            data_write_size_2DM=0;
+            if (ALU_result[1:0] == 2'b00) begin //You're just loading a word, son
+                data_read_aligned = data_read_fDM;
+            end
+            if (ALU_result[1:0] == 2'b01) begin //the fun begins
+                //From what I can divine from above, MemoryData holds the contents
+                //of the Register that will be overwriten (???)
+                data_read_aligned = {data_read_fDM{23:0}, MemoryData[7:0]};
+            end
+            else if (ALU_result[1:0] == 2'b10) begin
+                data_read_aligned = {data_read_fDM{16:0}, MemoryData[15:0]};
+            end
+            else begin
+                data_read_aligned = {data_read_fDM{7:0}, MemoryData[23:0]};
+            end
         end
         6'b101110: begin
             //TODO:LWR
@@ -128,7 +153,7 @@ always @(data_read_fDM) begin
             data_write_size_2DM=0; // I guess (?)
             if (ALU_result[1:0] == 2'b00) begin //loading first byte of the word
                 data_read_aligned = {{24{data_read_fDM[31]}}, data_read_fDM[31:24]};
-                end
+            end
             else if (ALU_result[1:0] == 2'b01) begin //second byte of the word
                 data_read_aligned = {{24{data_read_fDM[23]}}, data_read_fDM[23:16]};
             end
