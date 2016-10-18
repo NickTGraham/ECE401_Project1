@@ -146,7 +146,21 @@ always @(data_read_fDM) begin
             end
         end
         6'b101110: begin
-            //TODO:LWR
+            /* Oh Boy! I'm having fun! Are you having fun, cause I'm having fun! */
+
+            data_write_size_2DM=0;
+            if (ALU_result[1:0] == 2'b00) begin //Just snag that first byte
+                data_read_aligned = {MemoryData[31:8], data_read_fDM[31:24]};
+            end
+            else if (ALU_result[1:0] == 2'b01) begin // half & half
+                data_read_aligned = {MemoryData[31:16], data_read_fDM[31:16]};
+            end
+            else if (ALU_result[1:0] == 2'b10) begin // keep only the first bit of the original
+                data_read_aligned = {MemoryData[31:24], data_read_fDM[31:8]};
+            end
+            else begin //You are again, just copying the word, so...
+                data_read_aligned = data_read_fDM;
+            end
         end
         6'b100001: begin //LB
             //Like before with sign extentions
