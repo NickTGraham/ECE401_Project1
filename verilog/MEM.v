@@ -15,7 +15,14 @@
 //
 // Revision:
 // Revision 0.01 - File Created
-// Additional Comments: SWlL and SWR store as many bits as they can before the
+// Additional Comments:
+// Notes:
+//      - For Continutity in Comments, I wrote this from the bottom
+//        up, so read in that order if you want it to make any sense...
+//      - If you are ever wondering what it is like to be a complete idiot, send
+//        me an email. I have gained a lot of insight into that by working on this
+//        file...
+// SWL and SWR store as many bits as they can before the
 // word terminates, so between one and 4 bytes. SWL takes the most significant,
 // and SWR takes the least significant
 //
@@ -89,6 +96,9 @@ module MEM(
 
     assign MemReadAddress = {ALU_result[31:2],2'b00};
 
+    //Where the hell does MemWriteAddress get set? It seems to just be an empty reg.
+    //I would assume it is just ALU_result directly, but who knows (?). Was this
+    //something we were expected to fix, a mistake (?) this is getting annoying...
     assign data_address_2DM = MemWrite?MemWriteAddress:MemReadAddress;	//Reads are always aligned; writes may be unaligned
 
     assign MemRead_2DM = MemRead;
@@ -113,17 +123,55 @@ always @(data_read_fDM) begin
         6'b101110: begin
             //TODO:LWR
         end
-        6'b100001: begin
-            //TODO:LB
+        6'b100001: begin //LB
+            //Like before with sign extentions
+            data_write_size_2DM=0; // I guess (?)
+            if (ALU_result[1:0] == 2'b00) begin //loading first byte of the word
+                data_read_aligned = {{24{data_read_fDM[31]}}, data_read_fDM[31:24]};
+                end
+            else if (ALU_result[1:0] == 2'b01) begin //second byte of the word
+                data_read_aligned = {{24{data_read_fDM[23]}}, data_read_fDM[23:16]};
+            end
+            else if (ALU_result[1:0] == 2'b10) begin //third byte of the word
+                data_read_aligned = {{24{data_read_fDM[15]}}, data_read_fDM[15:8]};
+            end
+            else begin //fourth byte of the word
+                data_read_aligned = {{24{data_read_fDM[7]}}, data_read_fDM[7:0]};
+            end
         end
-        6'b101011: begin
-            //TODO:LH
+        6'b101011: begin //LH
+            data_write_size_2DM=0; // I guess (?)
+            //This time it sign extends, Woo!
+            if (ALU_result[1:0] == 2'b00) begin //loading first half of the word
+                data_read_aligned = {{16{data_read_fDM[31]}}, data_read_fDM[31:16]};
+            end
+            else begin //second half of the word
+                data_read_aligned = {{16{data_read_fDM[15]}}, data_read_fDM[15:0]};
+            end
         end
-        6'b101010: begin
-            //TODO:LBU
+        6'b101010: begin //LBU
+            data_write_size_2DM=0; // I guess (?)
+            if (ALU_result[1:0] == 2'b00) begin //loading first byte of the word
+                data_read_aligned = {{24{1'b0}}, data_read_fDM[31:24]};
+            end
+            else if (ALU_result[1:0] == 2'b01) begin //second byte of the word
+                data_read_aligned = {{24{1'b0}}, data_read_fDM[23:16]};
+            end
+            else if (ALU_result[1:0] == 2'b10) begin //third byte of the word
+                data_read_aligned = {{24{1'b0}}, data_read_fDM[15:8]};
+            end
+            else begin //fourth byte of the word
+                data_read_aligned = {{24{1'b0}}, data_read_fDM[7:0]};
+            end
         end
-        6'b101100: begin
-            //TODO:LHU
+        6'b101100: begin //lhu
+            data_write_size_2DM=0; // I guess (?)
+            if (ALU_result[1:0] == 2'b00) begin //loading first half of the word
+                data_read_aligned = {{16{1'b0}}, data_read_fDM[31:16]};
+            end
+            else begin //second half of the word
+                data_read_aligned = {{16{1'b0}}, data_read_fDM[15:0]};
+            end
         end
         6'b111101, 6'b101000, 6'd0, 6'b110101: begin	//LW, LL, NOP, LWC1
             data_read_aligned = data_read_fDM;
@@ -137,10 +185,10 @@ always @(data_read_fDM) begin
                 data_write_2DM = {MemWriteData1_IN[7:0], data_read_fDM[23:0]}; //Totally did not need a calculator to find out what 31 - 8 was, nope, not at all
             end
             else if (MemWriteAddress[1:0] == 2'b01) begin //Second Byte
-                data_write_2DM = {data_read_fDM[31:23], MemWriteData1_IN[7:0], data_read_fDM[15:0]};
+                data_write_2DM = {data_read_fDM[31:24], MemWriteData1_IN[7:0], data_read_fDM[15:0]};
             end
             else if (MemWriteAddress[1:0] == 2'b10) begin //Third Byte
-                data_write_2DM = {data_read_fDM[31:15], MemWriteData1_IN[7:0], data_read_fDM[7:0]};
+                data_write_2DM = {data_read_fDM[31:16], MemWriteData1_IN[7:0], data_read_fDM[7:0]};
             end
             else begin //Did you guess it? Fourth Byte
                 data_write_2DM = {data_read_fDM[31:8], MemWriteData1_IN[7:0]};
@@ -158,7 +206,7 @@ always @(data_read_fDM) begin
                 data_write_2DM = {data_read_fDM[31:16], MemWriteData1_IN[15:0]};
             end
 
-            //what it it lies in the middle of a word 2'b01? do I handle that too?
+            //what it it lies in the middle of a word (2'b01)? do I handle that too?
         end
         6'b110001, 6'b110110: begin	//SW/SC
             data_write_size_2DM=0;

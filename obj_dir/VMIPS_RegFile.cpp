@@ -56,11 +56,17 @@ VL_INLINE_OPT void VMIPS_RegFile::_sequent__TOP__v__ID__RegFile__1(VMIPS__Syms* 
     // ALWAYS at verilog//RegFile.v:50
     if (VL_UNLIKELY(vlTOPp->RESET)) {
 	if (vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB) {
-	    vlSymsp->TOP__v__ID__RegFile.__Vdlyvval__Reg__v0 
-		= vlSymsp->TOP__v.__PVT__WriteData1_MEMWB;
-	    vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v0 = 1U;
-	    vlSymsp->TOP__v__ID__RegFile.__Vdlyvdim0__Reg__v0 
-		= vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB;
+	    if (VL_UNLIKELY((0U == (IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB)))) {
+		VL_WRITEF("Writing to zero not allowed\n");
+		fflush (stdout);
+	    }
+	    if ((0U != (IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB))) {
+		vlSymsp->TOP__v__ID__RegFile.__Vdlyvval__Reg__v0 
+		    = vlSymsp->TOP__v.__PVT__WriteData1_MEMWB;
+		vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v0 = 1U;
+		vlSymsp->TOP__v__ID__RegFile.__Vdlyvdim0__Reg__v0 
+		    = vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB;
+	    }
 	}
 	VL_WRITEF("IDWB:%1u?Reg[%2u]=%x\n",1,vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB,
 		  5,(IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB),
@@ -69,7 +75,7 @@ VL_INLINE_OPT void VMIPS_RegFile::_sequent__TOP__v__ID__RegFile__1(VMIPS__Syms* 
     } else {
 	vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v1 = 1U;
     }
-    // ALWAYSPOST at verilog//RegFile.v:87
+    // ALWAYSPOST at verilog//RegFile.v:91
     if (vlSymsp->TOP__v__ID__RegFile.__Vdlyvset__Reg__v0) {
 	vlSymsp->TOP__v__ID__RegFile.Reg[vlSymsp->TOP__v__ID__RegFile.__Vdlyvdim0__Reg__v0] 
 	    = vlSymsp->TOP__v__ID__RegFile.__Vdlyvval__Reg__v0;

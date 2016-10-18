@@ -62,6 +62,7 @@ VL_MODULE(VMIPS_MIPS) {
     VL_SIG(data_address_2DC,31,0);
     VL_SIG(data_read_fDC,31,0);
     VL_SIG(__PVT__MEM__DOT__data_read_aligned,31,0);
+    VL_SIG(__PVT__MEM__DOT__MemWriteAddress,31,0);
     VL_SIG(__PVT__MEM__DOT__WriteData1,31,0);
     
     // LOCAL VARIABLES
@@ -71,6 +72,7 @@ VL_MODULE(VMIPS_MIPS) {
     
     // INTERNAL VARIABLES
   private:
+    //char	__VpadToAlign212[4];
     VMIPS__Syms*	__VlSymsp;		// Symbol table
   public:
     
@@ -98,6 +100,7 @@ VL_MODULE(VMIPS_MIPS) {
     static void	_sequent__TOP__v__6(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__4(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__7(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__9(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
 #endif  /*guard*/
