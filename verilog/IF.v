@@ -35,7 +35,7 @@ module  IF
     wire [31:0] IncrementAmount;
     assign IncrementAmount = 32'd4; //NB: This might get modified for superscalar.
 
-    assign Instr_address_2IM = Instr_PC_Plus4;  //Are you sure that this is correct?
+    assign Instr_address_2IM = Request_Alt_PC?Alt_PC:Instr_PC_Plus4;  //Are you sure that this is correct?
 
 
 always @(posedge CLK or negedge RESET) begin
@@ -48,7 +48,7 @@ always @(posedge CLK or negedge RESET) begin
         if(!STALL) begin
                 Instr1_OUT <= Instr1_fIM;
                 Instr_PC_OUT <= Instr_address_2IM;
-                Instr_PC_Plus4 <= Instr_address_2IM + IncrementAmount;
+                Instr_PC_Plus4 <= Instr_address_2IM + IncrementAmount; //TODO: FIX
                 /* You should probably assign something to Instr_PC_Plus4. */
                 $display("FETCH:Instr@%x=%x;Next@%x",Instr_address_2IM,Instr1_fIM,Instr_address_2IM + IncrementAmount);
                 $display("FETCH:ReqAlt[%d]=%x",Request_Alt_PC,Alt_PC);

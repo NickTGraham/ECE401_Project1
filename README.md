@@ -4,7 +4,7 @@ Pipelined MIPS Processor
 ## ToDo
 - [x] Draw Diagram of Existing Components
 - [x] Update PC
-    - [ ] May not be starting at the right address?
+    - [x] May not be starting at the right address?
 - [x] Calculate Branch & Jump Addresses
 - [x] Register Writes
 - [x] Memory Reads & Writes

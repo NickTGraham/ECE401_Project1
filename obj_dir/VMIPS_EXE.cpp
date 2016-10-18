@@ -29,10 +29,6 @@ VL_CTOR_IMP(VMIPS_EXE) {
     __PVT__MemRead1_IN = VL_RAND_RESET_I(1);
     __PVT__MemWrite1_IN = VL_RAND_RESET_I(1);
     __PVT__ShiftAmount1_IN = VL_RAND_RESET_I(5);
-    __PVT__MemWriteReg = VL_RAND_RESET_I(5);
-    __PVT__Mem_ALU_result = VL_RAND_RESET_I(32);
-    __PVT__WBWriteReg = VL_RAND_RESET_I(5);
-    __PVT__WB_result = VL_RAND_RESET_I(32);
     __PVT__Instr1_OUT = VL_RAND_RESET_I(32);
     __PVT__Instr1_PC_OUT = VL_RAND_RESET_I(32);
     __PVT__ALU_result1_OUT = VL_RAND_RESET_I(32);
@@ -1251,7 +1247,7 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict v
     VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__4\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    // ALWAYS at verilog//EXE.v:115
+    // ALWAYS at verilog//EXE.v:119
     if (VL_LIKELY(vlTOPp->RESET)) {
 	if (VL_UNLIKELY(vlTOPp->CLK)) {
 	    vlSymsp->TOP__v__EXE.HI = vlSymsp->TOP__v__EXE.__PVT__HI_new1;

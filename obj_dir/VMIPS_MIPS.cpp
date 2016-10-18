@@ -123,7 +123,6 @@ VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__2(VMIPS__Syms* __restrict vlSym
 	vlSymsp->TOP__v.__Vdly__Instr_PC_Plus4_IFID = 0xbfc00000U;
     }
     vlSymsp->TOP__v.__PVT__Instr_PC_Plus4_IFID = vlSymsp->TOP__v.__Vdly__Instr_PC_Plus4_IFID;
-    vlSymsp->TOP__v.Instr_address_2IC = vlSymsp->TOP__v.__PVT__Instr_PC_Plus4_IFID;
 }
 
 VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__3(VMIPS__Syms* __restrict vlSymsp) {
@@ -164,16 +163,8 @@ VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__3(VMIPS__Syms* __restrict vlSym
     }
 }
 
-void VMIPS_MIPS::_settle__TOP__v__4(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("      VMIPS_MIPS::_settle__TOP__v__4\n"); );
-    VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    vlSymsp->TOP__v.Instr_address_2IC = vlSymsp->TOP__v.__PVT__Instr_PC_Plus4_IFID;
-    vlSymsp->TOP__v.data_read_fDC = vlTOPp->data_read_fDM;
-}
-
-VL_INLINE_OPT void VMIPS_MIPS::_combo__TOP__v__5(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("      VMIPS_MIPS::_combo__TOP__v__5\n"); );
+VL_INLINE_OPT void VMIPS_MIPS::_combo__TOP__v__4(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("      VMIPS_MIPS::_combo__TOP__v__4\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlSymsp->TOP__v.data_read_fDC = vlTOPp->data_read_fDM;
@@ -187,6 +178,9 @@ VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__6(VMIPS__Syms* __restrict vlSym
     vlSymsp->TOP__v.read_2DC = vlSymsp->TOP__v__EXE.__PVT__MemRead1_OUT;
     vlSymsp->TOP__v.__PVT__Instr_PC_IFID = vlSymsp->TOP__v.__Vdly__Instr_PC_IFID;
     vlSymsp->TOP__v.__PVT__Instr1_IFID = vlSymsp->TOP__v.__Vdly__Instr1_IFID;
+    vlSymsp->TOP__v.Instr_address_2IC = ((IData)(vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC)
+					  ? vlSymsp->TOP__v__ID.__PVT__Alt_PC
+					  : vlSymsp->TOP__v.__PVT__Instr_PC_Plus4_IFID);
 }
 
 void VMIPS_MIPS::_settle__TOP__v__7(VMIPS__Syms* __restrict vlSymsp) {
@@ -585,6 +579,9 @@ void VMIPS_MIPS::_settle__TOP__v__7(VMIPS__Syms* __restrict vlSymsp) {
 						    ? vlSymsp->TOP__v.__PVT__MEM__DOT__data_read_aligned
 						    : vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT);
     vlSymsp->TOP__v.data_write_2DC = vlSymsp->TOP__v.__PVT__MEM__DOT__data_read_aligned;
+    vlSymsp->TOP__v.Instr_address_2IC = ((IData)(vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC)
+					  ? vlSymsp->TOP__v__ID.__PVT__Alt_PC
+					  : vlSymsp->TOP__v.__PVT__Instr_PC_Plus4_IFID);
 }
 
 VL_INLINE_OPT void VMIPS_MIPS::_combo__TOP__v__8(VMIPS__Syms* __restrict vlSymsp) {
