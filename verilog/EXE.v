@@ -43,6 +43,14 @@ module EXE(
     input MemWrite1_IN,
     //Shift amount (needed for shift operations)
     input [4:0] ShiftAmount1_IN,
+    //Write Address from Start of Mem Stage
+    input [4:0] MemWriteReg,
+    //ALU result from Start of Mem Stage
+    input [31:0] Mem_ALU_result,
+    //Write address from the start of the writeback stage
+    input [4:0] WBWriteReg,
+    //Mem result from the start of the writeback stage
+    input [31:0] WB_result,
     //Instruction [debug] to MEM
     output reg [31:0] Instr1_OUT,
     //PC [debug] to MEM

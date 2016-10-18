@@ -180,6 +180,10 @@ module MIPS (
         .MemRead1_IN(MemRead1_IDEXE),
         .MemWrite1_IN(MemWrite1_IDEXE),
         .ShiftAmount1_IN(ShiftAmount1_IDEXE),
+        .MemWriteReg(WriteRegister1_EXEMEM), //NEW
+        .Mem_ALU_result(MemWriteData1_EXEMEM), //NEW
+        .WBWriteReg(WriteRegister1_MEMWB), //NEW
+        .WB_result(WriteData1_MEMWB), //NEW
         .Instr1_OUT(Instr1_EXEMEM),
         .Instr1_PC_OUT(Instr1_PC_EXEMEM),
         .ALU_result1_OUT(ALU_result1_EXEMEM),
