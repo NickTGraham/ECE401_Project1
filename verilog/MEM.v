@@ -96,9 +96,6 @@ module MEM(
 
     assign MemReadAddress = {ALU_result[31:2],2'b00};
 
-    //Where the hell does MemWriteAddress get set? It seems to just be an empty reg.
-    //I would assume it is just ALU_result directly, but who knows (?). Was this
-    //something we were expected to fix, a mistake (?) this is getting annoying...
     assign data_address_2DM = MemWrite?MemWriteAddress:MemReadAddress;	//Reads are always aligned; writes may be unaligned
 
     assign MemRead_2DM = MemRead;
@@ -280,10 +277,32 @@ always @(data_read_fDM) begin
             end
             //TODO:SWL
             //Set MemWriteAddress, data_write_2DM and data_write_size_2DM appropriately
+            //Yeah... I Did not do this correctly at all...
         end
         6'b110011: begin //SWR
-            //TODO:SWR
-            //Set MemWriteAddress, data_write_2DM and data_write_size_2DM appropriately
+            /* I would like to thank the MIPS ISA Documentation for there nice
+            graphical representation of what was going on. While I understood
+            it from the LWLandLWR.pdf provided, it was nice to see it again in
+            a different format.
+            */
+            if (ALU_result[1:0] == 2'b00) begin //Just the first byte "bytes the dust" <- I am sorry, it is late
+                data_write_size_2DM=1;
+                data_write_2DM = {MemWriteData1_IN[7:0], data_read_fDM[23:0]};
+            end
+            else if (ALU_result[1:0] == 2'b01) begin //half & half
+                data_write_size_2DM=2;
+                data_write_2DM = {MemWriteData1_IN[15:0], data_read_fDM[15:0]};
+            end
+            else if (ALU_result[1:0] == 2'b10) begin //all but the first byte get overwritten
+                data_write_size_2DM=3;
+                data_write_2DM = {MemWriteData1_IN[23:0], data_read_fDM[7:0]};
+            end
+            else begin //you just stored a word
+                data_write_size_2DM=0;
+                data_write_2DM =  MemWriteData1_IN;
+            end
+           //TODO:SWR
+           //Set MemWriteAddress, data_write_2DM and data_write_size_2DM appropriately
         end
         default: begin
           //If it's not a real memory istruction, do something somewhat related?
