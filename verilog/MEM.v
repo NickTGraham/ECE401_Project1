@@ -133,13 +133,13 @@ always @(data_read_fDM) begin
             if (ALU_result[1:0] == 2'b01) begin //the fun begins
                 //From what I can divine from above, MemoryData holds the contents
                 //of the Register that will be overwriten (???)
-                data_read_aligned = {data_read_fDM{23:0}, MemoryData[7:0]};
+                data_read_aligned = {data_read_fDM[23:0], MemoryData[7:0]};
             end
             else if (ALU_result[1:0] == 2'b10) begin
-                data_read_aligned = {data_read_fDM{16:0}, MemoryData[15:0]};
+                data_read_aligned = {data_read_fDM[15:0], MemoryData[15:0]};
             end
             else begin
-                data_read_aligned = {data_read_fDM{7:0}, MemoryData[23:0]};
+                data_read_aligned = {data_read_fDM[7:0], MemoryData[23:0]};
             end
         end
         6'b101110: begin
@@ -261,7 +261,7 @@ always @(data_read_fDM) begin
             */
             if (ALU_result[1:0] == 2'b00) begin //You are writing a word
                 data_write_size_2DM=0;
-                data_write_2DM = MemWriteData1_IN[15:0];
+                data_write_2DM = MemWriteData1_IN;
             end
             else if (ALU_result[1:0] == 2'b01) begin //everthing but the first byte gets overwriten
                 data_write_size_2DM=3;
