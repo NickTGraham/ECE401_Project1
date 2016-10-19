@@ -35,16 +35,6 @@ module ID(
      //Actually write to register file?
      input RegWrite1_IN,
 
-     //Forwarding Logic
-     input [4:0] EXEWriteReg,
-     input EXEWriteValid,
-     input [4:0] MEMWriteReg,
-     input MEMWriteValid,
-     input [31:0] ALU_result,
-     input [4:0] WBWriteReg,
-     input WBWriteValid,
-     input [31:0] WB_result,
-
     //Alternate PC for next fetch (branch/jump destination)
     output reg [31:0]Alt_PC,
     //Actually use alternate PC
@@ -224,28 +214,7 @@ always @(posedge CLK or negedge RESET) begin
         INHIBIT_FREEZE <= 0;
     $display("ID:RESET");
     end else begin
-            /* Bad idea time: So the next PC is calculated here, I can forward in
-               results from MEM and WB, but not EXE so will have to stall. I need
-               to attempt this here.
-            */
-
-            if (jumpRegister_Flag1) begin
-                if ((rs1 == EXEWriteReg) & EXEWriteValid) begin
-                    FORCE_FREEZE <= 1; //STALL
-                end
-                else if ((rs1 == MEMWriteReg) & MEMWriteValid) begin
-                    Alt_PC <= ALU_result;
-                end
-                else if ((rs1 == WBWriteReg) & WBWriteValid)begin
-                    Alt_PC <= WB_result;
-                end
-                else begin
-                    Alt_PC <= Alt_PC1;
-                end
-            end
-            else begin
-                Alt_PC <= Alt_PC1;
-            end
+            Alt_PC <= Alt_PC1;
             Request_Alt_PC <= Request_Alt_PC1;
             ReadRegisterA1_OUT <= RegA1;
             ReadRegisterB1_OUT <= RegB1;
