@@ -25,6 +25,14 @@ VL_CTOR_IMP(VMIPS_ID) {
     __PVT__WriteRegister1_IN = VL_RAND_RESET_I(5);
     __PVT__WriteData1_IN = VL_RAND_RESET_I(32);
     __PVT__RegWrite1_IN = VL_RAND_RESET_I(1);
+    __PVT__EXEWriteReg = VL_RAND_RESET_I(5);
+    __PVT__EXEWriteValid = VL_RAND_RESET_I(1);
+    __PVT__MEMWriteReg = VL_RAND_RESET_I(5);
+    __PVT__MEMWriteValid = VL_RAND_RESET_I(1);
+    __PVT__ALU_result = VL_RAND_RESET_I(32);
+    __PVT__WBWriteReg = VL_RAND_RESET_I(5);
+    __PVT__WBWriteValid = VL_RAND_RESET_I(1);
+    __PVT__WB_result = VL_RAND_RESET_I(32);
     __PVT__Alt_PC = VL_RAND_RESET_I(32);
     __PVT__Request_Alt_PC = VL_RAND_RESET_I(1);
     __PVT__Instr1_OUT = VL_RAND_RESET_I(32);
@@ -88,13 +96,32 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__1(VMIPS__Syms* __restrict vlS
 	= vlSymsp->TOP__v__ID.__PVT__syscall_bubble_counter;
 }
 
-VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_sequent__TOP__v__ID__4\n"); );
+VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__3(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_sequent__TOP__v__ID__3\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    // ALWAYS at verilog//ID.v:194
+    // ALWAYS at verilog//ID.v:204
     if (vlTOPp->RESET) {
-	vlSymsp->TOP__v__ID.__PVT__Alt_PC = vlSymsp->TOP__v__ID.__PVT__Alt_PC1;
+	if (vlSymsp->TOP__v__ID.__PVT__jumpRegister_Flag1) {
+	    if ((((0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+			    >> 0x15U)) == (IData)(vlSymsp->TOP__v__ID.__PVT__EXEWriteReg)) 
+		 & (IData)(vlSymsp->TOP__v__ID.__PVT__EXEWriteValid))) {
+		vlSymsp->TOP__v__ID.__PVT__FORCE_FREEZE = 1U;
+	    } else {
+		vlSymsp->TOP__v__ID.__PVT__Alt_PC = 
+		    ((((0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+				 >> 0x15U)) == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
+		      & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT))
+		      ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT
+		      : ((((0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+				     >> 0x15U)) == (IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB)) 
+			  & (IData)(vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB))
+			  ? vlSymsp->TOP__v.__PVT__WriteData1_MEMWB
+			  : vlSymsp->TOP__v__ID.__PVT__Alt_PC1));
+	    }
+	} else {
+	    vlSymsp->TOP__v__ID.__PVT__Alt_PC = vlSymsp->TOP__v__ID.__PVT__Alt_PC1;
+	}
 	vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC = vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC1;
 	vlSymsp->TOP__v__ID.__PVT__ReadRegisterA1_OUT 
 	    = vlSymsp->TOP__v__ID.__PVT__RegA1;
@@ -234,8 +261,8 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlS
 	= vlSymsp->TOP__v__ID.__Vdly__syscall_bubble_counter;
 }
 
-VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__5(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_sequent__TOP__v__ID__5\n"); );
+VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_sequent__TOP__v__ID__4\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlSymsp->TOP__v__ID.__PVT__NIA1__DOT__jumpDestination_immediate 
@@ -2074,8 +2101,8 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__5(VMIPS__Syms* __restrict vlS
     fflush (stdout);
 }
 
-void VMIPS_ID::_settle__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_settle__TOP__v__ID__6\n"); );
+void VMIPS_ID::_settle__TOP__v__ID__5(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_settle__TOP__v__ID__5\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlSymsp->TOP__v__ID.__PVT__NIA1__DOT__jumpDestination_immediate 
@@ -3935,8 +3962,8 @@ void VMIPS_ID::_settle__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp) {
 						  >> 0x15U)));
 }
 
-void VMIPS_ID::_settle__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_settle__TOP__v__ID__7\n"); );
+void VMIPS_ID::_settle__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_settle__TOP__v__ID__6\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlSymsp->TOP__v__ID.__PVT__OpB1 = ((IData)(vlSymsp->TOP__v__ID.__PVT__branch1)
@@ -3976,8 +4003,8 @@ void VMIPS_ID::_settle__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp) {
 				        ? 0U : vlSymsp->TOP__v__ID__RegFile.__PVT__DataA1);
 }
 
-VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_sequent__TOP__v__ID__8\n"); );
+VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_sequent__TOP__v__ID__7\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlSymsp->TOP__v__ID.__PVT__RegB1 = (0x1fU & ((IData)(vlSymsp->TOP__v__ID.__PVT__RegDst1)
@@ -4101,8 +4128,8 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__8(VMIPS__Syms* __restrict vlS
 						     | (IData)(vlSymsp->TOP__v__ID.__PVT__jump1)));
 }
 
-void VMIPS_ID::_settle__TOP__v__ID__9(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_settle__TOP__v__ID__9\n"); );
+void VMIPS_ID::_settle__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_settle__TOP__v__ID__8\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC1 = (1U 

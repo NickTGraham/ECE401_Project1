@@ -64,6 +64,12 @@ VL_MODULE(VMIPS_EXE) {
     VL_SIG64(__PVT__ALU1__DOT__temp,63,0);
     
     // LOCAL VARIABLES
+    VL_SIG8(__Vdly__WriteRegister1_OUT,4,0);
+    VL_SIG8(__Vdly__RegWrite1_OUT,0,0);
+    //char	__VpadToAlign118[2];
+    VL_SIG(__Vdly__Instr1_OUT,31,0);
+    VL_SIG(__Vdly__Instr1_PC_OUT,31,0);
+    VL_SIG(__Vdly__ALU_result1_OUT,31,0);
     
     // INTERNAL VARIABLES
   private:
@@ -86,6 +92,8 @@ VL_MODULE(VMIPS_EXE) {
     
     // INTERNAL METHODS
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
+    static void	_sequent__TOP__v__EXE__1(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__EXE__2(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__EXE__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__EXE__5(VMIPS__Syms* __restrict vlSymsp);

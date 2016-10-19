@@ -57,6 +57,11 @@ VL_CTOR_IMP(VMIPS_EXE) {
     __PVT__HI_new1 = VL_RAND_RESET_I(32);
     __PVT__LO_new1 = VL_RAND_RESET_I(32);
     __PVT__ALU1__DOT__temp = VL_RAND_RESET_Q(64);
+    __Vdly__Instr1_OUT = VL_RAND_RESET_I(32);
+    __Vdly__Instr1_PC_OUT = VL_RAND_RESET_I(32);
+    __Vdly__ALU_result1_OUT = VL_RAND_RESET_I(32);
+    __Vdly__WriteRegister1_OUT = VL_RAND_RESET_I(5);
+    __Vdly__RegWrite1_OUT = VL_RAND_RESET_I(1);
 }
 
 void VMIPS_EXE::__Vconfigure(VMIPS__Syms* vlSymsp, bool first) {
@@ -70,8 +75,20 @@ VMIPS_EXE::~VMIPS_EXE() {
 //--------------------
 // Internal Methods
 
-VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__3(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__3\n"); );
+VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__1(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__1\n"); );
+    VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlSymsp->TOP__v__EXE.__Vdly__Instr1_OUT = vlSymsp->TOP__v__EXE.__PVT__Instr1_OUT;
+    vlSymsp->TOP__v__EXE.__Vdly__Instr1_PC_OUT = vlSymsp->TOP__v__EXE.__PVT__Instr1_PC_OUT;
+    vlSymsp->TOP__v__EXE.__Vdly__WriteRegister1_OUT 
+	= vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT;
+    vlSymsp->TOP__v__EXE.__Vdly__RegWrite1_OUT = vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT;
+    vlSymsp->TOP__v__EXE.__Vdly__ALU_result1_OUT = vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT;
+}
+
+VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__2(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__2\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     // ALWAYS at verilog//ALU.v:21
@@ -1256,25 +1273,25 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__3(VMIPS__Syms* __restrict v
     }
 }
 
-VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__4\n"); );
+VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__3(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__3\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     // ALWAYS at verilog//EXE.v:143
     if (VL_LIKELY(vlTOPp->RESET)) {
 	if (VL_UNLIKELY(vlTOPp->CLK)) {
 	    vlSymsp->TOP__v__EXE.HI = vlSymsp->TOP__v__EXE.__PVT__HI_new1;
-	    vlSymsp->TOP__v__EXE.__PVT__Instr1_OUT 
+	    vlSymsp->TOP__v__EXE.__Vdly__Instr1_OUT 
 		= vlSymsp->TOP__v__ID.__PVT__Instr1_OUT;
-	    vlSymsp->TOP__v__EXE.__PVT__Instr1_PC_OUT 
+	    vlSymsp->TOP__v__EXE.__Vdly__Instr1_PC_OUT 
 		= vlSymsp->TOP__v__ID.__PVT__Instr1_PC_OUT;
-	    vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT 
+	    vlSymsp->TOP__v__EXE.__Vdly__ALU_result1_OUT 
 		= vlSymsp->TOP__v__EXE.__PVT__ALU_result1;
-	    vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT 
+	    vlSymsp->TOP__v__EXE.__Vdly__WriteRegister1_OUT 
 		= vlSymsp->TOP__v__ID.__PVT__WriteRegister1_OUT;
 	    vlSymsp->TOP__v__EXE.__PVT__MemWriteData1_OUT 
 		= vlSymsp->TOP__v__ID.__PVT__MemWriteData1_OUT;
-	    vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT 
+	    vlSymsp->TOP__v__EXE.__Vdly__RegWrite1_OUT 
 		= vlSymsp->TOP__v__ID.__PVT__RegWrite1_OUT;
 	    vlSymsp->TOP__v__EXE.__PVT__ALU_Control1_OUT 
 		= vlSymsp->TOP__v__ID.__PVT__ALU_Control1_OUT;
@@ -1307,28 +1324,34 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict v
     } else {
 	VL_WRITEF("EXE:RESET\n");
 	fflush (stdout);
-	vlSymsp->TOP__v__EXE.__PVT__Instr1_OUT = 0U;
-	vlSymsp->TOP__v__EXE.__PVT__Instr1_PC_OUT = 0U;
-	vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT = 0U;
-	vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT = 0U;
+	vlSymsp->TOP__v__EXE.__Vdly__Instr1_OUT = 0U;
+	vlSymsp->TOP__v__EXE.__Vdly__Instr1_PC_OUT = 0U;
+	vlSymsp->TOP__v__EXE.__Vdly__ALU_result1_OUT = 0U;
+	vlSymsp->TOP__v__EXE.__Vdly__WriteRegister1_OUT = 0U;
 	vlSymsp->TOP__v__EXE.__PVT__MemWriteData1_OUT = 0U;
-	vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT = 0U;
+	vlSymsp->TOP__v__EXE.__Vdly__RegWrite1_OUT = 0U;
 	vlSymsp->TOP__v__EXE.__PVT__ALU_Control1_OUT = 0U;
 	vlSymsp->TOP__v__EXE.__PVT__MemRead1_OUT = 0U;
 	vlSymsp->TOP__v__EXE.__PVT__MemWrite1_OUT = 0U;
     }
 }
 
+VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__4\n"); );
+    VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT = vlSymsp->TOP__v__EXE.__Vdly__ALU_result1_OUT;
+}
+
 VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__5(VMIPS__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__5\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlSymsp->TOP__v__EXE.__PVT__replaceB = ((((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
-					      == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
-					     & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT)) 
-					    | (((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
-						== (IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB)) 
-					       & (IData)(vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB)));
+    vlSymsp->TOP__v__EXE.__PVT__Instr1_OUT = vlSymsp->TOP__v__EXE.__Vdly__Instr1_OUT;
+    vlSymsp->TOP__v__EXE.__PVT__Instr1_PC_OUT = vlSymsp->TOP__v__EXE.__Vdly__Instr1_PC_OUT;
+    vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT = vlSymsp->TOP__v__EXE.__Vdly__RegWrite1_OUT;
+    vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT 
+	= vlSymsp->TOP__v__EXE.__Vdly__WriteRegister1_OUT;
     vlSymsp->TOP__v__EXE.__PVT__replaceA = ((((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterA1_OUT) 
 					      == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
 					     & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT)) 
@@ -1340,18 +1363,18 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__5(VMIPS__Syms* __restrict v
 					   & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT))
 					   ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT
 					   : vlSymsp->TOP__v.__PVT__WriteData1_MEMWB);
+    vlSymsp->TOP__v__EXE.__PVT__replaceB = ((((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
+					      == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
+					     & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT)) 
+					    | (((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
+						== (IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB)) 
+					       & (IData)(vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB)));
 }
 
 void VMIPS_EXE::_settle__TOP__v__EXE__6(VMIPS__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_settle__TOP__v__EXE__6\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlSymsp->TOP__v__EXE.__PVT__replaceB = ((((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
-					      == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
-					     & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT)) 
-					    | (((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
-						== (IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB)) 
-					       & (IData)(vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB)));
     vlSymsp->TOP__v__EXE.__PVT__replaceA = ((((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterA1_OUT) 
 					      == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
 					     & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT)) 
@@ -1363,6 +1386,15 @@ void VMIPS_EXE::_settle__TOP__v__EXE__6(VMIPS__Syms* __restrict vlSymsp) {
 					   & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT))
 					   ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT
 					   : vlSymsp->TOP__v.__PVT__WriteData1_MEMWB);
+    vlSymsp->TOP__v__EXE.__PVT__replaceB = ((((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
+					      == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
+					     & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT)) 
+					    | (((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
+						== (IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB)) 
+					       & (IData)(vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB)));
+    vlSymsp->TOP__v__EXE.__PVT__A1 = ((IData)(vlSymsp->TOP__v__EXE.__PVT__replaceA)
+				       ? vlSymsp->TOP__v__EXE.__PVT__valueA
+				       : vlSymsp->TOP__v__ID.__PVT__OperandA1_OUT);
     vlSymsp->TOP__v__EXE.__PVT__B1 = ((IData)(vlSymsp->TOP__v__EXE.__PVT__replaceB)
 				       ? ((((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
 					    == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
@@ -1370,15 +1402,15 @@ void VMIPS_EXE::_settle__TOP__v__EXE__6(VMIPS__Syms* __restrict vlSymsp) {
 					   ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT
 					   : vlSymsp->TOP__v.__PVT__WriteData1_MEMWB)
 				       : vlSymsp->TOP__v__ID.__PVT__OperandB1_OUT);
-    vlSymsp->TOP__v__EXE.__PVT__A1 = ((IData)(vlSymsp->TOP__v__EXE.__PVT__replaceA)
-				       ? vlSymsp->TOP__v__EXE.__PVT__valueA
-				       : vlSymsp->TOP__v__ID.__PVT__OperandA1_OUT);
 }
 
 VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__7(VMIPS__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__7\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
+    vlSymsp->TOP__v__EXE.__PVT__A1 = ((IData)(vlSymsp->TOP__v__EXE.__PVT__replaceA)
+				       ? vlSymsp->TOP__v__EXE.__PVT__valueA
+				       : vlSymsp->TOP__v__ID.__PVT__OperandA1_OUT);
     vlSymsp->TOP__v__EXE.__PVT__B1 = ((IData)(vlSymsp->TOP__v__EXE.__PVT__replaceB)
 				       ? ((((IData)(vlSymsp->TOP__v__ID.__PVT__ReadRegisterB1_OUT) 
 					    == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
@@ -1386,7 +1418,4 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__7(VMIPS__Syms* __restrict v
 					   ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT
 					   : vlSymsp->TOP__v.__PVT__WriteData1_MEMWB)
 				       : vlSymsp->TOP__v__ID.__PVT__OperandB1_OUT);
-    vlSymsp->TOP__v__EXE.__PVT__A1 = ((IData)(vlSymsp->TOP__v__EXE.__PVT__replaceA)
-				       ? vlSymsp->TOP__v__EXE.__PVT__valueA
-				       : vlSymsp->TOP__v__ID.__PVT__OperandA1_OUT);
 }

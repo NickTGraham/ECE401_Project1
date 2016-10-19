@@ -11,5 +11,7 @@ Pipelined MIPS Processor
 - [x] Memory Reads & Writes
     - [?] Check and see if stores are done improperly (Hint, they're not...)
 - [ ] Forwarding/Bypassing Logic
+    - [x] Basic Implementation
+    - [ ] JALR & JR
 	- [ ] Update Diagram to include this
 - [ ] Project Report

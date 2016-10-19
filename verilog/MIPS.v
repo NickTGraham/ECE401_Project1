@@ -136,6 +136,14 @@ module MIPS (
         .WriteRegister1_IN(WriteRegister1_MEMWB),
         .WriteData1_IN(WriteData1_MEMWB),
         .RegWrite1_IN(RegWrite1_MEMWB),
+        .EXEWriteReg(WriteRegister1_IDEXE), //NEW
+        .EXEWriteValid(RegWrite1_IDEXE), //NEW
+        .MEMWriteReg(WriteRegister1_EXEMEM), //NEW
+        .MEMWriteValid(RegWrite1_EXEMEM), //NEW
+        .ALU_result(ALU_result1_EXEMEM), //NEW
+        .WBWriteReg(WriteRegister1_MEMWB), //NEW
+        .WBWriteValid(RegWrite1_MEMWB), //NEW
+        .WB_result(WriteData1_MEMWB), //NEW
         .Alt_PC(Alt_PC_IDIF),
         .Request_Alt_PC(Request_Alt_PC_IDIF),
         .Instr1_OUT(Instr1_IDEXE),
