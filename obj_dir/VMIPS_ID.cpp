@@ -25,6 +25,10 @@ VL_CTOR_IMP(VMIPS_ID) {
     __PVT__WriteRegister1_IN = VL_RAND_RESET_I(5);
     __PVT__WriteData1_IN = VL_RAND_RESET_I(32);
     __PVT__RegWrite1_IN = VL_RAND_RESET_I(1);
+    __PVT__ExeWriteReg = VL_RAND_RESET_I(5);
+    __PVT__MemWriteReg = VL_RAND_RESET_I(5);
+    __PVT__Forward_A = VL_RAND_RESET_I(2);
+    __PVT__Forward_B = VL_RAND_RESET_I(2);
     __PVT__Alt_PC = VL_RAND_RESET_I(32);
     __PVT__Request_Alt_PC = VL_RAND_RESET_I(1);
     __PVT__Instr1_OUT = VL_RAND_RESET_I(32);
@@ -90,7 +94,7 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlS
     VL_DEBUG_IF(VL_PRINTF("        VMIPS_ID::_sequent__TOP__v__ID__4\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    // ALWAYS at verilog//ID.v:194
+    // ALWAYS at verilog//ID.v:200
     if (vlTOPp->RESET) {
 	vlSymsp->TOP__v__ID.__PVT__Alt_PC = vlSymsp->TOP__v__ID.__PVT__Alt_PC1;
 	vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC = vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC1;
@@ -227,6 +231,8 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlS
 	vlSymsp->TOP__v__ID.__Vdly__syscall_bubble_counter = 0U;
 	vlSymsp->TOP__v__ID.__PVT__FORCE_FREEZE = 0U;
 	vlSymsp->TOP__v__ID.__PVT__INHIBIT_FREEZE = 0U;
+	vlSymsp->TOP__v__ID.__PVT__Forward_A = 0U;
+	vlSymsp->TOP__v__ID.__PVT__Forward_B = 0U;
     }
     vlSymsp->TOP__v__ID.__PVT__syscall_bubble_counter 
 	= vlSymsp->TOP__v__ID.__Vdly__syscall_bubble_counter;

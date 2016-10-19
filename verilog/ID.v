@@ -35,7 +35,13 @@ module ID(
      //Actually write to register file?
      input RegWrite1_IN,
 
-     //Alternate PC for next fetch (branch/jump destination)
+    //Forwarding Logic
+    input [4:0] ExeWriteReg,
+    input [4:0] MemWriteReg,
+
+    output reg [1:0] Forward_A,
+    output reg [1:0] Forward_B,
+    //Alternate PC for next fetch (branch/jump destination)
     output reg [31:0]Alt_PC,
     //Actually use alternate PC
     output reg Request_Alt_PC,
@@ -212,6 +218,8 @@ always @(posedge CLK or negedge RESET) begin
         syscall_bubble_counter <= 0;
         FORCE_FREEZE <= 0;
         INHIBIT_FREEZE <= 0;
+        Forward_A <= 0;
+        Forward_B <= 0;
     $display("ID:RESET");
     end else begin
             Alt_PC <= Alt_PC1;

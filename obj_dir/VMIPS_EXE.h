@@ -19,23 +19,29 @@ VL_MODULE(VMIPS_EXE) {
     // PORTS
     VL_IN8(__PVT__CLK,0,0);
     VL_IN8(__PVT__RESET,0,0);
+    VL_IN8(__PVT__Forward_A,1,0);
+    VL_IN8(__PVT__Forward_B,1,0);
     VL_IN8(__PVT__WriteRegister1_IN,4,0);
     VL_IN8(__PVT__RegWrite1_IN,0,0);
     VL_IN8(__PVT__ALU_Control1_IN,5,0);
     VL_IN8(__PVT__MemRead1_IN,0,0);
     VL_IN8(__PVT__MemWrite1_IN,0,0);
     VL_IN8(__PVT__ShiftAmount1_IN,4,0);
+    VL_IN8(__PVT__MemWriteReg,4,0);
+    VL_IN8(__PVT__WBWriteReg,4,0);
     VL_OUT8(__PVT__WriteRegister1_OUT,4,0);
     VL_OUT8(__PVT__RegWrite1_OUT,0,0);
     VL_OUT8(__PVT__ALU_Control1_OUT,5,0);
     VL_OUT8(__PVT__MemRead1_OUT,0,0);
     VL_OUT8(__PVT__MemWrite1_OUT,0,0);
-    //char	__VpadToAlign13[3];
+    //char	__VpadToAlign17[3];
     VL_IN(__PVT__Instr1_IN,31,0);
     VL_IN(__PVT__Instr1_PC_IN,31,0);
     VL_IN(__PVT__OperandA1_IN,31,0);
     VL_IN(__PVT__OperandB1_IN,31,0);
     VL_IN(__PVT__MemWriteData1_IN,31,0);
+    VL_IN(__PVT__Mem_ALU_result,31,0);
+    VL_IN(__PVT__WB_result,31,0);
     VL_OUT(__PVT__Instr1_OUT,31,0);
     VL_OUT(__PVT__Instr1_PC_OUT,31,0);
     VL_OUT(__PVT__ALU_result1_OUT,31,0);
@@ -47,7 +53,6 @@ VL_MODULE(VMIPS_EXE) {
     VL_SIG(LO,31,0);
     VL_SIG(__PVT__HI_new1,31,0);
     VL_SIG(__PVT__LO_new1,31,0);
-    //char	__VpadToAlign76[4];
     VL_SIG64(__PVT__ALU1__DOT__temp,63,0);
     
     // LOCAL VARIABLES

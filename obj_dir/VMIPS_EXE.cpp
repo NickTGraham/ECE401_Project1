@@ -20,7 +20,9 @@ VL_CTOR_IMP(VMIPS_EXE) {
     __PVT__RESET = VL_RAND_RESET_I(1);
     __PVT__Instr1_IN = VL_RAND_RESET_I(32);
     __PVT__Instr1_PC_IN = VL_RAND_RESET_I(32);
+    __PVT__Forward_A = VL_RAND_RESET_I(2);
     __PVT__OperandA1_IN = VL_RAND_RESET_I(32);
+    __PVT__Forward_B = VL_RAND_RESET_I(2);
     __PVT__OperandB1_IN = VL_RAND_RESET_I(32);
     __PVT__WriteRegister1_IN = VL_RAND_RESET_I(5);
     __PVT__MemWriteData1_IN = VL_RAND_RESET_I(32);
@@ -29,6 +31,10 @@ VL_CTOR_IMP(VMIPS_EXE) {
     __PVT__MemRead1_IN = VL_RAND_RESET_I(1);
     __PVT__MemWrite1_IN = VL_RAND_RESET_I(1);
     __PVT__ShiftAmount1_IN = VL_RAND_RESET_I(5);
+    __PVT__MemWriteReg = VL_RAND_RESET_I(5);
+    __PVT__Mem_ALU_result = VL_RAND_RESET_I(32);
+    __PVT__WBWriteReg = VL_RAND_RESET_I(5);
+    __PVT__WB_result = VL_RAND_RESET_I(32);
     __PVT__Instr1_OUT = VL_RAND_RESET_I(32);
     __PVT__Instr1_PC_OUT = VL_RAND_RESET_I(32);
     __PVT__ALU_result1_OUT = VL_RAND_RESET_I(32);

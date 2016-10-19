@@ -26,11 +26,11 @@ module EXE(
     //Current instruction's PC [debug]
     input [31:0] Instr1_PC_IN,
     //forward A value
-    //input [1:0] Forward_A,
+    input [1:0] Forward_A,
     //Operand A (if already known)
     input [31:0] OperandA1_IN,
     //forward B value
-    //input [1:0] Forward_B,
+    input [1:0] Forward_B,
     //Operand B (if already known)
     input [31:0] OperandB1_IN,
     //Destination register
@@ -48,13 +48,13 @@ module EXE(
     //Shift amount (needed for shift operations)
     input [4:0] ShiftAmount1_IN,
     //Write Address from Start of Mem Stage
-    //input [4:0] MemWriteReg,
+    input [4:0] MemWriteReg,
     //ALU result from Start of Mem Stage
-    //input [31:0] Mem_ALU_result,
+    input [31:0] Mem_ALU_result,
     //Write address from the start of the writeback stage
-    //input [4:0] WBWriteReg,
+    input [4:0] WBWriteReg,
     //Mem result from the start of the writeback stage
-    //input [31:0] WB_result,
+    input [31:0] WB_result,
     //Instruction [debug] to MEM
     output reg [31:0] Instr1_OUT,
     //PC [debug] to MEM
