@@ -15,7 +15,7 @@
 //
 // Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module NextInstructionCalculator(
@@ -56,14 +56,15 @@ module NextInstructionCalculator(
     //assign NextInstructionAddress = signExtended_shifted_immediate+jumpDestination_immediate+branchDestination_immediate;
 
 always @(Jump or JumpRegister or RegisterValue or Instr_PC_Plus4 or Instruction) begin
-    if(Jump) begin
-       /* Jump Destination is calculated above, this just sets it */
-       NextInstructionAddress = jumpDestination_immediate;
-    end
-    else if(JumpRegister) begin
+    if(JumpRegister) begin
         /* Jumping to register value, assigned here */
         NextInstructionAddress = RegisterValue;
     end
+    else if(Jump) begin
+       /* Jump Destination is calculated above, this just sets it */
+       NextInstructionAddress = jumpDestination_immediate;
+    end
+
     else begin
         NextInstructionAddress = branchDestination_immediate;
     end
