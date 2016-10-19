@@ -55,12 +55,12 @@ VL_MODULE(VMIPS_EXE) {
     //char	__VpadToAlign70[2];
     VL_SIG(__PVT__A1,31,0);
     VL_SIG(__PVT__B1,31,0);
+    VL_SIG(__PVT__valueA,31,0);
     VL_SIG(__PVT__ALU_result1,31,0);
     VL_SIG(HI,31,0);
     VL_SIG(LO,31,0);
     VL_SIG(__PVT__HI_new1,31,0);
     VL_SIG(__PVT__LO_new1,31,0);
-    //char	__VpadToAlign100[4];
     VL_SIG64(__PVT__ALU1__DOT__temp,63,0);
     
     // LOCAL VARIABLES

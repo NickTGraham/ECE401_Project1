@@ -184,7 +184,7 @@ module MIPS (
         .MemWrite1_IN(MemWrite1_IDEXE),
         .ShiftAmount1_IN(ShiftAmount1_IDEXE),
         .MemWriteReg(WriteRegister1_EXEMEM), //NEW
-        .Mem_ALU_result(MemWriteData1_EXEMEM), //NEW
+        .Mem_ALU_result(ALU_result1_EXEMEM), //NEW
         .MemWriteValid(RegWrite1_EXEMEM), //NEW
         .WBWriteReg(WriteRegister1_MEMWB), //NEW
         .WB_result(WriteData1_MEMWB), //NEW
