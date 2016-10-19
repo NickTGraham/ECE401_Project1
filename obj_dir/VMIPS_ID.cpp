@@ -75,6 +75,7 @@ VL_CTOR_IMP(VMIPS_ID) {
     __PVT__NIA1__DOT__jumpDestination_immediate = VL_RAND_RESET_I(32);
     __PVT__NIA1__DOT__branchDestination_immediate = VL_RAND_RESET_I(32);
     __Vdly__syscall_bubble_counter = VL_RAND_RESET_I(3);
+    __Vdly__Alt_PC = VL_RAND_RESET_I(32);
 }
 
 void VMIPS_ID::__Vconfigure(VMIPS__Syms* vlSymsp, bool first) {
@@ -94,6 +95,7 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__1(VMIPS__Syms* __restrict vlS
     // Body
     vlSymsp->TOP__v__ID.__Vdly__syscall_bubble_counter 
 	= vlSymsp->TOP__v__ID.__PVT__syscall_bubble_counter;
+    vlSymsp->TOP__v__ID.__Vdly__Alt_PC = vlSymsp->TOP__v__ID.__PVT__Alt_PC;
 }
 
 VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__3(VMIPS__Syms* __restrict vlSymsp) {
@@ -102,26 +104,6 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__3(VMIPS__Syms* __restrict vlS
     // Body
     // ALWAYS at verilog//ID.v:204
     if (vlTOPp->RESET) {
-	if (vlSymsp->TOP__v__ID.__PVT__jumpRegister_Flag1) {
-	    if ((((0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-			    >> 0x15U)) == (IData)(vlSymsp->TOP__v__ID.__PVT__EXEWriteReg)) 
-		 & (IData)(vlSymsp->TOP__v__ID.__PVT__EXEWriteValid))) {
-		vlSymsp->TOP__v__ID.__PVT__FORCE_FREEZE = 1U;
-	    } else {
-		vlSymsp->TOP__v__ID.__PVT__Alt_PC = 
-		    ((((0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-				 >> 0x15U)) == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
-		      & (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT))
-		      ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT
-		      : ((((0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-				     >> 0x15U)) == (IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB)) 
-			  & (IData)(vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB))
-			  ? vlSymsp->TOP__v.__PVT__WriteData1_MEMWB
-			  : vlSymsp->TOP__v__ID.__PVT__Alt_PC1));
-	    }
-	} else {
-	    vlSymsp->TOP__v__ID.__PVT__Alt_PC = vlSymsp->TOP__v__ID.__PVT__Alt_PC1;
-	}
 	vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC = vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC1;
 	vlSymsp->TOP__v__ID.__PVT__ReadRegisterA1_OUT 
 	    = vlSymsp->TOP__v__ID.__PVT__RegA1;
@@ -226,18 +208,39 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__3(VMIPS__Syms* __restrict vlS
 		    = vlSymsp->TOP__v.__PVT__Instr_PC_IFID;
 	    }
 	}
-	VL_WRITEF("ID1:Instr=%x,Instr_PC=%x,Req_Alt_PC=%1u:Alt_PC=%x;SYS=%1u(%1u)\n",
+	VL_WRITEF("ID1:Instr=%x,Instr_PC=%x,Req_Alt_PC=%1u:Alt_PC=%x;SYS=%1u(%1u);  REAL Alt_PC=%x\n",
 		  32,vlSymsp->TOP__v.__PVT__Instr1_IFID,
 		  32,vlSymsp->TOP__v.__PVT__Instr_PC_IFID,
 		  1,(IData)(vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC1),
 		  32,vlSymsp->TOP__v__ID.__PVT__Alt_PC1,
 		  1,(IData)(vlSymsp->TOP__v__ID.__PVT__syscal1),
-		  3,vlSymsp->TOP__v__ID.__PVT__syscall_bubble_counter);
+		  3,vlSymsp->TOP__v__ID.__PVT__syscall_bubble_counter,
+		  32,vlSymsp->TOP__v__ID.__PVT__Alt_PC);
 	fflush (stdout);
+	if (vlSymsp->TOP__v__ID.__PVT__jumpRegister_Flag1) {
+	    if ((((0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+			    >> 0x15U)) == (IData)(vlSymsp->TOP__v__ID.__PVT__EXEWriteReg)) 
+		 & (IData)(vlSymsp->TOP__v__ID.__PVT__EXEWriteValid))) {
+		vlSymsp->TOP__v__ID.__PVT__FORCE_FREEZE = 1U;
+	    } else {
+		vlSymsp->TOP__v__ID.__Vdly__Alt_PC 
+		    = ((((0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+				   >> 0x15U)) == (IData)(vlSymsp->TOP__v__EXE.__PVT__WriteRegister1_OUT)) 
+			& (IData)(vlSymsp->TOP__v__EXE.__PVT__RegWrite1_OUT))
+		        ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT
+		        : ((((0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+				       >> 0x15U)) == (IData)(vlSymsp->TOP__v.__PVT__WriteRegister1_MEMWB)) 
+			    & (IData)(vlSymsp->TOP__v.__PVT__RegWrite1_MEMWB))
+			    ? vlSymsp->TOP__v.__PVT__WriteData1_MEMWB
+			    : vlSymsp->TOP__v__ID.__PVT__Alt_PC1));
+	    }
+	} else {
+	    vlSymsp->TOP__v__ID.__Vdly__Alt_PC = vlSymsp->TOP__v__ID.__PVT__Alt_PC1;
+	}
     } else {
 	VL_WRITEF("ID:RESET\n");
 	fflush (stdout);
-	vlSymsp->TOP__v__ID.__PVT__Alt_PC = 0U;
+	vlSymsp->TOP__v__ID.__Vdly__Alt_PC = 0U;
 	vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC = 0U;
 	vlSymsp->TOP__v__ID.__PVT__Instr1_OUT = 0U;
 	vlSymsp->TOP__v__ID.__PVT__OperandA1_OUT = 0U;
@@ -259,6 +262,7 @@ VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__3(VMIPS__Syms* __restrict vlS
     }
     vlSymsp->TOP__v__ID.__PVT__syscall_bubble_counter 
 	= vlSymsp->TOP__v__ID.__Vdly__syscall_bubble_counter;
+    vlSymsp->TOP__v__ID.__PVT__Alt_PC = vlSymsp->TOP__v__ID.__Vdly__Alt_PC;
 }
 
 VL_INLINE_OPT void VMIPS_ID::_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlSymsp) {

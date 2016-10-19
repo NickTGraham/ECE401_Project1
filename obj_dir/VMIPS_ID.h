@@ -84,9 +84,11 @@ VL_MODULE(VMIPS_ID) {
     // LOCAL VARIABLES
     VL_SIG8(__Vdly__syscall_bubble_counter,2,0);
     //char	__VpadToAlign121[3];
+    VL_SIG(__Vdly__Alt_PC,31,0);
     
     // INTERNAL VARIABLES
   private:
+    //char	__VpadToAlign132[4];
     VMIPS__Syms*	__VlSymsp;		// Symbol table
   public:
     
