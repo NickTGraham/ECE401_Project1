@@ -123,7 +123,7 @@ module MIPS (
     wire        MemRead1_IDEXE;
     wire        MemWrite1_IDEXE;
     wire [4:0]  ShiftAmount1_IDEXE;
-    wire [1:0]  Forward_A_IDEXE, Forward_B_IDEXE;
+    wire [4:0]  Forward_A_IDEXE, Forward_B_IDEXE;
 
 
 
@@ -136,10 +136,6 @@ module MIPS (
         .WriteRegister1_IN(WriteRegister1_MEMWB),
         .WriteData1_IN(WriteData1_MEMWB),
         .RegWrite1_IN(RegWrite1_MEMWB),
-        .ExeWriteReg(WriteRegister1_IDEXE), //NEW
-        .MemWriteReg(WriteRegister1_EXEMEM), //NEW
-        .Forward_A(Forward_A_IDEXE), //NEW
-        .Forward_B(Forward_B_IDEXE), //NEW
         .Alt_PC(Alt_PC_IDIF),
         .Request_Alt_PC(Request_Alt_PC_IDIF),
         .Instr1_OUT(Instr1_IDEXE),
@@ -147,8 +143,8 @@ module MIPS (
         .OperandA1_OUT(OperandA1_IDEXE),
         .OperandB1_OUT(OperandB1_IDEXE),
 /* verilator lint_off PINCONNECTEMPTY */
-        .ReadRegisterA1_OUT(),
-        .ReadRegisterB1_OUT(),
+        .ReadRegisterA1_OUT(Forward_A_IDEXE),
+        .ReadRegisterB1_OUT(Forward_B_IDEXE),
 /* verilator lint_on PINCONNECTEMPTY */
         .WriteRegister1_OUT(WriteRegister1_IDEXE),
         .MemWriteData1_OUT(MemWriteData1_IDEXE),
@@ -189,8 +185,10 @@ module MIPS (
         .ShiftAmount1_IN(ShiftAmount1_IDEXE),
         .MemWriteReg(WriteRegister1_EXEMEM), //NEW
         .Mem_ALU_result(MemWriteData1_EXEMEM), //NEW
+        .MemWriteValid(RegWrite1_EXEMEM), //NEW
         .WBWriteReg(WriteRegister1_MEMWB), //NEW
         .WB_result(WriteData1_MEMWB), //NEW
+        .WBWriteValid(RegWrite1_MEMWB), //NEW
         .Instr1_OUT(Instr1_EXEMEM),
         .Instr1_PC_OUT(Instr1_PC_EXEMEM),
         .ALU_result1_OUT(ALU_result1_EXEMEM),

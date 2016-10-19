@@ -26,11 +26,11 @@ module EXE(
     //Current instruction's PC [debug]
     input [31:0] Instr1_PC_IN,
     //forward A value
-    input [1:0] Forward_A,
+    input [4:0] Forward_A,
     //Operand A (if already known)
     input [31:0] OperandA1_IN,
     //forward B value
-    input [1:0] Forward_B,
+    input [4:0] Forward_B,
     //Operand B (if already known)
     input [31:0] OperandB1_IN,
     //Destination register
@@ -51,10 +51,13 @@ module EXE(
     input [4:0] MemWriteReg,
     //ALU result from Start of Mem Stage
     input [31:0] Mem_ALU_result,
+    //Mem valid Write
+    input MemWriteValid,
     //Write address from the start of the writeback stage
     input [4:0] WBWriteReg,
     //Mem result from the start of the writeback stage
     input [31:0] WB_result,
+    input WBWriteValid,
     //Instruction [debug] to MEM
     output reg [31:0] Instr1_OUT,
     //PC [debug] to MEM
@@ -79,13 +82,34 @@ module EXE(
 
      wire [31:0] A1;
      wire [31:0] B1;
+
+     wire replaceA, replaceB;
+     wire [31:0] valueA, valueB;
+
      wire[31:0]ALU_result1;
 
      wire comment1;
      assign comment1 = 1;
 
-assign A1 = OperandA1_IN;
-assign B1 = OperandB1_IN;
+     assign replaceA = (Forward_A==MemWriteReg & MemWriteValid) | (Forward_A==WBWriteReg & WBWriteValid);
+     assign valueA = (Forward_A==MemWriteReg & MemWriteValid)?Mem_ALU_result:WB_result;
+     assign A1 = replaceA?valueA:OperandA1_IN;
+
+     assign replaceB = (Forward_B==MemWriteReg & MemWriteValid) | (Forward_B==WBWriteReg & WBWriteValid);
+     assign valueB = (Forward_B==MemWriteReg & MemWriteValid)?Mem_ALU_result:WB_result;
+     assign B1 = replaceB?valueB:OperandB1_IN;
+    /* This is what I want, can't do this though, not sure if putting it in always would work?
+    if (Forward_A == MemWriteReg) begin
+        assign A1 = Mem_ALU_result;
+    end
+    else if (Forward_A == WBWriteReg) begin
+        assign A1 = WB_result;
+    end
+    else begin
+        assign A1 = OperandA1_IN;
+    end
+    */
+    //assign B1 = OperandB1_IN;
 
 reg [31:0] HI/*verilator public*/;
 reg [31:0] LO/*verilator public*/;
@@ -129,22 +153,48 @@ always @(posedge CLK or negedge RESET) begin
         MemWrite1_OUT <= 0;
         $display("EXE:RESET");
     end else if(CLK) begin
-       HI <= new_HI;
-       LO <= new_LO;
-            Instr1_OUT <= Instr1_IN;
-            Instr1_PC_OUT <= Instr1_PC_IN;
-            ALU_result1_OUT <= ALU_result1;
-            WriteRegister1_OUT <= WriteRegister1_IN;
-            MemWriteData1_OUT <= MemWriteData1;
-            RegWrite1_OUT <= RegWrite1_IN;
-            ALU_Control1_OUT <= ALU_Control1_IN;
-            MemRead1_OUT <= MemRead1_IN;
-            MemWrite1_OUT <= MemWrite1_IN;
-            if(comment1) begin
-                $display("EXE:Instr1=%x,Instr1_PC=%x,ALU_result1=%x; Write?%d to %d",Instr1_IN,Instr1_PC_IN,ALU_result1, RegWrite1_IN, WriteRegister1_IN);
-                //$display("EXE:ALU_Control1=%x; MemRead1=%d; MemWrite1=%d (Data:%x)",ALU_Control1_IN, MemRead1_IN, MemWrite1_IN, MemWriteData1);
-                //$display("EXE:OpA1=%x; OpB1=%x; HI=%x; LO=%x", A1, B1, new_HI,new_LO);
-            end
+
+        //Here lies my failed attempt to do forwarding...
+        /*if (Forward_A == MemWriteReg & MemWriteValid) begin
+            A1 <= Mem_ALU_result;
+            $display("Forwarding A from Mem");
+        end
+        else if (Forward_A == WBWriteReg & WBWriteValid) begin
+            A1 <= WB_result;
+            $display("Forwarding A from WB");
+        end
+        else begin
+            A1 <= OperandA1_IN;
+        end
+
+        if (Forward_B == MemWriteReg & MemWriteValid) begin
+            B1 <= Mem_ALU_result;
+            $display("Forwarding B from Mem");
+        end
+        else if (Forward_B == WBWriteReg & WBWriteValid) begin
+            B1 <= WB_result;
+            $display("Forwarding B from WB");
+        end
+        else begin
+            B1 <= OperandB1_IN;
+        end*/
+
+        HI <= new_HI;
+        LO <= new_LO;
+        Instr1_OUT <= Instr1_IN;
+        Instr1_PC_OUT <= Instr1_PC_IN;
+        ALU_result1_OUT <= ALU_result1;
+        WriteRegister1_OUT <= WriteRegister1_IN;
+        MemWriteData1_OUT <= MemWriteData1;
+        RegWrite1_OUT <= RegWrite1_IN;
+        ALU_Control1_OUT <= ALU_Control1_IN;
+        MemRead1_OUT <= MemRead1_IN;
+        MemWrite1_OUT <= MemWrite1_IN;
+        if(comment1) begin
+            $display("EXE:Instr1=%x,Instr1_PC=%x,ALU_result1=%x; Write?%d to %d",Instr1_IN,Instr1_PC_IN,ALU_result1, RegWrite1_IN, WriteRegister1_IN);
+            $display("EXE:ALU_Control1=%x; MemRead1=%d; MemWrite1=%d (Data:%x)",ALU_Control1_IN, MemRead1_IN, MemWrite1_IN, MemWriteData1);
+            $display("EXE:OpA1=%x; OpB1=%x; HI=%x; LO=%x; ForA=%b; ForB=%b", A1, B1, new_HI,new_LO, replaceA, replaceB);
+        end
     end
 end
 

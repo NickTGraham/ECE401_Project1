@@ -35,12 +35,6 @@ module ID(
      //Actually write to register file?
      input RegWrite1_IN,
 
-    //Forwarding Logic
-    input [4:0] ExeWriteReg,
-    input [4:0] MemWriteReg,
-
-    output reg [1:0] Forward_A,
-    output reg [1:0] Forward_B,
     //Alternate PC for next fetch (branch/jump destination)
     output reg [31:0]Alt_PC,
     //Actually use alternate PC
@@ -218,13 +212,12 @@ always @(posedge CLK or negedge RESET) begin
         syscall_bubble_counter <= 0;
         FORCE_FREEZE <= 0;
         INHIBIT_FREEZE <= 0;
-        Forward_A <= 0;
-        Forward_B <= 0;
     $display("ID:RESET");
     end else begin
             Alt_PC <= Alt_PC1;
             Request_Alt_PC <= Request_Alt_PC1;
-            //$display("ID:evaluation SBC=%d; syscal1=%d",syscall_bubble_counter,syscal1);
+            ReadRegisterA1_OUT <= RegA1;
+            ReadRegisterB1_OUT <= RegB1;
             case (syscall_bubble_counter)
                 5,4,3: begin
                     //$display("ID:Decrement sbc");
