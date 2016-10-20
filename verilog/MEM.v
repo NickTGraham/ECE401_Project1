@@ -64,8 +64,10 @@ module MEM(
      output MemWrite_2DM,
 
      //Forwarding unit
+     /* verilator lint_off UNUSED */
      input [1:0] MEM_Data_select,
-     input [31:0] WB_Data_forward
+     /* verilator lint_on UNUSED */
+     output [31:0] MEM_Data_Forward
     );
 
      //Variables for Memory Module Inputs/Outputs:
@@ -92,7 +94,7 @@ module MEM(
 
      wire [31:0] Data_to_be_Written;
 
-    assign Data_to_be_Written = (MEM_Data_select == 2'b1)?WB_Data_forward:MemWriteData1_IN;
+    assign Data_to_be_Written = MemWriteData1_IN;
     assign MemWrite = MemWrite1_IN;
     assign MemRead = MemRead1_IN;
     assign ALU_result = ALU_result1_IN;
@@ -106,6 +108,7 @@ module MEM(
     assign MemRead_2DM = MemRead;
     assign MemWrite_2DM = MemWrite;
 
+    assign MEM_Data_Forward = WriteData1;
 
     reg [31:0]WriteData1;
 

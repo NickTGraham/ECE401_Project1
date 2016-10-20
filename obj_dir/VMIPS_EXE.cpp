@@ -1257,8 +1257,8 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict v
     // Body
     // ALWAYS at verilog//EXE.v:126
     VL_WRITEF("!!!EXE RegA_Select[%b] RegB_Select[%b] \n",
-	      2,vlSymsp->TOP__v__ID.__PVT__EXE_A_Select_FU,
-	      2,(IData)(vlSymsp->TOP__v__ID.__PVT__EXE_B_Select_FU));
+	      2,vlSymsp->TOP__v.__PVT__EXE_A_Select_FU,
+	      2,(IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU));
     fflush (stdout);
     if (VL_LIKELY(vlTOPp->RESET)) {
 	if (VL_UNLIKELY(vlTOPp->CLK)) {
@@ -1315,18 +1315,18 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict v
     }
 }
 
-VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__5(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__5\n"); );
+VL_INLINE_OPT void VMIPS_EXE::_combo__TOP__v__EXE__5(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_combo__TOP__v__EXE__5\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlSymsp->TOP__v__EXE.__PVT__A1 = ((1U == (IData)(vlSymsp->TOP__v__ID.__PVT__EXE_A_Select_FU))
-				       ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT
-				       : ((2U == (IData)(vlSymsp->TOP__v__ID.__PVT__EXE_A_Select_FU))
-					   ? vlSymsp->TOP__v.__PVT__WriteData1_MEMWB
+    vlSymsp->TOP__v__EXE.__PVT__A1 = ((1U == (IData)(vlSymsp->TOP__v.__PVT__EXE_A_Select_FU))
+				       ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1
+				       : ((2U == (IData)(vlSymsp->TOP__v.__PVT__EXE_A_Select_FU))
+					   ? vlSymsp->TOP__v.__PVT__MEM__DOT__WriteData1
 					   : vlSymsp->TOP__v__ID.__PVT__OperandA1_OUT));
-    vlSymsp->TOP__v__EXE.__PVT__B1 = ((1U == (IData)(vlSymsp->TOP__v__ID.__PVT__EXE_B_Select_FU))
-				       ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1_OUT
-				       : ((2U == (IData)(vlSymsp->TOP__v__ID.__PVT__EXE_B_Select_FU))
-					   ? vlSymsp->TOP__v.__PVT__WriteData1_MEMWB
+    vlSymsp->TOP__v__EXE.__PVT__B1 = ((1U == (IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU))
+				       ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1
+				       : ((2U == (IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU))
+					   ? vlSymsp->TOP__v.__PVT__MEM__DOT__WriteData1
 					   : vlSymsp->TOP__v__ID.__PVT__OperandB1_OUT));
 }

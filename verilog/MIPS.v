@@ -128,6 +128,8 @@ module MIPS (
     wire jump_IDFU;
     wire jump_reg_IDFU;
     wire immediate_IDFU;
+    wire [31:0] FWD_ALU_Result_Wire;
+    wire [31:0] FWD_MEM_Result_Wire;
     ID ID(
         .CLK(CLK),
         .RESET(RESET),
@@ -154,14 +156,15 @@ module MIPS (
         .MemRead1_OUT(MemRead1_IDEXE),
         .MemWrite1_OUT(MemWrite1_IDEXE),
         .ShiftAmount1_OUT(ShiftAmount1_IDEXE),
-        .EXE_A_Select_FU(EXE_A_Select_FU),
-        .EXE_B_Select_FU(EXE_B_Select_FU),
-        .MEM_Data_select_FU(MEM_Data_select_FU),
+        .Branch_JR_select_A_FU(Branch_JR_select_A_FU),
+        .Branch_JR_select_B_FU(Branch_JR_select_B_FU),
         .link_out(link_IDFU),
         .branch_out(branch_IDFU),
         .jump_out(jump_IDFU),
         .jump_reg_out(jump_reg_IDFU),
         .use_rd(immediate_IDFU),
+        .Fwd_ALU_Result(FWD_ALU_Result_Wire),
+        .Fwd_Mem_result(FWD_MEM_Result_Wire),
         .SYS(SYS),
         .WANT_FREEZE(STALL_IDIF)
     );
@@ -232,8 +235,8 @@ module MIPS (
         .RegA_Select(EXE_A_Select_FU),
         .RegB_Select(EXE_B_Select_FU),
         .MEM_Data_select(MEM_Data_select_FU),
-        .ALU_result_forward(ALU_result1_EXEMEM),
-        .Mem_result_forward(WriteData1_MEMWB),
+        .ALU_result_forward(FWD_ALU_Result_Wire),
+        .Mem_result_forward(FWD_MEM_Result_Wire),
 
         .MEM_Data_select_out(MEM_Data_select_EXEMEM)
     );
@@ -290,7 +293,7 @@ module MIPS (
         .MemRead_2DM(read_2DC),
         .MemWrite_2DM(write_2DC),
         .MEM_Data_select(MEM_Data_select_EXEMEM),
-        .WB_Data_forward(WriteData1_MEMWB)
+        .MEM_Data_Forward(FWD_MEM_Result_Wire)
     );
 
 

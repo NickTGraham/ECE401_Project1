@@ -68,15 +68,15 @@ module ID(
     output reg [4:0]ShiftAmount1_OUT,
 
     //Output info for the forwarding unit
-    output reg [1:0] EXE_A_Select_FU,
-    output reg [1:0] EXE_B_Select_FU,
-    output reg [1:0] MEM_Data_select_FU,
+    input reg [1:0] Branch_JR_select_A_FU,
+    input reg [1:0] Branch_JR_select_B_FU,
     output link_out,
     output branch_out,
     output jump_out,
     output jump_reg_out,
     output use_rd,
-
+    input [31:0] Fwd_ALU_Result,
+    input [31:0] Fwd_Mem_result,
      //Tell the simulator to process a system call
      output reg SYS,
      //Tell fetch to stop advancing the PC, and wait.
@@ -121,9 +121,6 @@ module ID(
      wire [4:0]     rd1;
      wire [4:0]     shiftAmount1;
      wire [15:0]    immediate1;
-     wire [1:0] EXE_A_Select_FU_wire;
-     wire [1:0] EXE_B_Select_FU_wire;
-     wire [1:0] MEM_Data_select_FU_wire;
 
     reg [2:0]	syscall_bubble_counter;
 
@@ -143,7 +140,9 @@ module ID(
 
     wire [31:0] rsval_jump1;
 
-    assign rsval_jump1 = rsRawVal1;
+    //assign rsval_jump1 = rsRawVal1;
+    //this shoulf forward the values needed for jr instructions
+    assign rsval_jump1 = (Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:((Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:rsRawVal1);
 
 NextInstructionCalculator NIA1 (
     .Instr_PC_Plus4(Instr_PC_Plus4_IN),
@@ -170,9 +169,9 @@ compare branch_compare1 (
     );
 //End branch/jump calculation
 
-//Handle pipelining
-assign rsval1 = rsRawVal1;
-assign rtval1 = rtRawVal1;
+//Handle pipelining, now gets forwarded values.
+assign rsval1 = ((Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:rsRawVal1);
+assign rtval1 = ((Branch_JR_select_B_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_B_FU == 2'd2)?Fwd_Mem_result:rtRawVal1);
 
 
     assign WriteRegister1 = RegDst1?rd1:(link1?5'd31:rt1);
@@ -234,9 +233,6 @@ always @(posedge CLK or negedge RESET) begin
             Request_Alt_PC <= Request_Alt_PC1;
             ReadRegisterA1_OUT <= RegA1;
             ReadRegisterB1_OUT <= RegB1;
-            EXE_A_Select_FU <= EXE_A_Select_FU_wire;
-            EXE_B_Select_FU <= EXE_B_Select_FU_wire;
-            MEM_Data_select_FU <= MEM_Data_select_FU_wire;
             case (syscall_bubble_counter)
                 5,4,3: begin
                     //$display("ID:Decrement sbc");

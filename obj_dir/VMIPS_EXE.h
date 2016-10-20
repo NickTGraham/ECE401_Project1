@@ -44,7 +44,7 @@ VL_MODULE(VMIPS_EXE) {
     VL_OUT(__PVT__Instr1_PC_OUT,31,0);
     VL_OUT(__PVT__ALU_result1_OUT,31,0);
     VL_OUT(__PVT__MemWriteData1_OUT,31,0);
-    VL_IN(__PVT__ALU_result_forward,31,0);
+    VL_OUT(__PVT__ALU_result_forward,31,0);
     VL_IN(__PVT__Mem_result_forward,31,0);
     
     // LOCAL SIGNALS
@@ -80,9 +80,9 @@ VL_MODULE(VMIPS_EXE) {
     
     // INTERNAL METHODS
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
+    static void	_combo__TOP__v__EXE__5(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__EXE__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__EXE__5(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
 #endif  /*guard*/

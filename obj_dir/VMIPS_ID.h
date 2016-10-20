@@ -32,12 +32,16 @@ VL_MODULE(VMIPS_ID) {
     VL_OUT8(__PVT__MemRead1_OUT,0,0);
     VL_OUT8(__PVT__MemWrite1_OUT,0,0);
     VL_OUT8(__PVT__ShiftAmount1_OUT,4,0);
-    VL_OUT8(__PVT__EXE_A_Select_FU,1,0);
-    VL_OUT8(__PVT__EXE_B_Select_FU,1,0);
-    VL_OUT8(__PVT__MEM_Data_select_FU,1,0);
+    VL_IN8(__PVT__Branch_JR_select_A_FU,1,0);
+    VL_IN8(__PVT__Branch_JR_select_B_FU,1,0);
+    VL_OUT8(__PVT__link_out,0,0);
+    VL_OUT8(__PVT__branch_out,0,0);
+    VL_OUT8(__PVT__jump_out,0,0);
+    VL_OUT8(__PVT__jump_reg_out,0,0);
+    VL_OUT8(__PVT__use_rd,0,0);
     VL_OUT8(__PVT__SYS,0,0);
     VL_OUT8(__PVT__WANT_FREEZE,0,0);
-    //char	__VpadToAlign18[2];
+    //char	__VpadToAlign22[2];
     VL_IN(__PVT__Instr1_IN,31,0);
     VL_IN(__PVT__Instr_PC_IN,31,0);
     VL_IN(__PVT__Instr_PC_Plus4_IN,31,0);
@@ -48,6 +52,8 @@ VL_MODULE(VMIPS_ID) {
     VL_OUT(__PVT__OperandA1_OUT,31,0);
     VL_OUT(__PVT__OperandB1_OUT,31,0);
     VL_OUT(__PVT__MemWriteData1_OUT,31,0);
+    VL_IN(__PVT__Fwd_ALU_Result,31,0);
+    VL_IN(__PVT__Fwd_Mem_result,31,0);
     
     // LOCAL SIGNALS
     VL_SIG8(__PVT__ALU_control1,5,0);
@@ -66,35 +72,25 @@ VL_MODULE(VMIPS_ID) {
     VL_SIG8(__PVT__RegA1,4,0);
     VL_SIG8(__PVT__RegB1,4,0);
     VL_SIG8(__PVT__WriteRegister1,4,0);
-    VL_SIG8(__PVT__EXE_A_Select_FU_wire,1,0);
-    VL_SIG8(__PVT__EXE_B_Select_FU_wire,1,0);
-    VL_SIG8(__PVT__MEM_Data_select_FU_wire,1,0);
     VL_SIG8(__PVT__syscall_bubble_counter,2,0);
-    VL_SIG8(__PVT__FORCE_FREEZE,0,0);
-    VL_SIG8(__PVT__INHIBIT_FREEZE,0,0);
-    VL_SIG8(__PVT__FwrdUnit__DOT__EXE_WriteReg,4,0);
-    VL_SIG8(__PVT__FwrdUnit__DOT__EXE_Valid_Write,0,0);
-    VL_SIG8(__PVT__FwrdUnit__DOT__MEM_WriteReg,4,0);
-    VL_SIG8(__PVT__FwrdUnit__DOT__MEM_Valid_Write,0,0);
-    VL_SIG8(__PVT__FwrdUnit__DOT__WB_WriteReg,4,0);
-    VL_SIG8(__PVT__FwrdUnit__DOT__WB_Valid_Write,0,0);
-    VL_SIG8(__PVT__FwrdUnit__DOT__rt,4,0);
     //char	__VpadToAlign93[3];
     VL_SIG(__PVT__Alt_PC1,31,0);
     VL_SIG(__PVT__OpA1,31,0);
     VL_SIG(__PVT__OpB1,31,0);
+    VL_SIG(__PVT__rtval1,31,0);
+    VL_SIG(__PVT__rsval_jump1,31,0);
     VL_SIG(__PVT__NIA1__DOT__jumpDestination_immediate,31,0);
     VL_SIG(__PVT__NIA1__DOT__branchDestination_immediate,31,0);
     
     // LOCAL VARIABLES
     VL_SIG8(__Vdly__Request_Alt_PC,0,0);
     VL_SIG8(__Vdly__syscall_bubble_counter,2,0);
-    //char	__VpadToAlign122[2];
+    //char	__VpadToAlign130[2];
     VL_SIG(__Vdly__Alt_PC,31,0);
     
     // INTERNAL VARIABLES
   private:
-    //char	__VpadToAlign132[4];
+    //char	__VpadToAlign140[4];
     VMIPS__Syms*	__VlSymsp;		// Symbol table
   public:
     
@@ -114,16 +110,17 @@ VL_MODULE(VMIPS_ID) {
     
     // INTERNAL METHODS
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
-    static void	_multiclk__TOP__v__ID__10(VMIPS__Syms* __restrict vlSymsp);
-    static void	_multiclk__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__ID__10(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__ID__12(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__1(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__ID__2(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__ID__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__ID__5(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__ID__9(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__ID__11(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__5(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__9(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
 #endif  /*guard*/

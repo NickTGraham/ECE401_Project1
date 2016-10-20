@@ -67,7 +67,7 @@ module ForwardingUnit(
     */
 
     //Actually in the end, I could not rewrite it, and they are the same...
-    wire [1:0] EXE_A_Select_Wire, EXE_B_Select_Wire, MEM_Data_select_Wire, Branch_JR_select_A_Wire, Branch_JR_select_B_Wire;
+    wire [1:0] EXE_A_Select_Wire, EXE_B_Select_Wire, MEM_Data_select_Wire;
 
     //If 1 pull value in from PC-4, if 2 pull from PC-8 if 3 pull from PC-12 otherwise use regular value. This is done in the EXE Stage
     assign EXE_A_Select_Wire = (PC_4_WriteReg != 0 & !link & PC_4_WriteReg == rs)?2'd1:(!link & PC_8_WriteReg != 0 & PC_8_WriteReg == rs)?2'd2:(!link & PC_12_WriteReg !=0 & PC_12_WriteReg == rs)?2'd3:2'd0;
@@ -76,9 +76,10 @@ module ForwardingUnit(
     assign MEM_Data_select_Wire = (PC_4_WriteReg != 0 & store & PC_4_WriteReg == rt)?2'd1:(store & PC_8_WriteReg != 0 & PC_8_WriteReg == rt)?2'd2:(store & PC_12_WriteReg !=0 & PC_12_WriteReg == rt)?2'd3:2'd0;
 
     //Now to forward for branches or for jump registers, to be handled in decode stage. I think this can happed even if a link too...
-    assign Branch_JR_select_A_Wire = (PC_4_WriteReg != 0 & PC_4_WriteReg == rs)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rs)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rs)?2'd3:2'd0;
-    assign Branch_JR_select_B_Wire = (PC_4_WriteReg != 0 &  PC_4_WriteReg == rt)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rt)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rt)?2'd3:2'd0;
+    assign Branch_JR_select_A = (PC_4_WriteReg != 0 & PC_4_WriteReg == rs)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rs)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rs)?2'd3:2'd0;
+    assign Branch_JR_select_B = (PC_4_WriteReg != 0 &  PC_4_WriteReg == rt)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rt)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rt)?2'd3:2'd0;
 
+    assign MEM_Data_select = 2'b0; //I am unsure if this is needed, I don't know. I am tired.
 
     always @(posedge CLK) begin
         if (0) begin
