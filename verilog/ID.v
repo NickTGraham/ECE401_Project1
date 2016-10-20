@@ -172,8 +172,8 @@ compare branch_compare1 (
 //End branch/jump calculation
 
 //Handle pipelining, now gets forwarded values.
-assign rsval1 = ((Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:rsRawVal1);
-assign rtval1 = ((Branch_JR_select_B_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_B_FU == 2'd2)?Fwd_Mem_result:rtRawVal1);
+assign rsval1 = ((Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:(rs1 == WriteRegister1_IN & RegWrite1_IN)?WriteData1_IN:rsRawVal1);
+assign rtval1 = ((Branch_JR_select_B_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_B_FU == 2'd2)?Fwd_Mem_result:(rt1 == WriteRegister1_IN & RegWrite1_IN)?WriteData1_IN:rtRawVal1);
 
 
     assign WriteRegister1 = RegDst1?rd1:(link1?5'd31:rt1);
