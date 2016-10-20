@@ -187,7 +187,7 @@ module MIPS (
         .jump(jump_IDFU),
         .jump_register(jump_reg_IDFU),
         .link(link_IDFU), //get from ID
-        .immediate(!immediate_IDFU),
+        .immediate(immediate_IDFU),
         .load(MemRead1_IDEXE),
         .store(MemWrite1_IDEXE),
         .reg_write(reg_write_IDFU),

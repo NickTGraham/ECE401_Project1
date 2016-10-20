@@ -713,11 +713,11 @@ void VMIPS_MIPS::_settle__TOP__v__10(VMIPS__Syms* __restrict vlSymsp) {
 						   : 0U)));
     vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__rt = (0x1fU 
 						& ((IData)(vlSymsp->TOP__v__ID.__PVT__RegDst1)
-						    ? 0U
-						    : 
+						    ? 
 						   (0x1fU 
 						    & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-						       >> 0xbU))));
+						       >> 0x10U))
+						    : 0U));
 }
 
 VL_INLINE_OPT void VMIPS_MIPS::_combo__TOP__v__11(VMIPS__Syms* __restrict vlSymsp) {
@@ -1167,11 +1167,11 @@ VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__12(VMIPS__Syms* __restrict vlSy
 						   : 0U)));
     vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__rt = (0x1fU 
 						& ((IData)(vlSymsp->TOP__v__ID.__PVT__RegDst1)
-						    ? 0U
-						    : 
+						    ? 
 						   (0x1fU 
 						    & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-						       >> 0xbU))));
+						       >> 0x10U))
+						    : 0U));
     vlSymsp->TOP__v.Instr_address_2IC = ((IData)(vlSymsp->TOP__v.__PVT__STALL_IDIF)
 					  ? vlSymsp->TOP__v.__PVT__Instr_PC_Plus4_IFID
 					  : ((IData)(vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC)

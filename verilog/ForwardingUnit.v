@@ -47,8 +47,8 @@ module ForwardingUnit(
     wire [4:0] rt;// = ID_Instruction[20:16];
     wire [4:0] rd;// = ID_Instruction[15:11];
 
-    assign rt = immediate?ID_Instruction[15:11]:0;
-    assign rd = immediate?ID_Instruction[20:16]:ID_Instruction[15:11];
+    assign rt = immediate?ID_Instruction[20:16]:0;
+    assign rd = immediate?ID_Instruction[15:11]:ID_Instruction[20:16];
     //Not gaurenteed to be true.
     //assign EXE_RegA = ID_Instruction[25:21];
     //assign EXE_RegB = ID_Instruction[20:16];

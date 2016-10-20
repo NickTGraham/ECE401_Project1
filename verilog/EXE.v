@@ -68,8 +68,9 @@ module EXE(
     input [1:0] MEM_Data_select,
     output [31:0] ALU_result_forward,
     input [31:0] Mem_result_forward,
+    /* verilator lint_off UNUSED */
     input [31:0] WB_result_forward,
-
+    /* verilator lint_on UNUSED */
     output [1:0] MEM_Data_select_out
     );
 
@@ -89,8 +90,8 @@ module EXE(
     //  assign replaceB = (Forward_B==MemWriteReg & MemWriteValid) | (Forward_B==WBWriteReg & WBWriteValid);
     //  assign valueB = (Forward_B==MemWriteReg & MemWriteValid)?Mem_ALU_result:WB_result;
     //  assign B1 = replaceB?valueB:OperandB1_IN;
-    assign A1 = (RegA_Select == 2'd1)?ALU_result_forward:((RegA_Select == 2'd2)?Mem_result_forward:((RegA_Select == 2'd3)?WB_result_forward:OperandA1_IN));
-    assign B1 = (RegB_Select == 2'd1)?ALU_result_forward:((RegB_Select == 2'd2)?Mem_result_forward:((RegB_Select == 2'd3)?WB_result_forward:OperandB1_IN));
+    assign A1 = (RegA_Select == 2'd1)?ALU_result_forward:((RegA_Select == 2'd2)?Mem_result_forward:((RegA_Select == 2'd3)?OperandA1_IN:OperandA1_IN));
+    assign B1 = (RegB_Select == 2'd1)?ALU_result_forward:((RegB_Select == 2'd2)?Mem_result_forward:((RegB_Select == 2'd3)?OperandB1_IN:OperandB1_IN));
     assign MEM_Data_select_out = MEM_Data_select;
     //assign B1 = OperandB1_IN;
     assign ALU_result_forward = ALU_result1;
