@@ -55,6 +55,7 @@ VL_MODULE(VMIPS_ID) {
     VL_OUT(__PVT__MemWriteData1_OUT,31,0);
     VL_IN(__PVT__Fwd_ALU_Result,31,0);
     VL_IN(__PVT__Fwd_Mem_result,31,0);
+    VL_OUT(__PVT__Fwd_Wb_result,31,0);
     
     // LOCAL SIGNALS
     VL_SIG8(__PVT__ALU_control1,5,0);
@@ -74,7 +75,7 @@ VL_MODULE(VMIPS_ID) {
     VL_SIG8(__PVT__RegB1,4,0);
     VL_SIG8(__PVT__WriteRegister1,4,0);
     VL_SIG8(__PVT__syscall_bubble_counter,2,0);
-    //char	__VpadToAlign93[3];
+    //char	__VpadToAlign97[3];
     VL_SIG(__PVT__Alt_PC1,31,0);
     VL_SIG(__PVT__OpA1,31,0);
     VL_SIG(__PVT__OpB1,31,0);
@@ -86,12 +87,11 @@ VL_MODULE(VMIPS_ID) {
     // LOCAL VARIABLES
     VL_SIG8(__Vdly__Request_Alt_PC,0,0);
     VL_SIG8(__Vdly__syscall_bubble_counter,2,0);
-    //char	__VpadToAlign130[2];
+    //char	__VpadToAlign134[2];
     VL_SIG(__Vdly__Alt_PC,31,0);
     
     // INTERNAL VARIABLES
   private:
-    //char	__VpadToAlign140[4];
     VMIPS__Syms*	__VlSymsp;		// Symbol table
   public:
     

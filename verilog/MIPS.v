@@ -131,6 +131,7 @@ module MIPS (
     wire immediate_IDFU;
     wire [31:0] FWD_ALU_Result_Wire;
     wire [31:0] FWD_MEM_Result_Wire;
+    wire [31:0] FWD_WB_Result_Wire;
     ID ID(
         .CLK(CLK),
         .RESET(RESET),
@@ -167,6 +168,7 @@ module MIPS (
         .use_rd(immediate_IDFU),
         .Fwd_ALU_Result(FWD_ALU_Result_Wire),
         .Fwd_Mem_result(FWD_MEM_Result_Wire),
+        .Fwd_Wb_result(FWD_WB_Result_Wire),
         .SYS(SYS),
         .WANT_FREEZE(STALL_IDIF)
     );
@@ -239,6 +241,7 @@ module MIPS (
         .MEM_Data_select(MEM_Data_select_FU),
         .ALU_result_forward(FWD_ALU_Result_Wire),
         .Mem_result_forward(FWD_MEM_Result_Wire),
+        .WB_result_forward(FWD_WB_Result_Wire),
 
         .MEM_Data_select_out(MEM_Data_select_EXEMEM)
     );

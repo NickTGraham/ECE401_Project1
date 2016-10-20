@@ -78,6 +78,7 @@ module ID(
     output use_rd,
     input [31:0] Fwd_ALU_Result,
     input [31:0] Fwd_Mem_result,
+    output [31:0] Fwd_Wb_result,
      //Tell the simulator to process a system call
      output reg SYS,
      //Tell fetch to stop advancing the PC, and wait.
@@ -138,6 +139,7 @@ module ID(
      assign jump_out = jump1;
      assign jump_reg_out = jumpRegister_Flag1;
      assign use_rd = RegDst1;
+     assign Fwd_Wb_result = WriteData1_IN;
 //Begin branch/jump calculation
 
     wire [31:0] rsval_jump1;

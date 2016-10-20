@@ -43,6 +43,7 @@ VL_CTOR_IMP(VMIPS_EXE) {
     __PVT__MEM_Data_select = VL_RAND_RESET_I(2);
     __PVT__ALU_result_forward = VL_RAND_RESET_I(32);
     __PVT__Mem_result_forward = VL_RAND_RESET_I(32);
+    __PVT__WB_result_forward = VL_RAND_RESET_I(32);
     __PVT__MEM_Data_select_out = VL_RAND_RESET_I(2);
     __PVT__A1 = VL_RAND_RESET_I(32);
     __PVT__B1 = VL_RAND_RESET_I(32);
@@ -1255,7 +1256,7 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict v
     VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__4\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    // ALWAYS at verilog//EXE.v:126
+    // ALWAYS at verilog//EXE.v:127
     VL_WRITEF("!!!EXE RegA_Select[%b] RegB_Select[%b] \n",
 	      2,vlSymsp->TOP__v.__PVT__EXE_A_Select_FU,
 	      2,(IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU));
@@ -1323,10 +1324,14 @@ VL_INLINE_OPT void VMIPS_EXE::_combo__TOP__v__EXE__5(VMIPS__Syms* __restrict vlS
 				       ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1
 				       : ((2U == (IData)(vlSymsp->TOP__v.__PVT__EXE_A_Select_FU))
 					   ? vlSymsp->TOP__v.__PVT__MEM__DOT__WriteData1
-					   : vlSymsp->TOP__v__ID.__PVT__OperandA1_OUT));
+					   : ((3U == (IData)(vlSymsp->TOP__v.__PVT__EXE_A_Select_FU))
+					       ? vlSymsp->TOP__v.__PVT__WriteData1_MEMWB
+					       : vlSymsp->TOP__v__ID.__PVT__OperandA1_OUT)));
     vlSymsp->TOP__v__EXE.__PVT__B1 = ((1U == (IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU))
 				       ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1
 				       : ((2U == (IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU))
 					   ? vlSymsp->TOP__v.__PVT__MEM__DOT__WriteData1
-					   : vlSymsp->TOP__v__ID.__PVT__OperandB1_OUT));
+					   : ((3U == (IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU))
+					       ? vlSymsp->TOP__v.__PVT__WriteData1_MEMWB
+					       : vlSymsp->TOP__v__ID.__PVT__OperandB1_OUT)));
 }

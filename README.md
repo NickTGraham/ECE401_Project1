@@ -13,6 +13,7 @@ Pipelined MIPS Processor
 - [ ] Forwarding/Bypassing Logic
     - [x] Basic Implementation
     - [x] JALR & JR
-    - [ ] Handle when it is in the writeback stage during decode
+    - [x] Handle when it is in the writeback stage during decode
+    - [ ] Forward from Writeback to ALU
 	- [ ] Update Diagram to include this
 - [ ] Project Report

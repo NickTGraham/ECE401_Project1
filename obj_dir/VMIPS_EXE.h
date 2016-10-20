@@ -46,6 +46,7 @@ VL_MODULE(VMIPS_EXE) {
     VL_OUT(__PVT__MemWriteData1_OUT,31,0);
     VL_OUT(__PVT__ALU_result_forward,31,0);
     VL_IN(__PVT__Mem_result_forward,31,0);
+    VL_IN(__PVT__WB_result_forward,31,0);
     
     // LOCAL SIGNALS
     VL_SIG(__PVT__A1,31,0);
@@ -55,6 +56,7 @@ VL_MODULE(VMIPS_EXE) {
     VL_SIG(LO,31,0);
     VL_SIG(__PVT__HI_new1,31,0);
     VL_SIG(__PVT__LO_new1,31,0);
+    //char	__VpadToAlign100[4];
     VL_SIG64(__PVT__ALU1__DOT__temp,63,0);
     
     // LOCAL VARIABLES
