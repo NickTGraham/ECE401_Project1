@@ -71,6 +71,11 @@ module ID(
     output reg [1:0] EXE_A_Select_FU,
     output reg [1:0] EXE_B_Select_FU,
     output reg [1:0] MEM_Data_select_FU,
+    output link_out,
+    output branch_out,
+    output jump_out,
+    output jump_reg_out,
+    output use_rd,
 
      //Tell the simulator to process a system call
      output reg SYS,
@@ -129,7 +134,11 @@ module ID(
      assign rd1 = Instr1_IN[15:11];
      assign shiftAmount1 = Instr1_IN[10:6];
      assign immediate1 = Instr1_IN[15:0];
-
+     assign link_out = link1;
+     assign branch_out = branch1;
+     assign jump_out = jump1;
+     assign jump_reg_out = jumpRegister_Flag1;
+     assign use_rd = RegDst1;
 //Begin branch/jump calculation
 
     wire [31:0] rsval_jump1;
@@ -326,20 +335,20 @@ end
      .comment1(1'b1)
     );
 
-    ForwardingUnit FwrdUnit (
-        .CLK(!CLK),
-        .ID_Instruction(Instr1_IN),
-        .branch(branch1),
-        .jump(jump1),
-        .jump_register(jumpRegister_Flag1),
-        .immediate(!RegDst1),
-        .load(MemRead1),
-        .store(MemWrite1),
-        .reg_write(RegWrite1),
-        .EXE_A_Select(EXE_A_Select_FU_wire), //data select lines
-        .EXE_B_Select(EXE_B_Select_FU_wire),
-        .MEM_Data_select(MEM_Data_select_FU_wire),
-        .stall(WANT_FREEZE)
-    );
+    // ForwardingUnit FwrdUnit (
+    //     .CLK(!CLK),
+    //     .ID_Instruction(Instr1_IN),
+    //     .branch(branch1),
+    //     .jump(jump1),
+    //     .jump_register(jumpRegister_Flag1),
+    //     .immediate(!RegDst1),
+    //     .load(MemRead1),
+    //     .store(MemWrite1),
+    //     .reg_write(RegWrite1),
+    //     .EXE_A_Select(EXE_A_Select_FU_wire), //data select lines
+    //     .EXE_B_Select(EXE_B_Select_FU_wire),
+    //     .MEM_Data_select(MEM_Data_select_FU_wire),
+    //     .stall(WANT_FREEZE)
+    // );
 
 endmodule

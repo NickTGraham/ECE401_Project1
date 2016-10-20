@@ -123,12 +123,11 @@ module MIPS (
     wire        MemRead1_IDEXE;
     wire        MemWrite1_IDEXE;
     wire [4:0]  ShiftAmount1_IDEXE;
-
-    //ForwardingUnit output wires
-    wire [1:0] EXE_A_Select_FU;
-    wire [1:0] EXE_B_Select_FU;
-    wire [1:0] MEM_Data_select_FU;
-
+    wire link_IDFU;
+    wire branch_IDFU;
+    wire jump_IDFU;
+    wire jump_reg_IDFU;
+    wire immediate_IDFU;
     ID ID(
         .CLK(CLK),
         .RESET(RESET),
@@ -158,31 +157,40 @@ module MIPS (
         .EXE_A_Select_FU(EXE_A_Select_FU),
         .EXE_B_Select_FU(EXE_B_Select_FU),
         .MEM_Data_select_FU(MEM_Data_select_FU),
+        .link_out(link_IDFU),
+        .branch_out(branch_IDFU),
+        .jump_out(jump_IDFU),
+        .jump_reg_out(jump_reg_IDFU),
+        .use_rd(immediate_IDFU),
         .SYS(SYS),
         .WANT_FREEZE(STALL_IDIF)
     );
 
     //ForwardingUnit output wires
-    // wire [1:0] EXE_A_Select_FU;
-    // wire [1:0] EXE_B_Select_FU;
-    // wire [1:0] MEM_Data_select_FU;
-    // //wire stall;
-    // ForwardingUnit FwrdUnit (
-    //     .CLK(CLK),
-    //     .IF_Instruction(Instr1_IFID),
-    //     .ID_Instruction(Instr1_IDEXE),
-    //     .branch(branch_IDFU),
-    //     .jump(jump_IDFU),
-    //     .jump_register(jump_reg_IDFU),
-    //     .immediate(immediate_IDFU),
-    //     .load(MemRead1_IDEXE),
-    //     .store(MemWrite1_IDEXE),
-    //     .reg_write(RegWrite1_IDEXE),
-    //     .EXE_A_Select(EXE_A_Select_FU), //data select lines
-    //     .EXE_B_Select(EXE_B_Select_FU),
-    //     .MEM_Data_select(MEM_Data_select_FU),
-    //     .stall(STALL_IDIF)
-    // );
+    wire [1:0] EXE_A_Select_FU;
+    wire [1:0] EXE_B_Select_FU;
+    wire [1:0] MEM_Data_select_FU;
+    wire [1:0] Branch_JR_select_A_FU;
+    wire [1:0] Branch_JR_select_B_FU;
+    //wire stall;
+    ForwardingUnit FwrdUnit (
+        .CLK(CLK),
+        .ID_Instruction(Instr1_IFID),
+        .branch(branch_IDFU),
+        .jump(jump_IDFU),
+        .jump_register(jump_reg_IDFU),
+        .link(link_IDFU), //get from ID
+        .immediate(!immediate_IDFU),
+        .load(MemRead1_IDEXE),
+        .store(MemWrite1_IDEXE),
+        .reg_write(RegWrite1_IDEXE),
+        .EXE_A_Select(EXE_A_Select_FU), //data select lines
+        .EXE_B_Select(EXE_B_Select_FU),
+        .Branch_JR_select_A(Branch_JR_select_A_FU),
+        .Branch_JR_select_B(Branch_JR_select_B_FU),
+        .MEM_Data_select(MEM_Data_select_FU),
+        .stall(STALL_IDIF)
+    );
 
 
     wire [31:0] Instr1_EXEMEM;
