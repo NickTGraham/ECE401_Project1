@@ -9,12 +9,13 @@ Pipelined MIPS Processor
     - [x] Use them correctly
 - [x] Register Writes
 - [x] Memory Reads & Writes
-    - [?] Check and see if stores are done improperly (Hint, they're not...)
+    - [x] Check and see if stores are done improperly (Hint, they're not...)
 - [ ] Forwarding/Bypassing Logic
     - [x] Basic Implementation
     - [x] JALR & JR
     - [x] Handle when it is in the writeback stage during decode
     - [x] Forward from Writeback to ALU
 	- [ ] Update Diagram to include this
-- [ ] get a branch near zero in noio
+- [x] get a branch near zero in noio
+- [ ] syscall 4003 results in segfault every time ...
 - [ ] Project Report
