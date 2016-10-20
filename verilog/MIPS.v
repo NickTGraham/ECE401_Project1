@@ -192,7 +192,7 @@ module MIPS (
         .Branch_JR_select_A(Branch_JR_select_A_FU),
         .Branch_JR_select_B(Branch_JR_select_B_FU),
         .MEM_Data_select(MEM_Data_select_FU),
-        .stall(STALL_IDIF)
+        .stall(STALL_IDIF) //this is probably bad...
     );
 
 

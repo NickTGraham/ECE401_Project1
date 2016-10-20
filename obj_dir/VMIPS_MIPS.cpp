@@ -91,12 +91,16 @@ VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__2(VMIPS__Syms* __restrict vlSym
     VL_DEBUG_IF(VL_PRINTF("      VMIPS_MIPS::_sequent__TOP__v__2\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    // ALWAYS at verilog//ForwardingUnit.v:140
+    // ALWAYS at verilog//ForwardingUnit.v:164
     VL_WRITEF("A_Select [%b] B_Select [%b] MEM_Data_select[00]\n",
 	      2,vlSymsp->TOP__v.__PVT__EXE_A_Select_FU,
 	      2,(IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU));
+    VL_WRITEF("rs [%2u] rt [%2u] PC_4 [%2u] PC_8 [%2u]\n",
+	      5,(0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+			  >> 0x15U)),5,(IData)(vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__rt),
+	      5,vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__PC_4_WriteReg,
+	      5,(IData)(vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__PC_8_WriteReg));
     fflush (stdout);
-    // ALWAYS at verilog//ForwardingUnit.v:164
     vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__PC_12_WriteReg 
 	= vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__PC_8_WriteReg;
     vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__PC_8_WriteReg 
@@ -105,8 +109,8 @@ VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__2(VMIPS__Syms* __restrict vlSym
 	= (0x1fU & ((IData)(vlSymsp->TOP__v__ID.__PVT__RegWrite1_OUT)
 		     ? ((IData)(vlSymsp->TOP__v__ID.__PVT__RegDst1)
 			 ? (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-			    >> 0x10U) : (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-					 >> 0xbU)) : 0U));
+			    >> 0xbU) : (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+					>> 0x10U)) : 0U));
 }
 
 VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__3(VMIPS__Syms* __restrict vlSymsp) {
@@ -1143,11 +1147,11 @@ void VMIPS_MIPS::_settle__TOP__v__13(VMIPS__Syms* __restrict vlSymsp) {
 					       == (IData)(vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__PC_12_WriteReg))));
     vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__rt = (0x1fU 
 						& ((IData)(vlSymsp->TOP__v__ID.__PVT__RegDst1)
-						    ? 
+						    ? 0U
+						    : 
 						   (0x1fU 
 						    & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-						       >> 0xbU))
-						    : 0U));
+						       >> 0xbU))));
 }
 
 VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__14(VMIPS__Syms* __restrict vlSymsp) {
@@ -1171,11 +1175,11 @@ VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__14(VMIPS__Syms* __restrict vlSy
 					       == (IData)(vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__PC_12_WriteReg))));
     vlSymsp->TOP__v.__PVT__FwrdUnit__DOT__rt = (0x1fU 
 						& ((IData)(vlSymsp->TOP__v__ID.__PVT__RegDst1)
-						    ? 
+						    ? 0U
+						    : 
 						   (0x1fU 
 						    & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-						       >> 0xbU))
-						    : 0U));
+						       >> 0xbU))));
     vlSymsp->TOP__v.Instr_address_2IC = ((IData)(vlSymsp->TOP__v.__PVT__STALL_IDIF)
 					  ? vlSymsp->TOP__v.__PVT__Instr_PC_Plus4_IFID
 					  : ((IData)(vlSymsp->TOP__v__ID.__PVT__Request_Alt_PC)

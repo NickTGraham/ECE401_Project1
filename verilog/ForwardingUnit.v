@@ -47,8 +47,8 @@ module ForwardingUnit(
     wire [4:0] rt;// = ID_Instruction[20:16];
     wire [4:0] rd;// = ID_Instruction[15:11];
 
-    assign rt = immediate?0:ID_Instruction[15:11];
-    assign rd = immediate?ID_Instruction[15:11]:ID_Instruction[20:16];
+    assign rt = immediate?ID_Instruction[15:11]:0;
+    assign rd = immediate?ID_Instruction[20:16]:ID_Instruction[15:11];
     //Not gaurenteed to be true.
     //assign EXE_RegA = ID_Instruction[25:21];
     //assign EXE_RegB = ID_Instruction[20:16];
@@ -137,7 +137,7 @@ module ForwardingUnit(
         // else begin
         //     MEM_Data_select <= 2'd0;
         // end
-        $display("A_Select [%b] B_Select [%b] MEM_Data_select[%b]", EXE_A_Select, EXE_B_Select, MEM_Data_select);
+
         //Shift data forward in the pipeline
         /* verilator lint_off BLKSEQ */
         /* Old Implementation, rewriting
@@ -161,6 +161,9 @@ module ForwardingUnit(
         EXE_B_Select <= EXE_B_Select_Wire;
         MEM_Data_select_Wire <= MEM_Data_select_Wire;
 
+        $display("A_Select [%b] B_Select [%b] MEM_Data_select[%b]", EXE_A_Select, EXE_B_Select, MEM_Data_select);
+        $display("rs [%d] rt [%d] PC_4 [%d] PC_8 [%d]", rs, rt, PC_4_WriteReg, PC_8_WriteReg);
+        //$display("Wires A_Select [%b] B_Select [%b] MEM_Data_select[%b]", EXE_A_Select_Wire, EXE_B_Select_Wire, MEM_Data_select_Wire);
         PC_12_WriteReg = PC_8_WriteReg;
         PC_8_WriteReg = PC_4_WriteReg;
         if (reg_write) begin
