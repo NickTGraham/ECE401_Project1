@@ -60,9 +60,7 @@ VL_MODULE(VMIPS_MIPS) {
     VL_SIG8(__PVT__FwrdUnit__DOT__PC_8_WriteReg,4,0);
     VL_SIG8(__PVT__FwrdUnit__DOT__PC_12_WriteReg,4,0);
     VL_SIG8(__PVT__FwrdUnit__DOT__rt,4,0);
-    VL_SIG8(__PVT__FwrdUnit__DOT__EXE_A_Select_Wire,1,0);
-    VL_SIG8(__PVT__FwrdUnit__DOT__EXE_B_Select_Wire,1,0);
-    //char	__VpadToAlign157[3];
+    //char	__VpadToAlign155[1];
     VL_SIG(__PVT__Instr1_IFID,31,0);
     VL_SIG(__PVT__Instr_PC_IFID,31,0);
     VL_SIG(__PVT__Instr_PC_Plus4_IFID,31,0);
@@ -80,6 +78,7 @@ VL_MODULE(VMIPS_MIPS) {
     
     // INTERNAL VARIABLES
   private:
+    //char	__VpadToAlign212[4];
     VMIPS__Syms*	__VlSymsp;		// Symbol table
   public:
     
@@ -99,17 +98,19 @@ VL_MODULE(VMIPS_MIPS) {
     
     // INTERNAL METHODS
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
-    static void	_combo__TOP__v__11(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__10(VMIPS__Syms* __restrict vlSymsp);
     static void	_combo__TOP__v__5(VMIPS__Syms* __restrict vlSymsp);
     static void	_initial__TOP__v__1(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__12(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__11(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__14(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__2(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__4(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__7(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__8(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__10(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__12(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__13(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__15(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__9(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 

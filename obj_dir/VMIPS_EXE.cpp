@@ -1321,13 +1321,13 @@ VL_INLINE_OPT void VMIPS_EXE::_combo__TOP__v__EXE__5(VMIPS__Syms* __restrict vlS
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlSymsp->TOP__v__EXE.__PVT__A1 = ((1U == (IData)(vlSymsp->TOP__v.__PVT__EXE_A_Select_FU))
-				       ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1
+				       ? vlSymsp->TOP__v.__PVT__MEM__DOT__WriteData1
 				       : ((2U == (IData)(vlSymsp->TOP__v.__PVT__EXE_A_Select_FU))
-					   ? vlSymsp->TOP__v.__PVT__MEM__DOT__WriteData1
+					   ? vlSymsp->TOP__v.__PVT__WriteData1_MEMWB
 					   : vlSymsp->TOP__v__ID.__PVT__OperandA1_OUT));
     vlSymsp->TOP__v__EXE.__PVT__B1 = ((1U == (IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU))
-				       ? vlSymsp->TOP__v__EXE.__PVT__ALU_result1
+				       ? vlSymsp->TOP__v.__PVT__MEM__DOT__WriteData1
 				       : ((2U == (IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU))
-					   ? vlSymsp->TOP__v.__PVT__MEM__DOT__WriteData1
+					   ? vlSymsp->TOP__v.__PVT__WriteData1_MEMWB
 					   : vlSymsp->TOP__v__ID.__PVT__OperandB1_OUT));
 }

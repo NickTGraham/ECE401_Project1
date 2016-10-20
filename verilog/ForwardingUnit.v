@@ -162,15 +162,15 @@ module ForwardingUnit(
         MEM_Data_select_Wire <= MEM_Data_select_Wire;
 
         $display("A_Select [%b] B_Select [%b] MEM_Data_select[%b]", EXE_A_Select, EXE_B_Select, MEM_Data_select);
-        $display("rs [%d] rt [%d] PC_4 [%d] PC_8 [%d]", rs, rt, PC_4_WriteReg, PC_8_WriteReg);
+        $display("rs [%d] rt [%d] PC_4 [%d] PC_8 [%d] PC_12 [%d]", rs, rt, PC_4_WriteReg, PC_8_WriteReg, PC_12_WriteReg);
         $display("Wires A_Select [%b] B_Select [%b] MEM_Data_select", EXE_A_Select_Wire, EXE_B_Select_Wire);
-        PC_12_WriteReg = PC_8_WriteReg;
-        PC_8_WriteReg = PC_4_WriteReg;
+        PC_12_WriteReg <= PC_8_WriteReg;
+        PC_8_WriteReg <= PC_4_WriteReg;
         if (reg_write) begin
-            PC_4_WriteReg = rd;
+            PC_4_WriteReg <= rd;
         end
         else begin
-            PC_4_WriteReg = 0;
+            PC_4_WriteReg <= 0;
         end
         /* verilator lint_on BLKSEQ */
 

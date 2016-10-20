@@ -111,16 +111,17 @@ VL_MODULE(VMIPS_ID) {
     
     // INTERNAL METHODS
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
-    static void	_combo__TOP__v__ID__11(VMIPS__Syms* __restrict vlSymsp);
-    static void	_combo__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp);
-    static void	_combo__TOP__v__ID__9(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__ID__10(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__ID__12(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__1(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__ID__10(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__11(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__ID__5(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__9(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
 #endif  /*guard*/
