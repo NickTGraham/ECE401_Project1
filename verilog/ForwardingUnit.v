@@ -47,7 +47,7 @@ module ForwardingUnit(
     wire [4:0] rt;// = ID_Instruction[20:16];
     wire [4:0] rd;// = ID_Instruction[15:11];
 
-    assign rt = immediate?ID_Instruction[20:16]:0;
+    assign rt = immediate?ID_Instruction[20:16]:(store?(ID_Instruction[20:16]):0);
     assign rd = immediate?ID_Instruction[15:11]:ID_Instruction[20:16];
     //Not gaurenteed to be true.
     //assign EXE_RegA = ID_Instruction[25:21];
@@ -58,6 +58,7 @@ module ForwardingUnit(
     //wire [4:0] fu_wb_rega = WB_RegA;
     //wire [4:0] fu_wb_regb = WB_RegB;
 
+    //You know, I have no idea about this....
     assign stall = (((jump & jump_register) | branch) & (rs == PC_4_WriteReg | rs == PC_8_WriteReg | rs == PC_12_WriteReg));
 
     /* Again I find this approach confusing. Now exucuse me as I rewrite it in worse manor
@@ -79,7 +80,9 @@ module ForwardingUnit(
     assign Branch_JR_select_A = (PC_4_WriteReg != 0 & PC_4_WriteReg == rs)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rs)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rs)?2'd3:2'd0;
     assign Branch_JR_select_B = (PC_4_WriteReg != 0 &  PC_4_WriteReg == rt)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rt)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rt)?2'd3:2'd0;
 
-    assign MEM_Data_select = 2'b0; //I am unsure if this is needed, I don't know. I am tired.
+    //I am unsure if this is needed, I don't know. I am tired.
+    // -- So after a short, unplanned nap, I now remember what this was for, forwardinding the data for a store
+    //assign MEM_Data_select = 2'b0;
 
     always @(posedge CLK) begin
         if (0) begin
@@ -159,11 +162,11 @@ module ForwardingUnit(
 
         EXE_A_Select <= EXE_A_Select_Wire;
         EXE_B_Select <= EXE_B_Select_Wire;
-        MEM_Data_select_Wire <= MEM_Data_select_Wire;
+        MEM_Data_select <= MEM_Data_select_Wire;
 
         $display("A_Select [%b] B_Select [%b] MEM_Data_select[%b]", EXE_A_Select, EXE_B_Select, MEM_Data_select);
         $display("rs [%d] rt [%d] PC_4 [%d] PC_8 [%d] PC_12 [%d]", rs, rt, PC_4_WriteReg, PC_8_WriteReg, PC_12_WriteReg);
-        $display("Wires A_Select [%b] B_Select [%b] MEM_Data_select", EXE_A_Select_Wire, EXE_B_Select_Wire);
+        $display("Wires A_Select [%b] B_Select [%b] MEM_Data_select [%d]  store[%b]", EXE_A_Select_Wire, EXE_B_Select_Wire, MEM_Data_select, store);
         PC_12_WriteReg <= PC_8_WriteReg;
         PC_8_WriteReg <= PC_4_WriteReg;
         if (reg_write) begin

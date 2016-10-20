@@ -40,9 +40,9 @@ VL_MODULE(VMIPS_ID) {
     VL_OUT8(__PVT__jump_out,0,0);
     VL_OUT8(__PVT__jump_reg_out,0,0);
     VL_OUT8(__PVT__use_rd,0,0);
+    VL_OUT8(__PVT__store_fu,0,0);
     VL_OUT8(__PVT__SYS,0,0);
     VL_OUT8(__PVT__WANT_FREEZE,0,0);
-    //char	__VpadToAlign23[1];
     VL_IN(__PVT__Instr1_IN,31,0);
     VL_IN(__PVT__Instr_PC_IN,31,0);
     VL_IN(__PVT__Instr_PC_Plus4_IN,31,0);

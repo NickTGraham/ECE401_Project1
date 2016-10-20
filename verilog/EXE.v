@@ -123,10 +123,10 @@ ALU ALU1(
 
 wire [31:0] MemWriteData1;
 
-assign MemWriteData1 = MemWriteData1_IN;
+assign MemWriteData1 = (MEM_Data_select == 2'd1)?Mem_result_forward:((MEM_Data_select == 2'd2)?WB_result_forward:MemWriteData1_IN);
 
 always @(posedge CLK or negedge RESET) begin
-    $display("!!!EXE RegA_Select[%b] RegB_Select[%b] ", RegA_Select, RegB_Select);
+    $display("!!!EXE RegA_Select[%b] RegB_Select[%b] MEM_Select[%b]", RegA_Select, RegB_Select, MEM_Data_select);
     if(!RESET) begin
         Instr1_OUT <= 0;
         Instr1_PC_OUT <= 0;

@@ -50,6 +50,7 @@ VL_MODULE(VMIPS_MIPS) {
     VL_SIG8(__PVT__RegWrite1_MEMWB,0,0);
     VL_SIG8(__PVT__EXE_A_Select_FU,1,0);
     VL_SIG8(__PVT__EXE_B_Select_FU,1,0);
+    VL_SIG8(__PVT__MEM_Data_select_FU,1,0);
     VL_SIG8(__PVT__Branch_JR_select_A_FU,1,0);
     VL_SIG8(data_write_size_2DC,1,0);
     VL_SIG8(read_2DC,0,0);
@@ -60,7 +61,6 @@ VL_MODULE(VMIPS_MIPS) {
     VL_SIG8(__PVT__FwrdUnit__DOT__PC_8_WriteReg,4,0);
     VL_SIG8(__PVT__FwrdUnit__DOT__PC_12_WriteReg,4,0);
     VL_SIG8(__PVT__FwrdUnit__DOT__rt,4,0);
-    //char	__VpadToAlign155[1];
     VL_SIG(__PVT__Instr1_IFID,31,0);
     VL_SIG(__PVT__Instr_PC_IFID,31,0);
     VL_SIG(__PVT__Instr_PC_Plus4_IFID,31,0);

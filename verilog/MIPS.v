@@ -129,6 +129,7 @@ module MIPS (
     wire jump_IDFU;
     wire jump_reg_IDFU;
     wire immediate_IDFU;
+    wire store_IDFU;
     wire [31:0] FWD_ALU_Result_Wire;
     wire [31:0] FWD_MEM_Result_Wire;
     wire [31:0] FWD_WB_Result_Wire;
@@ -166,6 +167,7 @@ module MIPS (
         .jump_out(jump_IDFU),
         .jump_reg_out(jump_reg_IDFU),
         .use_rd(immediate_IDFU),
+        .store_fu(store_IDFU),
         .Fwd_ALU_Result(FWD_ALU_Result_Wire),
         .Fwd_Mem_result(FWD_MEM_Result_Wire),
         .Fwd_Wb_result(FWD_WB_Result_Wire),
@@ -189,7 +191,7 @@ module MIPS (
         .link(link_IDFU), //get from ID
         .immediate(immediate_IDFU),
         .load(MemRead1_IDEXE),
-        .store(MemWrite1_IDEXE),
+        .store(store_IDFU),
         .reg_write(reg_write_IDFU),
         .EXE_A_Select(EXE_A_Select_FU), //data select lines
         .EXE_B_Select(EXE_B_Select_FU),
