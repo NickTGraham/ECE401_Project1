@@ -59,7 +59,7 @@ module ForwardingUnit(
     //wire [4:0] fu_wb_regb = WB_RegB;
 
     //You know, I have no idea about this....
-    assign stall = (((jump & jump_register) | branch) & (rs == PC_4_WriteReg | rs == PC_8_WriteReg | rs == PC_12_WriteReg));
+    assign stall = (((jump & jump_register) | branch) & ((rs == PC_4_WriteReg & rs !=0) | (rs == PC_8_WriteReg & rs !=0) | (rs == PC_12_WriteReg & rs !=0)));
 
     /* Again I find this approach confusing. Now exucuse me as I rewrite it in worse manor
     assign EXE_A_Select = (rs == EXE_WriteReg & rs != 0 & EXE_Valid_Write)?2'd1:((rs == MEM_WriteReg & rs != 0 & MEM_Valid_Write)?2'd2:((rs == WB_WriteReg & rs != 0 & WB_Valid_Write)?2'd3:2'd0));
