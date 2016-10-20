@@ -101,6 +101,7 @@ module MIPS (
         .Instr_PC_OUT(Instr_PC_IFID),
         .Instr_PC_Plus4(Instr_PC_Plus4_IFID),
         .STALL(STALL_IDIF),
+        .SYS(SYS),
         .Request_Alt_PC(Request_Alt_PC_IDIF),
         .Alt_PC(Alt_PC_IDIF),
         .Instr_address_2IM(Instr_address_2IC),

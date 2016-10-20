@@ -20,6 +20,7 @@ module  IF
 
     //Will be set to true if we need to just freeze the fetch stage.
     input STALL,
+    input SYS,
 
     //There was probably a branch -- please load the alternate PC instead of Instr_PC_Plus4.
     input Request_Alt_PC,
@@ -53,7 +54,9 @@ always @(posedge CLK or negedge RESET) begin
                 $display("FETCH:Instr@%x=%x;Next@%x",Instr_address_2IM,Instr1_fIM,Instr_address_2IM + IncrementAmount);
                 $display("FETCH:ReqAlt[%d]=%x",Request_Alt_PC,Alt_PC);
         end else begin
-            Instr1_OUT <= 32'b0;
+            if (!SYS) begin
+                Instr1_OUT <= 32'b0;
+            end
             Instr_PC_Plus4 <= Instr_address_2IM - IncrementAmount;
             $display("FETCH: Stalling; next request will be %x",Instr_address_2IM);
         end

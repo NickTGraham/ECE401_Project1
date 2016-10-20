@@ -74,11 +74,13 @@ VL_MODULE(VMIPS_MIPS) {
     VL_SIG(__PVT__MEM__DOT__WriteData1,31,0);
     
     // LOCAL VARIABLES
+    VL_SIG(__Vdly__Instr1_IFID,31,0);
     VL_SIG(__Vdly__Instr_PC_Plus4_IFID,31,0);
+    VL_SIG(__Vdly__Instr_PC_IFID,31,0);
     
     // INTERNAL VARIABLES
   private:
-    //char	__VpadToAlign212[4];
+    //char	__VpadToAlign220[4];
     VMIPS__Syms*	__VlSymsp;		// Symbol table
   public:
     
