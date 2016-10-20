@@ -70,6 +70,7 @@ module ID(
     //Output info for the forwarding unit
     input reg [1:0] Branch_JR_select_A_FU,
     input reg [1:0] Branch_JR_select_B_FU,
+    output reg_write,
     output link_out,
     output branch_out,
     output jump_out,
@@ -131,6 +132,7 @@ module ID(
      assign rd1 = Instr1_IN[15:11];
      assign shiftAmount1 = Instr1_IN[10:6];
      assign immediate1 = Instr1_IN[15:0];
+     assign reg_write = RegWrite1;
      assign link_out = link1;
      assign branch_out = branch1;
      assign jump_out = jump1;

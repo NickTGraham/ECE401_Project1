@@ -34,6 +34,7 @@ VL_MODULE(VMIPS_ID) {
     VL_OUT8(__PVT__ShiftAmount1_OUT,4,0);
     VL_IN8(__PVT__Branch_JR_select_A_FU,1,0);
     VL_IN8(__PVT__Branch_JR_select_B_FU,1,0);
+    VL_OUT8(__PVT__reg_write,0,0);
     VL_OUT8(__PVT__link_out,0,0);
     VL_OUT8(__PVT__branch_out,0,0);
     VL_OUT8(__PVT__jump_out,0,0);
@@ -41,7 +42,7 @@ VL_MODULE(VMIPS_ID) {
     VL_OUT8(__PVT__use_rd,0,0);
     VL_OUT8(__PVT__SYS,0,0);
     VL_OUT8(__PVT__WANT_FREEZE,0,0);
-    //char	__VpadToAlign22[2];
+    //char	__VpadToAlign23[1];
     VL_IN(__PVT__Instr1_IN,31,0);
     VL_IN(__PVT__Instr_PC_IN,31,0);
     VL_IN(__PVT__Instr_PC_Plus4_IN,31,0);
@@ -110,17 +111,16 @@ VL_MODULE(VMIPS_ID) {
     
     // INTERNAL METHODS
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
-    static void	_combo__TOP__v__ID__10(VMIPS__Syms* __restrict vlSymsp);
-    static void	_combo__TOP__v__ID__12(VMIPS__Syms* __restrict vlSymsp);
-    static void	_combo__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__ID__11(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__ID__9(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__1(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__ID__11(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__10(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__ID__5(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__ID__9(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
 #endif  /*guard*/

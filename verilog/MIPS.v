@@ -123,6 +123,7 @@ module MIPS (
     wire        MemRead1_IDEXE;
     wire        MemWrite1_IDEXE;
     wire [4:0]  ShiftAmount1_IDEXE;
+    wire reg_write_IDFU;
     wire link_IDFU;
     wire branch_IDFU;
     wire jump_IDFU;
@@ -158,6 +159,7 @@ module MIPS (
         .ShiftAmount1_OUT(ShiftAmount1_IDEXE),
         .Branch_JR_select_A_FU(Branch_JR_select_A_FU),
         .Branch_JR_select_B_FU(Branch_JR_select_B_FU),
+        .reg_write(reg_write_IDFU),
         .link_out(link_IDFU),
         .branch_out(branch_IDFU),
         .jump_out(jump_IDFU),
@@ -186,7 +188,7 @@ module MIPS (
         .immediate(!immediate_IDFU),
         .load(MemRead1_IDEXE),
         .store(MemWrite1_IDEXE),
-        .reg_write(RegWrite1_IDEXE),
+        .reg_write(reg_write_IDFU),
         .EXE_A_Select(EXE_A_Select_FU), //data select lines
         .EXE_B_Select(EXE_B_Select_FU),
         .Branch_JR_select_A(Branch_JR_select_A_FU),
