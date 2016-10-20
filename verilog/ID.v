@@ -67,6 +67,11 @@ module ID(
     //Shift amount [for ALU functions] (passed to EXE)
     output reg [4:0]ShiftAmount1_OUT,
 
+    //Output info for the forwarding unit
+    output reg jump_out,
+    output reg branch_out,
+    output reg immmediate_out,
+    output reg jump_reg_out,
 
      //Tell the simulator to process a system call
      output reg SYS,
@@ -153,6 +158,12 @@ compare branch_compare1 (
     .taken(Request_Alt_PC1)
     );
 //End branch/jump calculation
+
+    //send signals to forwarding unit
+    assign jump_out = jump1;
+    assign branch_out = branch1;
+    assign immmediate_out = ALUSrc1;
+    assign jump_reg_out = jumpRegister_Flag1;
 
 //Handle pipelining
 assign rsval1 = rsRawVal1;

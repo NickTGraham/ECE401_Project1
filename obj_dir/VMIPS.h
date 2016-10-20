@@ -94,12 +94,12 @@ VL_MODULE(VMIPS) {
     static QData	_change_request(VMIPS__Syms* __restrict vlSymsp);
   public:
     static void	_combo__TOP__2(VMIPS__Syms* __restrict vlSymsp);
-    static void	_combo__TOP__5(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__6(VMIPS__Syms* __restrict vlSymsp);
     static void	_eval(VMIPS__Syms* __restrict vlSymsp);
     static void	_eval_initial(VMIPS__Syms* __restrict vlSymsp);
     static void	_eval_settle(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__3(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__6(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__5(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__1(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__4(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__8(VMIPS__Syms* __restrict vlSymsp);

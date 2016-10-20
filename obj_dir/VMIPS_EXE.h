@@ -30,7 +30,9 @@ VL_MODULE(VMIPS_EXE) {
     VL_OUT8(__PVT__ALU_Control1_OUT,5,0);
     VL_OUT8(__PVT__MemRead1_OUT,0,0);
     VL_OUT8(__PVT__MemWrite1_OUT,0,0);
-    //char	__VpadToAlign13[3];
+    VL_IN8(__PVT__RegA_Select,1,0);
+    VL_IN8(__PVT__RegB_Select,1,0);
+    //char	__VpadToAlign15[1];
     VL_IN(__PVT__Instr1_IN,31,0);
     VL_IN(__PVT__Instr1_PC_IN,31,0);
     VL_IN(__PVT__OperandA1_IN,31,0);
@@ -40,14 +42,18 @@ VL_MODULE(VMIPS_EXE) {
     VL_OUT(__PVT__Instr1_PC_OUT,31,0);
     VL_OUT(__PVT__ALU_result1_OUT,31,0);
     VL_OUT(__PVT__MemWriteData1_OUT,31,0);
+    VL_IN(__PVT__ALU_result_forward,31,0);
+    VL_IN(__PVT__Mem_result_forward,31,0);
     
     // LOCAL SIGNALS
+    VL_SIG(__PVT__A1,31,0);
+    VL_SIG(__PVT__B1,31,0);
     VL_SIG(__PVT__ALU_result1,31,0);
     VL_SIG(HI,31,0);
     VL_SIG(LO,31,0);
     VL_SIG(__PVT__HI_new1,31,0);
     VL_SIG(__PVT__LO_new1,31,0);
-    //char	__VpadToAlign76[4];
+    //char	__VpadToAlign92[4];
     VL_SIG64(__PVT__ALU1__DOT__temp,63,0);
     
     // LOCAL VARIABLES
@@ -75,6 +81,7 @@ VL_MODULE(VMIPS_EXE) {
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
     static void	_sequent__TOP__v__EXE__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__EXE__5(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
 #endif  /*guard*/

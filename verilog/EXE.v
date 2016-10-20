@@ -60,8 +60,13 @@ module EXE(
     //We need to read from MEM (passed to MEM)
     output reg MemRead1_OUT,
     //We need to write to MEM (passed to MEM)
-    output reg MemWrite1_OUT
+    output reg MemWrite1_OUT,
 
+    //Forwarding stuff
+    input [1:0] RegA_Select,
+    input [1:0] RegB_Select,
+    input [31:0] ALU_result_forward,
+    input [31:0] Mem_result_forward
     );
 
 
@@ -80,8 +85,10 @@ module EXE(
     //  assign replaceB = (Forward_B==MemWriteReg & MemWriteValid) | (Forward_B==WBWriteReg & WBWriteValid);
     //  assign valueB = (Forward_B==MemWriteReg & MemWriteValid)?Mem_ALU_result:WB_result;
     //  assign B1 = replaceB?valueB:OperandB1_IN;
-    assign A1 = OperandA1_IN;
-    assign B1 = OperandB1_IN;
+    assign A1 = (RegA_Select == 2'd1)?ALU_result_forward:((RegA_Select == 2'd2)?Mem_result_forward:OperandA1_IN);
+    assign B1 = (RegB_Select == 2'd1)?ALU_result_forward:((RegB_Select == 2'd2)?Mem_result_forward:OperandB1_IN);
+
+    //assign B1 = OperandB1_IN;
 
 
 reg [31:0] HI/*verilator public*/;

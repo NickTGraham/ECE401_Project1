@@ -61,9 +61,11 @@ module MEM(
      output reg [1:0] data_write_size_2DM,
     input [31:0] data_read_fDM,
      output MemRead_2DM,
-     output MemWrite_2DM
+     output MemWrite_2DM,
 
-
+     //Forwarding unit
+     input [1:0] MEM_Data_select,
+     input [31:0] WB_Data_forward
     );
 
      //Variables for Memory Module Inputs/Outputs:
@@ -88,6 +90,9 @@ module MEM(
 
      wire [5:0] ALU_Control;
 
+     wire [31:0] Data_to_be_Written;
+
+    assign Data_to_be_Written = (MEM_Data_select == 2'b1)?WB_Data_forward:MemWriteData1_IN;
     assign MemWrite = MemWrite1_IN;
     assign MemRead = MemRead1_IN;
     assign ALU_result = ALU_result1_IN;
@@ -218,16 +223,16 @@ always @(data_read_fDM) begin
             //Again assuming that I must provide a whole word, not just the byte
             //So you can store to any old byte, so I must handle them all.
             if (MemWriteAddress[1:0] == 2'b00) begin //First Byte
-                data_write_2DM = {MemWriteData1_IN[7:0], data_read_fDM[23:0]}; //Totally did not need a calculator to find out what 31 - 8 was, nope, not at all
+                data_write_2DM = {Data_to_be_Written[7:0], data_read_fDM[23:0]}; //Totally did not need a calculator to find out what 31 - 8 was, nope, not at all
             end
             else if (MemWriteAddress[1:0] == 2'b01) begin //Second Byte
-                data_write_2DM = {data_read_fDM[31:24], MemWriteData1_IN[7:0], data_read_fDM[15:0]};
+                data_write_2DM = {data_read_fDM[31:24], Data_to_be_Written[7:0], data_read_fDM[15:0]};
             end
             else if (MemWriteAddress[1:0] == 2'b10) begin //Third Byte
-                data_write_2DM = {data_read_fDM[31:16], MemWriteData1_IN[7:0], data_read_fDM[7:0]};
+                data_write_2DM = {data_read_fDM[31:16], Data_to_be_Written[7:0], data_read_fDM[7:0]};
             end
             else begin //Did you guess it? Fourth Byte
-                data_write_2DM = {data_read_fDM[31:8], MemWriteData1_IN[7:0]};
+                data_write_2DM = {data_read_fDM[31:8], Data_to_be_Written[7:0]};
             end
             // I Don't like having that fourth byte catch all else statement, but what you gonna do? <- real question, would like an answer
         end
@@ -236,10 +241,10 @@ always @(data_read_fDM) begin
             //So I assume I have to provide a whole word, not just the byte
             //so I am pulling the data read, and splicing in the part I want (?)
             if (MemWriteAddress[1:0] == 2'b00) begin //put at start of given word
-                data_write_2DM = {MemWriteData1_IN[15:0], data_read_fDM[15:0]};
+                data_write_2DM = {Data_to_be_Written[15:0], data_read_fDM[15:0]};
             end
             else if (MemWriteAddress[1:0] == 2'b10) begin //put at end of given word
-                data_write_2DM = {data_read_fDM[31:16], MemWriteData1_IN[15:0]};
+                data_write_2DM = {data_read_fDM[31:16], Data_to_be_Written[15:0]};
             end
 
             //what it it lies in the middle of a word (2'b01)? do I handle that too?
@@ -247,7 +252,7 @@ always @(data_read_fDM) begin
         6'b110001, 6'b110110: begin	//SW/SC
             data_write_size_2DM=0;
             //Should just take the whole word
-            data_write_2DM = MemWriteData1_IN;
+            data_write_2DM = Data_to_be_Written;
         end
         6'b110010: begin //SWL
             //So, I think I might have done the above stores wrong... oops...
@@ -261,19 +266,19 @@ always @(data_read_fDM) begin
             */
             if (ALU_result[1:0] == 2'b00) begin //You are writing a word
                 data_write_size_2DM=0;
-                data_write_2DM = MemWriteData1_IN;
+                data_write_2DM = Data_to_be_Written;
             end
             else if (ALU_result[1:0] == 2'b01) begin //everthing but the first byte gets overwriten
                 data_write_size_2DM=3;
-                data_write_2DM = {data_read_fDM[31:24], MemWriteData1_IN[23:0]};
+                data_write_2DM = {data_read_fDM[31:24], Data_to_be_Written[23:0]};
             end
             else if (ALU_result[1:0] == 2'b10) begin //half and half
                 data_write_size_2DM=2;
-                data_write_2DM = {data_read_fDM[31:16], MemWriteData1_IN[15:0]};
+                data_write_2DM = {data_read_fDM[31:16], Data_to_be_Written[15:0]};
             end
             else begin //only the last bit
                 data_write_size_2DM=1;
-                data_write_2DM = {data_read_fDM[31:8], MemWriteData1_IN[7:0]};
+                data_write_2DM = {data_read_fDM[31:8], Data_to_be_Written[7:0]};
             end
             //TODO:SWL
             //Set MemWriteAddress, data_write_2DM and data_write_size_2DM appropriately
@@ -287,19 +292,19 @@ always @(data_read_fDM) begin
             */
             if (ALU_result[1:0] == 2'b00) begin //Just the first byte "bytes the dust" <- I am sorry, it is late
                 data_write_size_2DM=1;
-                data_write_2DM = {MemWriteData1_IN[7:0], data_read_fDM[23:0]};
+                data_write_2DM = {Data_to_be_Written[7:0], data_read_fDM[23:0]};
             end
             else if (ALU_result[1:0] == 2'b01) begin //half & half
                 data_write_size_2DM=2;
-                data_write_2DM = {MemWriteData1_IN[15:0], data_read_fDM[15:0]};
+                data_write_2DM = {Data_to_be_Written[15:0], data_read_fDM[15:0]};
             end
             else if (ALU_result[1:0] == 2'b10) begin //all but the first byte get overwritten
                 data_write_size_2DM=3;
-                data_write_2DM = {MemWriteData1_IN[23:0], data_read_fDM[7:0]};
+                data_write_2DM = {Data_to_be_Written[23:0], data_read_fDM[7:0]};
             end
             else begin //you just stored a word
                 data_write_size_2DM=0;
-                data_write_2DM =  MemWriteData1_IN;
+                data_write_2DM =  Data_to_be_Written;
             end
            //TODO:SWR
            //Set MemWriteAddress, data_write_2DM and data_write_size_2DM appropriately
@@ -316,7 +321,7 @@ always @(data_read_fDM) begin
     data_write_2DM = data_read_aligned;
 end
 
-assign MemoryData1 = MemWriteData1_IN;
+assign MemoryData1 = Data_to_be_Written;
 
      /* verilator lint_off UNUSED */
      reg [31:0] Instr1_OUT;

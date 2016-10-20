@@ -32,9 +32,13 @@ VL_MODULE(VMIPS_ID) {
     VL_OUT8(__PVT__MemRead1_OUT,0,0);
     VL_OUT8(__PVT__MemWrite1_OUT,0,0);
     VL_OUT8(__PVT__ShiftAmount1_OUT,4,0);
+    VL_OUT8(__PVT__jump_out,0,0);
+    VL_OUT8(__PVT__branch_out,0,0);
+    VL_OUT8(__PVT__immmediate_out,0,0);
+    VL_OUT8(__PVT__jump_reg_out,0,0);
     VL_OUT8(__PVT__SYS,0,0);
     VL_OUT8(__PVT__WANT_FREEZE,0,0);
-    //char	__VpadToAlign15[1];
+    //char	__VpadToAlign19[1];
     VL_IN(__PVT__Instr1_IN,31,0);
     VL_IN(__PVT__Instr_PC_IN,31,0);
     VL_IN(__PVT__Instr_PC_Plus4_IN,31,0);
@@ -64,9 +68,7 @@ VL_MODULE(VMIPS_ID) {
     VL_SIG8(__PVT__RegB1,4,0);
     VL_SIG8(__PVT__WriteRegister1,4,0);
     VL_SIG8(__PVT__syscall_bubble_counter,2,0);
-    VL_SIG8(__PVT__FORCE_FREEZE,0,0);
-    VL_SIG8(__PVT__INHIBIT_FREEZE,0,0);
-    //char	__VpadToAlign79[1];
+    //char	__VpadToAlign81[3];
     VL_SIG(__PVT__Alt_PC1,31,0);
     VL_SIG(__PVT__OpA1,31,0);
     VL_SIG(__PVT__OpB1,31,0);
@@ -74,13 +76,13 @@ VL_MODULE(VMIPS_ID) {
     VL_SIG(__PVT__NIA1__DOT__branchDestination_immediate,31,0);
     
     // LOCAL VARIABLES
+    VL_SIG8(__Vdly__Request_Alt_PC,0,0);
     VL_SIG8(__Vdly__syscall_bubble_counter,2,0);
-    //char	__VpadToAlign105[3];
+    //char	__VpadToAlign110[2];
     VL_SIG(__Vdly__Alt_PC,31,0);
     
     // INTERNAL VARIABLES
   private:
-    //char	__VpadToAlign116[4];
     VMIPS__Syms*	__VlSymsp;		// Symbol table
   public:
     
@@ -101,12 +103,12 @@ VL_MODULE(VMIPS_ID) {
     // INTERNAL METHODS
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
     static void	_sequent__TOP__v__ID__1(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__ID__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__ID__4(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__ID__5(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__5(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__ID__6(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__ID__7(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__ID__9(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__ID__8(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
 #endif  /*guard*/

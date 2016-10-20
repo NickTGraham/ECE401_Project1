@@ -125,6 +125,12 @@ module MIPS (
     wire [4:0]  ShiftAmount1_IDEXE;
 
 
+    //Forwarding login wires
+    wire jump_IDFU;
+    wire branch_IDFU;
+    wire immediate_IDFU;
+    wire jump_reg_IDFU;
+
     ID ID(
         .CLK(CLK),
         .RESET(RESET),
@@ -151,9 +157,34 @@ module MIPS (
         .MemRead1_OUT(MemRead1_IDEXE),
         .MemWrite1_OUT(MemWrite1_IDEXE),
         .ShiftAmount1_OUT(ShiftAmount1_IDEXE),
+        .jump_out(jump_IDFU),
+        .branch_out(branch_IDFU),
+        .immmediate_out(immediate_IDFU),
+        .jump_reg_out(jump_reg_IDFU),
         .SYS(SYS),
         .WANT_FREEZE(STALL_IDIF)
     );
+
+    //ForwardingUnit output wires
+    wire [1:0] EXE_A_Select_FU;
+    wire [1:0] EXE_B_Select_FU;
+    wire [1:0] MEM_Data_select_FU;
+    //wire stall;
+    ForwardingUnit FwrdUnit (
+        .CLK(CLK),
+        .ID_Instruction(Instr1_IDEXE),
+        .branch(branch_IDFU),
+        .jump(jump_IDFU),
+        .jump_register(jump_reg_IDFU),
+        .immediate(immediate_IDFU),
+        .load(MemRead1_IDEXE),
+        .store(MemWrite1_IDEXE),
+        .EXE_A_Select(EXE_A_Select_FU), //data select lines
+        .EXE_B_Select(EXE_B_Select_FU),
+        .MEM_Data_select(MEM_Data_select_FU),
+        .stall(STALL_IDIF)
+    );
+
 
     wire [31:0] Instr1_EXEMEM;
     wire [31:0] Instr1_PC_EXEMEM;
@@ -187,7 +218,12 @@ module MIPS (
         .RegWrite1_OUT(RegWrite1_EXEMEM),
         .ALU_Control1_OUT(ALU_Control1_EXEMEM),
         .MemRead1_OUT(MemRead1_EXEMEM),
-        .MemWrite1_OUT(MemWrite1_EXEMEM)
+        .MemWrite1_OUT(MemWrite1_EXEMEM),
+        //Forwarding stuff
+        .RegA_Select(EXE_A_Select_FU),
+        .RegB_Select(EXE_B_Select_FU),
+        .ALU_result_forward(ALU_result1_EXEMEM),
+        .Mem_result_forward(WriteData1_MEMWB)
     );
 
 
@@ -240,7 +276,9 @@ module MIPS (
         .data_write_size_2DM(data_write_size_2DC),
         .data_read_fDM(data_read_fDC),
         .MemRead_2DM(read_2DC),
-        .MemWrite_2DM(write_2DC)
+        .MemWrite_2DM(write_2DC),
+        .MEM_Data_select(MEM_Data_select_FU),
+        .WB_Data_forward(WriteData1_MEMWB)
     );
 
 
