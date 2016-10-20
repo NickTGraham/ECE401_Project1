@@ -1106,7 +1106,8 @@ VL_INLINE_OPT void VMIPS_MIPS::_sequent__TOP__v__11(VMIPS__Syms* __restrict vlSy
 	    if (VL_LIKELY(vlSymsp->TOP__v.__PVT__STALL_IDIF)) {
 		vlSymsp->TOP__v.__PVT__Instr1_IFID = 0U;
 		vlSymsp->TOP__v.__Vdly__Instr_PC_Plus4_IFID 
-		    = vlSymsp->TOP__v.Instr_address_2IC;
+		    = (vlSymsp->TOP__v.Instr_address_2IC 
+		       - (IData)(4U));
 		VL_WRITEF("FETCH: Stalling; next request will be %x\n",
 			  32,vlSymsp->TOP__v.Instr_address_2IC);
 		fflush (stdout);

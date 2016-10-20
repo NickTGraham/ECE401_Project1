@@ -54,7 +54,7 @@ always @(posedge CLK or negedge RESET) begin
                 $display("FETCH:ReqAlt[%d]=%x",Request_Alt_PC,Alt_PC);
         end else begin
             Instr1_OUT <= 32'b0;
-            Instr_PC_Plus4 <= Instr_address_2IM;
+            Instr_PC_Plus4 <= Instr_address_2IM - IncrementAmount;
             $display("FETCH: Stalling; next request will be %x",Instr_address_2IM);
         end
     end
