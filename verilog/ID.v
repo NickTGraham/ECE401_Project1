@@ -68,10 +68,9 @@ module ID(
     output reg [4:0]ShiftAmount1_OUT,
 
     //Output info for the forwarding unit
-    output reg jump_out,
-    output reg branch_out,
-    output reg immmediate_out,
-    output reg jump_reg_out,
+    output reg [1:0] EXE_A_Select_FU,
+    output reg [1:0] EXE_B_Select_FU,
+    output reg [1:0] MEM_Data_select_FU,
 
      //Tell the simulator to process a system call
      output reg SYS,
@@ -117,6 +116,9 @@ module ID(
      wire [4:0]     rd1;
      wire [4:0]     shiftAmount1;
      wire [15:0]    immediate1;
+     wire [1:0] EXE_A_Select_FU_wire;
+     wire [1:0] EXE_B_Select_FU_wire;
+     wire [1:0] MEM_Data_select_FU_wire;
 
     reg [2:0]	syscall_bubble_counter;
 
@@ -158,12 +160,6 @@ compare branch_compare1 (
     .taken(Request_Alt_PC1)
     );
 //End branch/jump calculation
-
-    //send signals to forwarding unit
-    assign jump_out = jump1;
-    assign branch_out = branch1;
-    assign immmediate_out = ALUSrc1;
-    assign jump_reg_out = jumpRegister_Flag1;
 
 //Handle pipelining
 assign rsval1 = rsRawVal1;
@@ -229,6 +225,9 @@ always @(posedge CLK or negedge RESET) begin
             Request_Alt_PC <= Request_Alt_PC1;
             ReadRegisterA1_OUT <= RegA1;
             ReadRegisterB1_OUT <= RegB1;
+            EXE_A_Select_FU <= EXE_A_Select_FU_wire;
+            EXE_B_Select_FU <= EXE_B_Select_FU_wire;
+            MEM_Data_select_FU <= MEM_Data_select_FU_wire;
             case (syscall_bubble_counter)
                 5,4,3: begin
                     //$display("ID:Decrement sbc");
@@ -325,6 +324,22 @@ end
     .MultRegAccess(),   //Needed for out-of-order
 /* verilator lint_on PINCONNECTEMPTY */
      .comment1(1'b1)
+    );
+
+    ForwardingUnit FwrdUnit (
+        .CLK(!CLK),
+        .ID_Instruction(Instr1_IN),
+        .branch(branch1),
+        .jump(jump1),
+        .jump_register(jumpRegister_Flag1),
+        .immediate(!RegDst1),
+        .load(MemRead1),
+        .store(MemWrite1),
+        .reg_write(RegWrite1),
+        .EXE_A_Select(EXE_A_Select_FU_wire), //data select lines
+        .EXE_B_Select(EXE_B_Select_FU_wire),
+        .MEM_Data_select(MEM_Data_select_FU_wire),
+        .stall(WANT_FREEZE)
     );
 
 endmodule

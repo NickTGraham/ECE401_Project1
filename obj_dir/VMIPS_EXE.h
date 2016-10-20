@@ -32,7 +32,9 @@ VL_MODULE(VMIPS_EXE) {
     VL_OUT8(__PVT__MemWrite1_OUT,0,0);
     VL_IN8(__PVT__RegA_Select,1,0);
     VL_IN8(__PVT__RegB_Select,1,0);
-    //char	__VpadToAlign15[1];
+    VL_IN8(__PVT__MEM_Data_select,1,0);
+    VL_OUT8(__PVT__MEM_Data_select_out,1,0);
+    //char	__VpadToAlign17[3];
     VL_IN(__PVT__Instr1_IN,31,0);
     VL_IN(__PVT__Instr1_PC_IN,31,0);
     VL_IN(__PVT__OperandA1_IN,31,0);
@@ -53,7 +55,6 @@ VL_MODULE(VMIPS_EXE) {
     VL_SIG(LO,31,0);
     VL_SIG(__PVT__HI_new1,31,0);
     VL_SIG(__PVT__LO_new1,31,0);
-    //char	__VpadToAlign92[4];
     VL_SIG64(__PVT__ALU1__DOT__temp,63,0);
     
     // LOCAL VARIABLES

@@ -124,12 +124,10 @@ module MIPS (
     wire        MemWrite1_IDEXE;
     wire [4:0]  ShiftAmount1_IDEXE;
 
-
-    //Forwarding login wires
-    wire jump_IDFU;
-    wire branch_IDFU;
-    wire immediate_IDFU;
-    wire jump_reg_IDFU;
+    //ForwardingUnit output wires
+    wire [1:0] EXE_A_Select_FU;
+    wire [1:0] EXE_B_Select_FU;
+    wire [1:0] MEM_Data_select_FU;
 
     ID ID(
         .CLK(CLK),
@@ -157,33 +155,34 @@ module MIPS (
         .MemRead1_OUT(MemRead1_IDEXE),
         .MemWrite1_OUT(MemWrite1_IDEXE),
         .ShiftAmount1_OUT(ShiftAmount1_IDEXE),
-        .jump_out(jump_IDFU),
-        .branch_out(branch_IDFU),
-        .immmediate_out(immediate_IDFU),
-        .jump_reg_out(jump_reg_IDFU),
+        .EXE_A_Select_FU(EXE_A_Select_FU),
+        .EXE_B_Select_FU(EXE_B_Select_FU),
+        .MEM_Data_select_FU(MEM_Data_select_FU),
         .SYS(SYS),
         .WANT_FREEZE(STALL_IDIF)
     );
 
     //ForwardingUnit output wires
-    wire [1:0] EXE_A_Select_FU;
-    wire [1:0] EXE_B_Select_FU;
-    wire [1:0] MEM_Data_select_FU;
-    //wire stall;
-    ForwardingUnit FwrdUnit (
-        .CLK(CLK),
-        .ID_Instruction(Instr1_IDEXE),
-        .branch(branch_IDFU),
-        .jump(jump_IDFU),
-        .jump_register(jump_reg_IDFU),
-        .immediate(immediate_IDFU),
-        .load(MemRead1_IDEXE),
-        .store(MemWrite1_IDEXE),
-        .EXE_A_Select(EXE_A_Select_FU), //data select lines
-        .EXE_B_Select(EXE_B_Select_FU),
-        .MEM_Data_select(MEM_Data_select_FU),
-        .stall(STALL_IDIF)
-    );
+    // wire [1:0] EXE_A_Select_FU;
+    // wire [1:0] EXE_B_Select_FU;
+    // wire [1:0] MEM_Data_select_FU;
+    // //wire stall;
+    // ForwardingUnit FwrdUnit (
+    //     .CLK(CLK),
+    //     .IF_Instruction(Instr1_IFID),
+    //     .ID_Instruction(Instr1_IDEXE),
+    //     .branch(branch_IDFU),
+    //     .jump(jump_IDFU),
+    //     .jump_register(jump_reg_IDFU),
+    //     .immediate(immediate_IDFU),
+    //     .load(MemRead1_IDEXE),
+    //     .store(MemWrite1_IDEXE),
+    //     .reg_write(RegWrite1_IDEXE),
+    //     .EXE_A_Select(EXE_A_Select_FU), //data select lines
+    //     .EXE_B_Select(EXE_B_Select_FU),
+    //     .MEM_Data_select(MEM_Data_select_FU),
+    //     .stall(STALL_IDIF)
+    // );
 
 
     wire [31:0] Instr1_EXEMEM;
@@ -195,6 +194,8 @@ module MIPS (
     wire [5:0]  ALU_Control1_EXEMEM;
     wire        MemRead1_EXEMEM;
     wire        MemWrite1_EXEMEM;
+
+    wire [1:0] MEM_Data_select_EXEMEM;
 
     EXE EXE(
         .CLK(CLK),
@@ -222,8 +223,11 @@ module MIPS (
         //Forwarding stuff
         .RegA_Select(EXE_A_Select_FU),
         .RegB_Select(EXE_B_Select_FU),
+        .MEM_Data_select(MEM_Data_select_FU),
         .ALU_result_forward(ALU_result1_EXEMEM),
-        .Mem_result_forward(WriteData1_MEMWB)
+        .Mem_result_forward(WriteData1_MEMWB),
+
+        .MEM_Data_select_out(MEM_Data_select_EXEMEM)
     );
 
 
@@ -277,7 +281,7 @@ module MIPS (
         .data_read_fDM(data_read_fDC),
         .MemRead_2DM(read_2DC),
         .MemWrite_2DM(write_2DC),
-        .MEM_Data_select(MEM_Data_select_FU),
+        .MEM_Data_select(MEM_Data_select_EXEMEM),
         .WB_Data_forward(WriteData1_MEMWB)
     );
 

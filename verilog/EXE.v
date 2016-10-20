@@ -65,15 +65,18 @@ module EXE(
     //Forwarding stuff
     input [1:0] RegA_Select,
     input [1:0] RegB_Select,
+    input [1:0] MEM_Data_select,
     input [31:0] ALU_result_forward,
-    input [31:0] Mem_result_forward
+    input [31:0] Mem_result_forward,
+
+    output [1:0] MEM_Data_select_out
     );
 
 
      wire [31:0] A1;
      wire [31:0] B1;
 
-     wire[31:0]ALU_result1;
+     wire[31:0] ALU_result1;
 
      wire comment1;
      assign comment1 = 1;
@@ -87,7 +90,7 @@ module EXE(
     //  assign B1 = replaceB?valueB:OperandB1_IN;
     assign A1 = (RegA_Select == 2'd1)?ALU_result_forward:((RegA_Select == 2'd2)?Mem_result_forward:OperandA1_IN);
     assign B1 = (RegB_Select == 2'd1)?ALU_result_forward:((RegB_Select == 2'd2)?Mem_result_forward:OperandB1_IN);
-
+    assign MEM_Data_select_out = MEM_Data_select;
     //assign B1 = OperandB1_IN;
 
 
@@ -121,6 +124,7 @@ wire [31:0] MemWriteData1;
 assign MemWriteData1 = MemWriteData1_IN;
 
 always @(posedge CLK or negedge RESET) begin
+    $display("!!!EXE RegA_Select[%b] RegB_Select[%b] ", RegA_Select, RegB_Select);
     if(!RESET) begin
         Instr1_OUT <= 0;
         Instr1_PC_OUT <= 0;
