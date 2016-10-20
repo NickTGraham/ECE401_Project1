@@ -14,6 +14,7 @@ Pipelined MIPS Processor
     - [x] Basic Implementation
     - [x] JALR & JR
     - [x] Handle when it is in the writeback stage during decode
-    - [ ] Forward from Writeback to ALU
+    - [x] Forward from Writeback to ALU
 	- [ ] Update Diagram to include this
+- [ ] get a branch near zero in noio
 - [ ] Project Report
