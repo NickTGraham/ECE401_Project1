@@ -172,6 +172,7 @@ module MIPS (
         .Fwd_ALU_Result(FWD_ALU_Result_Wire),
         .Fwd_Mem_result(FWD_MEM_Result_Wire),
         .Fwd_Wb_result(FWD_WB_Result_Wire),
+        .Fwd_Stall(stall_FUID),
         .SYS(SYS),
         .WANT_FREEZE(STALL_IDIF)
     );
@@ -182,6 +183,7 @@ module MIPS (
     wire [1:0] MEM_Data_select_FU;
     wire [1:0] Branch_JR_select_A_FU;
     wire [1:0] Branch_JR_select_B_FU;
+    wire stall_FUID;
     //wire stall;
     ForwardingUnit FwrdUnit (
         .CLK(CLK),
@@ -199,7 +201,7 @@ module MIPS (
         .Branch_JR_select_A(Branch_JR_select_A_FU),
         .Branch_JR_select_B(Branch_JR_select_B_FU),
         .MEM_Data_select(MEM_Data_select_FU),
-        .stall(STALL_IDIF) //this is probably bad...
+        .stall(stall_FUID) //this is probably bad...
     );
 
 

@@ -82,9 +82,9 @@ VL_MODULE(VMIPS_EXE) {
     
     // INTERNAL METHODS
     void __Vconfigure(VMIPS__Syms* symsp, bool first);
-    static void	_combo__TOP__v__EXE__5(VMIPS__Syms* __restrict vlSymsp);
+    static void	_combo__TOP__v__EXE__4(VMIPS__Syms* __restrict vlSymsp);
+    static void	_sequent__TOP__v__EXE__2(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__EXE__3(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__EXE__4(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
 #endif  /*guard*/

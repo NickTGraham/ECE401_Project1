@@ -80,6 +80,7 @@ module ID(
     input [31:0] Fwd_ALU_Result,
     input [31:0] Fwd_Mem_result,
     output [31:0] Fwd_Wb_result,
+    input Fwd_Stall,
      //Tell the simulator to process a system call
      output reg SYS,
      //Tell fetch to stop advancing the PC, and wait.
@@ -147,7 +148,7 @@ module ID(
     wire [31:0] rsval_jump1;
 
     //assign rsval_jump1 = rsRawVal1;
-    //this shoulf forward the values needed for jr instructions
+    //this should forward the values needed for jr instructions
     assign rsval_jump1 = (Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:((Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:rsRawVal1);
 
 NextInstructionCalculator NIA1 (
@@ -176,13 +177,13 @@ compare branch_compare1 (
 //End branch/jump calculation
 
 //Handle pipelining, now gets forwarded values.
-assign rsval1 = ((Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:(rs1 == WriteRegister1_IN & RegWrite1_IN)?WriteData1_IN:rsRawVal1);
-assign rtval1 = ((Branch_JR_select_B_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_B_FU == 2'd2)?Fwd_Mem_result:(rt1 == WriteRegister1_IN & RegWrite1_IN)?WriteData1_IN:rtRawVal1);
+assign rsval1 = ((Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:(rs1 == WriteRegister1_IN & RegWrite1_IN & rs1 != 0)?WriteData1_IN:rsRawVal1);
+assign rtval1 = ((Branch_JR_select_B_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_B_FU == 2'd2)?Fwd_Mem_result:(rt1 == WriteRegister1_IN & RegWrite1_IN & rt1 != 0)?WriteData1_IN:rtRawVal1);
 
 
     assign WriteRegister1 = RegDst1?rd1:(link1?5'd31:rt1);
     //assign MemWriteData1 = Reg[WriteRegister1];		//What will be written by MEM
-    assign MemWriteData1 = WriteRegisterRawVal1;
+    assign MemWriteData1 = (rt1 == WriteRegister1_IN & RegWrite1_IN & rt1 != 0)? WriteData1_IN:WriteRegisterRawVal1;
 
     //OpA will always be rsval, although it might be unused.
     assign OpA1 = link1?0:rsval1;
@@ -210,7 +211,7 @@ RegFile RegFile (
 
      reg FORCE_FREEZE;
      reg INHIBIT_FREEZE;
-     assign WANT_FREEZE = ((FORCE_FREEZE | syscal1) && !INHIBIT_FREEZE);
+     assign WANT_FREEZE = ((FORCE_FREEZE | syscal1 | Fwd_Stall) && !INHIBIT_FREEZE);
 
 always @(posedge CLK or negedge RESET) begin
     if(!RESET) begin
@@ -299,6 +300,7 @@ always @(posedge CLK or negedge RESET) begin
                     MemWrite1_OUT <= MemWrite1;
                     ShiftAmount1_OUT <= shiftAmount1;
                     Instr1_PC_OUT <= Instr_PC_IN;
+                    SYS <= syscal1;
                     end
             endcase
             /*if (RegWrite_IN) begin
@@ -336,21 +338,4 @@ end
 /* verilator lint_on PINCONNECTEMPTY */
      .comment1(1'b1)
     );
-
-    // ForwardingUnit FwrdUnit (
-    //     .CLK(!CLK),
-    //     .ID_Instruction(Instr1_IN),
-    //     .branch(branch1),
-    //     .jump(jump1),
-    //     .jump_register(jumpRegister_Flag1),
-    //     .immediate(!RegDst1),
-    //     .load(MemRead1),
-    //     .store(MemWrite1),
-    //     .reg_write(RegWrite1),
-    //     .EXE_A_Select(EXE_A_Select_FU_wire), //data select lines
-    //     .EXE_B_Select(EXE_B_Select_FU_wire),
-    //     .MEM_Data_select(MEM_Data_select_FU_wire),
-    //     .stall(WANT_FREEZE)
-    // );
-
 endmodule

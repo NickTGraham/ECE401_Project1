@@ -5,8 +5,6 @@ module ForwardingUnit(
     /* verilator lint_off UNUSED */
     input [31:0] ID_Instruction, //input info from other stages
     /* verilator lint_on UNUSED */
-    //input [31:0] MEM_Input,
-    //input [31:0] WB_input,
     input branch,
     input jump,
     input jump_register,
@@ -17,12 +15,9 @@ module ForwardingUnit(
     input reg_write,
     output [1:0] EXE_A_Select, //data select lines
     output [1:0] EXE_B_Select,
-    //output [31:0] Alt_RegA, //Forwarded data
-    //output [31:0] Alt_RegB,
     output [1:0] MEM_Data_select, //Forward from WB to Mem data
     output [1:0] Branch_JR_select_A, //forward to the Branch and jump (Needs 2 inputs for compare, so 2 possible forwards)
     output [1:0] Branch_JR_select_B, //forward to the Branch and jump
-    //output [31:0] Alt_MEM_Data, //forwarded wb data
     output stall //Need to stall because of branch or jr conflicts
     );
 
@@ -39,7 +34,7 @@ module ForwardingUnit(
     */
 
     //For someone complaining that the old method was inacurate, I actually think this is worse
-    //I am very proud of myself...
+    //the names assume no branch or jump occured, not that it matters. It I am very proud of myself...
     reg [4:0] PC_4_WriteReg, PC_8_WriteReg, PC_12_WriteReg;
     //reg PC-4_Write, PC-8_Write, PC-12_Write; //can store there valid write // !! Had a better idea, I can just set to 0 if it isn't a write
 
@@ -49,10 +44,7 @@ module ForwardingUnit(
 
     assign rt = immediate?ID_Instruction[20:16]:(store?(ID_Instruction[20:16]):0);
     assign rd = immediate?ID_Instruction[15:11]:ID_Instruction[20:16];
-    //Not gaurenteed to be true.
-    //assign EXE_RegA = ID_Instruction[25:21];
-    //assign EXE_RegB = ID_Instruction[20:16];
-    //assign EXE_WriteReg = ID_Instruction[15:11];
+
     //to ignore warnings
     wire fu_load = load;
     //wire [4:0] fu_wb_rega = WB_RegA;
@@ -72,7 +64,7 @@ module ForwardingUnit(
 
     //If 1 pull value in from PC-4, if 2 pull from PC-8 if 3 pull from PC-12 otherwise use regular value. This is done in the EXE Stage
     assign EXE_A_Select_Wire = (PC_4_WriteReg != 0 & !link & PC_4_WriteReg == rs)?2'd1:(!link & PC_8_WriteReg != 0 & PC_8_WriteReg == rs)?2'd2:(!link & PC_12_WriteReg !=0 & PC_12_WriteReg == rs)?2'd3:2'd0;
-    assign EXE_B_Select_Wire = (PC_4_WriteReg != 0 & !link & PC_4_WriteReg == rt)?2'd1:(!link & PC_8_WriteReg != 0 & PC_8_WriteReg == rt)?2'd2:(!link & PC_12_WriteReg !=0 & PC_12_WriteReg == rt)?2'd3:2'd0;
+    assign EXE_B_Select_Wire = (PC_4_WriteReg != 0 & !link & PC_4_WriteReg == rt & !store)?2'd1:(!link & PC_8_WriteReg != 0 & PC_8_WriteReg == rt & !store)?2'd2:(!link & PC_12_WriteReg !=0 & PC_12_WriteReg == rt & !store)?2'd3:2'd0;
     //If 1 pull value in from PC-4, if 2 pull from PC-8 if 3 pull from PC-12 otherwise use regular value. This is done in EXE to replace data passed in, and possibly later in mem (I am unsure if that condition could be met...?)
     assign MEM_Data_select_Wire = (PC_4_WriteReg != 0 & store & PC_4_WriteReg == rt)?2'd1:(store & PC_8_WriteReg != 0 & PC_8_WriteReg == rt)?2'd2:(store & PC_12_WriteReg !=0 & PC_12_WriteReg == rt)?2'd3:2'd0;
 
@@ -81,14 +73,17 @@ module ForwardingUnit(
     assign Branch_JR_select_B = (PC_4_WriteReg != 0 &  PC_4_WriteReg == rt)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rt)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rt)?2'd3:2'd0;
 
     //I am unsure if this is needed, I don't know. I am tired.
-    // -- So after a short, unplanned nap, I now remember what this was for, forwardinding the data for a store
+    // -- So after a short, unplanned nap, I now remember what this was for, forwarding the data for a store
     //assign MEM_Data_select = 2'b0;
 
     always @(posedge CLK) begin
         if (0) begin
-            $display("%x", fu_load);
+            $display("%x", fu_load); //quite warnings
         end
 
+        //This did not work because the values need to propigate immediatly, they cannot wait until the
+        //clock cycle.
+        
         //Stall if there is a conflict with a jump or a branch
         // if ((jump & jump_register) | branch) begin
         //     if (rs == EXE_WriteReg | rs == MEM_WriteReg | rs == WB_WriteReg) begin

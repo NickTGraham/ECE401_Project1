@@ -118,6 +118,7 @@ module MEM(
 
 always @(data_read_fDM) begin
     //$display("MEM Received:data_read_fDM=%x",data_read_fDM);
+    $display("Data_to_be_Written [%x]", Data_to_be_Written);
     data_read_aligned = MemoryData;
     //$display("Updated DRA");
     MemWriteAddress = ALU_result;
@@ -189,6 +190,9 @@ always @(data_read_fDM) begin
             if (ALU_result[1:0] == 2'b00) begin //loading first half of the word
                 data_read_aligned = {{16{data_read_fDM[31]}}, data_read_fDM[31:16]};
             end
+            else if (ALU_result[1:0] == 2'b01) begin
+                data_read_aligned = {{16{data_read_fDM[23]}}, data_read_fDM[23:8]};
+            end
             else begin //second half of the word
                 data_read_aligned = {{16{data_read_fDM[15]}}, data_read_fDM[15:0]};
             end
@@ -213,6 +217,9 @@ always @(data_read_fDM) begin
             if (ALU_result[1:0] == 2'b00) begin //loading first half of the word
                 data_read_aligned = {{16{1'b0}}, data_read_fDM[31:16]};
             end
+            else if (ALU_result[1:0] == 2'b01) begin
+                data_read_aligned = {{16{1'b0}}, data_read_fDM[23:8]};
+            end
             else begin //second half of the word
                 data_read_aligned = {{16{1'b0}}, data_read_fDM[15:0]};
             end
@@ -229,7 +236,8 @@ always @(data_read_fDM) begin
                 data_write_2DM = {Data_to_be_Written[7:0], data_read_fDM[23:0]}; //Totally did not need a calculator to find out what 31 - 8 was, nope, not at all
             end
             else if (MemWriteAddress[1:0] == 2'b01) begin //Second Byte
-                data_write_2DM = {data_read_fDM[31:24], Data_to_be_Written[7:0], data_read_fDM[15:0]};
+                data_write_2DM = {Data_to_be_Written[7:0], data_read_fDM[23:0]};
+                //data_write_2DM = {data_read_fDM[31:24], Data_to_be_Written[7:0], data_read_fDM[15:0]};
             end
             else if (MemWriteAddress[1:0] == 2'b10) begin //Third Byte
                 data_write_2DM = {data_read_fDM[31:16], Data_to_be_Written[7:0], data_read_fDM[7:0]};
@@ -237,6 +245,7 @@ always @(data_read_fDM) begin
             else begin //Did you guess it? Fourth Byte
                 data_write_2DM = {data_read_fDM[31:8], Data_to_be_Written[7:0]};
             end
+            //MemWriteAddress = {ALU_result[31:2], {2{1'b0}}};
             // I Don't like having that fourth byte catch all else statement, but what you gonna do? <- real question, would like an answer
         end
         6'b110000: begin	//SH
@@ -249,7 +258,10 @@ always @(data_read_fDM) begin
             else if (MemWriteAddress[1:0] == 2'b10) begin //put at end of given word
                 data_write_2DM = {data_read_fDM[31:16], Data_to_be_Written[15:0]};
             end
-
+            else if (MemWriteAddress[1:0] == 2'b01) begin //put at end of given word
+                data_write_2DM = {data_read_fDM[31:24], Data_to_be_Written[15:0], data_read_fDM[7:0]};
+            end
+            //MemWriteAddress = {ALU_result[31:2], {2{1'b0}}};
             //what it it lies in the middle of a word (2'b01)? do I handle that too?
         end
         6'b110001, 6'b110110: begin	//SW/SC
@@ -283,9 +295,6 @@ always @(data_read_fDM) begin
                 data_write_size_2DM=1;
                 data_write_2DM = {data_read_fDM[31:8], Data_to_be_Written[7:0]};
             end
-            //TODO:SWL
-            //Set MemWriteAddress, data_write_2DM and data_write_size_2DM appropriately
-            //Yeah... I Did not do this correctly at all...
         end
         6'b110011: begin //SWR
             /* I would like to thank the MIPS ISA Documentation for there nice
@@ -309,8 +318,6 @@ always @(data_read_fDM) begin
                 data_write_size_2DM=0;
                 data_write_2DM =  Data_to_be_Written;
             end
-           //TODO:SWR
-           //Set MemWriteAddress, data_write_2DM and data_write_size_2DM appropriately
         end
         default: begin
           //If it's not a real memory istruction, do something somewhat related?

@@ -174,36 +174,35 @@ void VMIPS::_eval(VMIPS__Syms* __restrict vlSymsp) {
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->_combo__TOP__2(vlSymsp);
-    if (((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK)))) {
+    if ((((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK))) 
+	 | ((~ (IData)(vlTOPp->RESET)) & (IData)(vlTOPp->__Vclklast__TOP__RESET)))) {
+	vlSymsp->TOP__v__ID__RegFile._sequent__TOP__v__ID__RegFile__1(vlSymsp);
+	vlSymsp->TOP__v__ID._sequent__TOP__v__ID__1(vlSymsp);
 	vlSymsp->TOP__v._sequent__TOP__v__2(vlSymsp);
     }
-    if ((((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK))) 
-	 | ((~ (IData)(vlTOPp->RESET)) & (IData)(vlTOPp->__Vclklast__TOP__RESET)))) {
-	vlSymsp->TOP__v__ID._sequent__TOP__v__ID__1(vlSymsp);
+    if (((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK)))) {
 	vlSymsp->TOP__v._sequent__TOP__v__3(vlSymsp);
-	vlSymsp->TOP__v__ID__RegFile._sequent__TOP__v__ID__RegFile__1(vlSymsp);
-	vlSymsp->TOP__v._sequent__TOP__v__4(vlSymsp);
     }
     if (((~ (IData)(vlTOPp->CLK)) & (IData)(vlTOPp->__Vclklast__TOP__CLK))) {
-	vlSymsp->TOP__v__EXE._sequent__TOP__v__EXE__3(vlSymsp);
+	vlSymsp->TOP__v__EXE._sequent__TOP__v__EXE__2(vlSymsp);
     }
-    vlSymsp->TOP__v._combo__TOP__v__5(vlSymsp);
+    vlSymsp->TOP__v._combo__TOP__v__4(vlSymsp);
     if ((((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK))) 
 	 | ((~ (IData)(vlTOPp->RESET)) & (IData)(vlTOPp->__Vclklast__TOP__RESET)))) {
-	vlSymsp->TOP__v__EXE._sequent__TOP__v__EXE__4(vlSymsp);
+	vlSymsp->TOP__v__EXE._sequent__TOP__v__EXE__3(vlSymsp);
 	vlSymsp->TOP__v__ID._sequent__TOP__v__ID__4(vlSymsp);
-	vlSymsp->TOP__v._sequent__TOP__v__7(vlSymsp);
+	vlSymsp->TOP__v._sequent__TOP__v__6(vlSymsp);
 	vlTOPp->_sequent__TOP__3(vlSymsp);
     }
     if (((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK)))) {
-	vlSymsp->TOP__v._sequent__TOP__v__8(vlSymsp);
+	vlSymsp->TOP__v._sequent__TOP__v__7(vlSymsp);
     }
-    vlSymsp->TOP__v._combo__TOP__v__10(vlSymsp);
+    vlSymsp->TOP__v._combo__TOP__v__9(vlSymsp);
     vlTOPp->_combo__TOP__5(vlSymsp);
-    vlSymsp->TOP__v__EXE._combo__TOP__v__EXE__5(vlSymsp);
+    vlSymsp->TOP__v__EXE._combo__TOP__v__EXE__4(vlSymsp);
     if ((((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK))) 
 	 | ((~ (IData)(vlTOPp->RESET)) & (IData)(vlTOPp->__Vclklast__TOP__RESET)))) {
-	vlSymsp->TOP__v._sequent__TOP__v__11(vlSymsp);
+	vlSymsp->TOP__v._sequent__TOP__v__10(vlSymsp);
 	vlTOPp->_sequent__TOP__6(vlSymsp);
 	vlSymsp->TOP__v__ID._sequent__TOP__v__ID__5(vlSymsp);
 	vlSymsp->TOP__v__ID__RegFile._sequent__TOP__v__ID__RegFile__2(vlSymsp);
@@ -212,8 +211,8 @@ void VMIPS::_eval(VMIPS__Syms* __restrict vlSymsp) {
     vlSymsp->TOP__v__ID._combo__TOP__v__ID__8(vlSymsp);
     if ((((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK))) 
 	 | ((~ (IData)(vlTOPp->RESET)) & (IData)(vlTOPp->__Vclklast__TOP__RESET)))) {
-	vlSymsp->TOP__v._sequent__TOP__v__14(vlSymsp);
 	vlSymsp->TOP__v__ID._sequent__TOP__v__ID__9(vlSymsp);
+	vlSymsp->TOP__v._sequent__TOP__v__13(vlSymsp);
 	vlSymsp->TOP__v__ID__RegFile._sequent__TOP__v__ID__RegFile__4(vlSymsp);
     }
     vlSymsp->TOP__v__ID._combo__TOP__v__ID__11(vlSymsp);
@@ -246,19 +245,19 @@ void VMIPS::_eval_settle(VMIPS__Syms* __restrict vlSymsp) {
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->_settle__TOP__1(vlSymsp);
-    vlSymsp->TOP__v._combo__TOP__v__5(vlSymsp);
-    vlSymsp->TOP__v._settle__TOP__v__9(vlSymsp);
+    vlSymsp->TOP__v._combo__TOP__v__4(vlSymsp);
+    vlSymsp->TOP__v._settle__TOP__v__8(vlSymsp);
     vlTOPp->_settle__TOP__4(vlSymsp);
     vlTOPp->_combo__TOP__5(vlSymsp);
-    vlSymsp->TOP__v._settle__TOP__v__12(vlSymsp);
-    vlSymsp->TOP__v__EXE._combo__TOP__v__EXE__5(vlSymsp);
+    vlSymsp->TOP__v._settle__TOP__v__11(vlSymsp);
+    vlSymsp->TOP__v__EXE._combo__TOP__v__EXE__4(vlSymsp);
     vlSymsp->TOP__v__ID._settle__TOP__v__ID__6(vlSymsp);
     vlSymsp->TOP__v__ID__RegFile._sequent__TOP__v__ID__RegFile__2(vlSymsp);
     vlTOPp->_settle__TOP__8(vlSymsp);
-    vlSymsp->TOP__v._settle__TOP__v__13(vlSymsp);
+    vlSymsp->TOP__v._settle__TOP__v__12(vlSymsp);
     vlSymsp->TOP__v__ID._settle__TOP__v__ID__7(vlSymsp);
     vlSymsp->TOP__v__ID._settle__TOP__v__ID__10(vlSymsp);
-    vlSymsp->TOP__v._settle__TOP__v__15(vlSymsp);
+    vlSymsp->TOP__v._settle__TOP__v__14(vlSymsp);
     vlSymsp->TOP__v__ID__RegFile._sequent__TOP__v__ID__RegFile__4(vlSymsp);
     vlTOPp->_settle__TOP__10(vlSymsp);
     vlSymsp->TOP__v__ID._settle__TOP__v__ID__12(vlSymsp);
