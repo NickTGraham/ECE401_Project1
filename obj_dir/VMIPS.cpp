@@ -162,8 +162,8 @@ VL_INLINE_OPT void VMIPS::_settle__TOP__8(VMIPS__Syms* __restrict vlSymsp) {
     vlTOPp->data_address_2DM = vlSymsp->TOP__v.data_address_2DC;
 }
 
-VL_INLINE_OPT void VMIPS::_settle__TOP__10(VMIPS__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_PRINTF("    VMIPS::_settle__TOP__10\n"); );
+VL_INLINE_OPT void VMIPS::_sequent__TOP__10(VMIPS__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_PRINTF("    VMIPS::_sequent__TOP__10\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->Instr_address_2IM = vlSymsp->TOP__v.Instr_address_2IC;
@@ -211,14 +211,15 @@ void VMIPS::_eval(VMIPS__Syms* __restrict vlSymsp) {
     vlSymsp->TOP__v__ID._combo__TOP__v__ID__8(vlSymsp);
     if ((((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK))) 
 	 | ((~ (IData)(vlTOPp->RESET)) & (IData)(vlTOPp->__Vclklast__TOP__RESET)))) {
+	vlSymsp->TOP__v._settle__TOP__v__12(vlSymsp);
 	vlSymsp->TOP__v__ID._sequent__TOP__v__ID__9(vlSymsp);
-	vlSymsp->TOP__v._sequent__TOP__v__13(vlSymsp);
 	vlSymsp->TOP__v__ID__RegFile._sequent__TOP__v__ID__RegFile__4(vlSymsp);
     }
     vlSymsp->TOP__v__ID._combo__TOP__v__ID__11(vlSymsp);
     if ((((IData)(vlTOPp->CLK) & (~ (IData)(vlTOPp->__Vclklast__TOP__CLK))) 
 	 | ((~ (IData)(vlTOPp->RESET)) & (IData)(vlTOPp->__Vclklast__TOP__RESET)))) {
-	vlTOPp->_settle__TOP__10(vlSymsp);
+	vlSymsp->TOP__v._settle__TOP__v__14(vlSymsp);
+	vlTOPp->_sequent__TOP__10(vlSymsp);
     }
     vlSymsp->TOP__v__ID._combo__TOP__v__ID__13(vlSymsp);
     // Final
@@ -257,10 +258,10 @@ void VMIPS::_eval_settle(VMIPS__Syms* __restrict vlSymsp) {
     vlSymsp->TOP__v._settle__TOP__v__12(vlSymsp);
     vlSymsp->TOP__v__ID._settle__TOP__v__ID__7(vlSymsp);
     vlSymsp->TOP__v__ID._settle__TOP__v__ID__10(vlSymsp);
-    vlSymsp->TOP__v._settle__TOP__v__14(vlSymsp);
     vlSymsp->TOP__v__ID__RegFile._sequent__TOP__v__ID__RegFile__4(vlSymsp);
-    vlTOPp->_settle__TOP__10(vlSymsp);
+    vlSymsp->TOP__v._settle__TOP__v__14(vlSymsp);
     vlSymsp->TOP__v__ID._settle__TOP__v__ID__12(vlSymsp);
+    vlTOPp->_sequent__TOP__10(vlSymsp);
 }
 
 VL_INLINE_OPT QData VMIPS::_change_request(VMIPS__Syms* __restrict vlSymsp) {

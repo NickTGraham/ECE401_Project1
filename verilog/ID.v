@@ -149,7 +149,7 @@ module ID(
 
     //assign rsval_jump1 = rsRawVal1;
     //this should forward the values needed for jr instructions
-    assign rsval_jump1 = (Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:((Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:rsRawVal1);
+    assign rsval_jump1 = (Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:((Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:(Branch_JR_select_A_FU == 2'd3)?WriteData1_IN:rsRawVal1);
 
 NextInstructionCalculator NIA1 (
     .Instr_PC_Plus4(Instr_PC_Plus4_IN),
@@ -177,8 +177,8 @@ compare branch_compare1 (
 //End branch/jump calculation
 
 //Handle pipelining, now gets forwarded values.
-assign rsval1 = ((Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:(rs1 == WriteRegister1_IN & RegWrite1_IN & rs1 != 0)?WriteData1_IN:rsRawVal1);
-assign rtval1 = ((Branch_JR_select_B_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_B_FU == 2'd2)?Fwd_Mem_result:(rt1 == WriteRegister1_IN & RegWrite1_IN & rt1 != 0)?WriteData1_IN:rtRawVal1);
+assign rsval1 = ((Branch_JR_select_A_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_A_FU == 2'd2)?Fwd_Mem_result:(Branch_JR_select_A_FU == 2'd3)?WriteData1_IN:rsRawVal1);
+assign rtval1 = ((Branch_JR_select_B_FU == 2'd1)?Fwd_ALU_Result:(Branch_JR_select_B_FU == 2'd2)?Fwd_Mem_result:(Branch_JR_select_B_FU == 2'd3)?WriteData1_IN:rtRawVal1);
 
 
     assign WriteRegister1 = RegDst1?rd1:(link1?5'd31:rt1);
@@ -214,6 +214,7 @@ RegFile RegFile (
      assign WANT_FREEZE = ((FORCE_FREEZE | syscal1 | Fwd_Stall) && !INHIBIT_FREEZE);
 
 always @(posedge CLK or negedge RESET) begin
+    $display("rsval1 [%x] rtval1 [%x]", rsval1, rtval1);
     if(!RESET) begin
         Alt_PC <= 0;
         Request_Alt_PC <= 0;
@@ -236,10 +237,32 @@ always @(posedge CLK or negedge RESET) begin
         INHIBIT_FREEZE <= 0;
     $display("ID:RESET");
     end else begin
-            Alt_PC <= Alt_PC1;
-            Request_Alt_PC <= Request_Alt_PC1;
-            ReadRegisterA1_OUT <= RegA1;
-            ReadRegisterB1_OUT <= RegB1;
+            if (WANT_FREEZE & Fwd_Stall) begin
+                Request_Alt_PC <= 0;
+                ReadRegisterA1_OUT <= 0;
+                ReadRegisterB1_OUT <= 0;
+
+                Instr1_OUT <= 0;
+                OperandA1_OUT <= 0;
+                OperandB1_OUT <= 0;
+                ReadRegisterA1_OUT <= 0;
+                ReadRegisterB1_OUT <= 0;
+                WriteRegister1_OUT <= 0;
+                MemWriteData1_OUT <= 0;
+                RegWrite1_OUT <= 0;
+                ALU_Control1_OUT <= 0;
+                MemRead1_OUT <= 0;
+                MemWrite1_OUT <= 0;
+                ShiftAmount1_OUT <= 0;
+                Instr1_PC_OUT <= 0;
+                SYS <= 0;
+            end
+            else begin
+                Alt_PC <= Alt_PC1;
+                Request_Alt_PC <= Request_Alt_PC1;
+                ReadRegisterA1_OUT <= RegA1;
+                ReadRegisterB1_OUT <= RegB1;
+            end
             case (syscall_bubble_counter)
                 5,4,3: begin
                     //$display("ID:Decrement sbc");

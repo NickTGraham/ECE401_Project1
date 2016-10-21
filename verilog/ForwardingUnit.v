@@ -70,8 +70,7 @@ module ForwardingUnit(
 
     //Now to forward for branches or for jump registers, to be handled in decode stage. I think this can happed even if a link too...
     assign Branch_JR_select_A = (PC_4_WriteReg != 0 & PC_4_WriteReg == rs)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rs)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rs)?2'd3:2'd0;
-    assign Branch_JR_select_B = (PC_4_WriteReg != 0 &  PC_4_WriteReg == rt)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rt)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rt)?2'd3:2'd0;
-
+    assign Branch_JR_select_B = (PC_4_WriteReg != 0 &  PC_4_WriteReg == rt & !link)?2'd1:(PC_8_WriteReg != 0 & PC_8_WriteReg == rt & !link)?2'd2:(PC_12_WriteReg !=0 & PC_12_WriteReg == rt & !link)?2'd3:2'd0;
     //I am unsure if this is needed, I don't know. I am tired.
     // -- So after a short, unplanned nap, I now remember what this was for, forwarding the data for a store
     //assign MEM_Data_select = 2'b0;
@@ -83,7 +82,7 @@ module ForwardingUnit(
 
         //This did not work because the values need to propigate immediatly, they cannot wait until the
         //clock cycle.
-        
+
         //Stall if there is a conflict with a jump or a branch
         // if ((jump & jump_register) | branch) begin
         //     if (rs == EXE_WriteReg | rs == MEM_WriteReg | rs == WB_WriteReg) begin

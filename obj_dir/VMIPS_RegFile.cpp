@@ -120,12 +120,12 @@ VL_INLINE_OPT void VMIPS_RegFile::_sequent__TOP__v__ID__RegFile__2(VMIPS__Syms* 
     VL_DEBUG_IF(VL_PRINTF("          VMIPS_RegFile::_sequent__TOP__v__ID__RegFile__2\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlSymsp->TOP__v__ID__RegFile.__PVT__DataA1 = vlSymsp->TOP__v__ID__RegFile.Reg
-	[(0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
-		   >> 0x15U))];
     vlSymsp->TOP__v__ID__RegFile.__PVT__DataB1 = vlSymsp->TOP__v__ID__RegFile.Reg
 	[(0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
 		   >> 0x10U))];
+    vlSymsp->TOP__v__ID__RegFile.__PVT__DataA1 = vlSymsp->TOP__v__ID__RegFile.Reg
+	[(0x1fU & (vlSymsp->TOP__v.__PVT__Instr1_IFID 
+		   >> 0x15U))];
 }
 
 VL_INLINE_OPT void VMIPS_RegFile::_sequent__TOP__v__ID__RegFile__4(VMIPS__Syms* __restrict vlSymsp) {
