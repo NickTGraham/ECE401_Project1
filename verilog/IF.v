@@ -38,7 +38,8 @@ module  IF
     wire [31:0] IncrementAmount;
     assign IncrementAmount = 32'd4; //NB: This might get modified for superscalar.
 
-    assign Instr_address_2IM = STALL?(Instr_PC_Plus4):(Request_Alt_PC?Alt_PC:Instr_PC_Plus4);  //Are you sure that this is correct?
+    //get the next instruction, if a stall use PC+4 so that we can set it back
+    assign Instr_address_2IM = STALL?(Instr_PC_Plus4):(Request_Alt_PC?Alt_PC:Instr_PC_Plus4);
 
 
 always @(posedge CLK or negedge RESET) begin

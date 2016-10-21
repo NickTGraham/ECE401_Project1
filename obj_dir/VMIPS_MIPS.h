@@ -107,14 +107,12 @@ VL_MODULE(VMIPS_MIPS) {
     static void	_combo__TOP__v__4(VMIPS__Syms* __restrict vlSymsp);
     static void	_combo__TOP__v__9(VMIPS__Syms* __restrict vlSymsp);
     static void	_initial__TOP__v__1(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__10(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__2(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__3(VMIPS__Syms* __restrict vlSymsp);
     static void	_sequent__TOP__v__6(VMIPS__Syms* __restrict vlSymsp);
-    static void	_sequent__TOP__v__7(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__11(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__12(VMIPS__Syms* __restrict vlSymsp);
-    static void	_settle__TOP__v__14(VMIPS__Syms* __restrict vlSymsp);
+    static void	_settle__TOP__v__7(VMIPS__Syms* __restrict vlSymsp);
     static void	_settle__TOP__v__8(VMIPS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 

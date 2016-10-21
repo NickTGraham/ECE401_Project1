@@ -18,5 +18,5 @@ Pipelined MIPS Processor
 	- [x] Update Diagram to include this
 - [x] get a branch near zero in noio
 - [x] syscall 4003 results in segfault every time ...
-- [ ]always get a jump to zero
-- [ x Project Report
+- [x] always get a jump to zero
+- [x] Project Report

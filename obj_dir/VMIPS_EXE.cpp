@@ -1257,12 +1257,7 @@ VL_INLINE_OPT void VMIPS_EXE::_sequent__TOP__v__EXE__3(VMIPS__Syms* __restrict v
     VL_DEBUG_IF(VL_PRINTF("        VMIPS_EXE::_sequent__TOP__v__EXE__3\n"); );
     VMIPS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    // ALWAYS at verilog//EXE.v:129
-    VL_WRITEF("!!!EXE RegA_Select[%b] RegB_Select[%b] MEM_Select[%b]\n",
-	      2,vlSymsp->TOP__v.__PVT__EXE_A_Select_FU,
-	      2,(IData)(vlSymsp->TOP__v.__PVT__EXE_B_Select_FU),
-	      2,vlSymsp->TOP__v.__PVT__MEM_Data_select_FU);
-    fflush (stdout);
+    // ALWAYS at verilog//EXE.v:125
     if (VL_LIKELY(vlTOPp->RESET)) {
 	if (VL_UNLIKELY(vlTOPp->CLK)) {
 	    vlSymsp->TOP__v__EXE.HI = vlSymsp->TOP__v__EXE.__PVT__HI_new1;

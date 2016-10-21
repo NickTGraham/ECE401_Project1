@@ -62,15 +62,19 @@ module EXE(
     //We need to write to MEM (passed to MEM)
     output reg MemWrite1_OUT,
 
-    //Forwarding stuff
+    //Forwarding Select Lines
     input [1:0] RegA_Select,
     input [1:0] RegB_Select,
     input [1:0] MEM_Data_select,
+
+    //Forwarding Values
     output [31:0] ALU_result_forward,
     input [31:0] Mem_result_forward,
     /* verilator lint_off UNUSED */
     input [31:0] WB_result_forward,
     /* verilator lint_on UNUSED */
+
+    //For propigating forward, but I don't think I use that anymore...
     output [1:0] MEM_Data_select_out
     );
 
@@ -83,51 +87,43 @@ module EXE(
      wire comment1;
      assign comment1 = 1;
 
-    //  assign replaceA = (Forward_A==MemWriteReg & MemWriteValid) | (Forward_A==WBWriteReg & WBWriteValid);
-    //  assign valueA = (Forward_A==MemWriteReg & MemWriteValid)?Mem_ALU_result:WB_result;
-    //  assign A1 = replaceA?valueA:OperandA1_IN;
-     //
-    //  assign replaceB = (Forward_B==MemWriteReg & MemWriteValid) | (Forward_B==WBWriteReg & WBWriteValid);
-    //  assign valueB = (Forward_B==MemWriteReg & MemWriteValid)?Mem_ALU_result:WB_result;
-    //  assign B1 = replaceB?valueB:OperandB1_IN;
-    
     assign A1 = (RegA_Select == 2'd1)?Mem_result_forward:((RegA_Select == 2'd2)?WB_result_forward:((RegA_Select == 2'd3)?OperandA1_IN:OperandA1_IN));
     assign B1 = (RegB_Select == 2'd1)?Mem_result_forward:((RegB_Select == 2'd2)?WB_result_forward:((RegB_Select == 2'd3)?OperandB1_IN:OperandB1_IN));
     assign MEM_Data_select_out = MEM_Data_select;
     //assign B1 = OperandB1_IN;
     assign ALU_result_forward = ALU_result1;
 
-reg [31:0] HI/*verilator public*/;
-reg [31:0] LO/*verilator public*/;
-wire [31:0] HI_new1;
-wire [31:0] LO_new1;
-wire [31:0] new_HI;
-wire [31:0] new_LO;
+    reg [31:0] HI/*verilator public*/;
+    reg [31:0] LO/*verilator public*/;
+    wire [31:0] HI_new1;
+    wire [31:0] LO_new1;
+    wire [31:0] new_HI;
+    wire [31:0] new_LO;
 
-assign new_HI=HI_new1;
-assign new_LO=LO_new1;
+    assign new_HI=HI_new1;
+    assign new_LO=LO_new1;
 
 
-ALU ALU1(
-    .aluResult(ALU_result1),
-    .HI_OUT(HI_new1),
-    .LO_OUT(LO_new1),
-    .HI_IN(HI),
-    .LO_IN(LO),
-    .A(A1),
-    .B(B1),
-    .ALU_control(ALU_Control1_IN),
-    .shiftAmount(ShiftAmount1_IN),
-    .CLK(!CLK)
+    ALU ALU1(
+        .aluResult(ALU_result1),
+        .HI_OUT(HI_new1),
+        .LO_OUT(LO_new1),
+        .HI_IN(HI),
+        .LO_IN(LO),
+        .A(A1),
+        .B(B1),
+        .ALU_control(ALU_Control1_IN),
+        .shiftAmount(ShiftAmount1_IN),
+        .CLK(!CLK)
     );
 
 
-wire [31:0] MemWriteData1;
+    wire [31:0] MemWriteData1;
 
-assign MemWriteData1 = (MEM_Data_select == 2'd1)?Mem_result_forward:((MEM_Data_select == 2'd2)?WB_result_forward:MemWriteData1_IN);
+    assign MemWriteData1 = (MEM_Data_select == 2'd1)?Mem_result_forward:((MEM_Data_select == 2'd2)?WB_result_forward:MemWriteData1_IN);
 
 always @(posedge CLK or negedge RESET) begin
-    $display("!!!EXE RegA_Select[%b] RegB_Select[%b] MEM_Select[%b]", RegA_Select, RegB_Select, MEM_Data_select);
+    //$display("!!!EXE RegA_Select[%b] RegB_Select[%b] MEM_Select[%b]", RegA_Select, RegB_Select, MEM_Data_select);
     if(!RESET) begin
         Instr1_OUT <= 0;
         Instr1_PC_OUT <= 0;

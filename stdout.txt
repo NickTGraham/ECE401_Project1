@@ -1,1 +1,0 @@
-Fibonacci 18 is: 2584

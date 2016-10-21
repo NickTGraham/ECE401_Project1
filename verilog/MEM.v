@@ -20,7 +20,7 @@
 //      - For Continutity in Comments, I wrote this from the bottom
 //        up, so read in that order if you want it to make any sense...
 //      - If you are ever wondering what it is like to be a complete idiot, send
-//        me an email. I have gained a lot of insight into that by working on this
+//        me (ngraham) an email. I have gained a lot of insight into that by working on this
 //        file...
 // SWL and SWR store as many bits as they can before the
 // word terminates, so between one and 4 bytes. SWL takes the most significant,
@@ -92,6 +92,7 @@ module MEM(
 
      wire [5:0] ALU_Control;
 
+     //You know I don't remember why I added this, but it is working so...
      wire [31:0] Data_to_be_Written;
 
     assign Data_to_be_Written = MemWriteData1_IN;

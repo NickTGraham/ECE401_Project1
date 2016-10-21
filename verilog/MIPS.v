@@ -184,7 +184,8 @@ module MIPS (
     wire [1:0] Branch_JR_select_A_FU;
     wire [1:0] Branch_JR_select_B_FU;
     wire stall_FUID;
-    //wire stall;
+
+    //Forwarding Unit, the bane of my exsistance, I can't belive it kinda works.
     ForwardingUnit FwrdUnit (
         .CLK(CLK),
         .ID_Instruction(Instr1_IFID),

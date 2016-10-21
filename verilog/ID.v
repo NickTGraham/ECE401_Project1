@@ -237,6 +237,7 @@ always @(posedge CLK or negedge RESET) begin
         INHIBIT_FREEZE <= 0;
     $display("ID:RESET");
     end else begin
+            //Forwading Unit has requested a stall, we must kill the instruction.
             if (WANT_FREEZE & Fwd_Stall) begin
                 Request_Alt_PC <= 0;
                 ReadRegisterA1_OUT <= 0;
