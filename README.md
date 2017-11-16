@@ -1,5 +1,5 @@
 # ECE401_Project1
-Pipelined MIPS Processor, Completed while an undergrad at U of R
+Pipelined MIPS Processor, Completed while an undergrad at U of R, based on given template code. Any use of this code must be cited.
 
 ## ToDo
 - [x] Draw Diagram of Existing Components
